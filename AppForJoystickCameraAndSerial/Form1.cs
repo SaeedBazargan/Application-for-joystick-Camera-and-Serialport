@@ -1,15 +1,62 @@
 using Com.Okmer.GameController;
 
+using OpenCvSharp;
+using OpenCvSharp.Extensions;
+
+
 namespace AppForJoystickCameraAndSerial
 {
     public partial class Form1 : Form
     {
         XBoxController controller = new XBoxController();
+
+
+        VideoCapture capture;
+        Mat frame;
+        Bitmap image;
+        private Thread camera;
+        bool isCameraRunning = false;
+        private void CaptureCamera()
+        {
+            camera = new Thread(new ThreadStart(CaptureCameraCallback));
+            camera.Start();
+        }
+        private void CaptureCameraCallback()
+        {
+
+            frame = new Mat();
+            capture = new VideoCapture(0);
+            capture.Open(0);
+
+            if (capture.IsOpened())
+            {
+                while (isCameraRunning)
+                {
+
+                    capture.Read(frame);
+                    image = BitmapConverter.ToBitmap(frame);
+                    if (pictureBox1.Image != null)
+                    {
+                        pictureBox1.Image.Dispose();
+                    }
+                    pictureBox1.Image = image;
+                }
+            }
+        }
+
+
+
+
+
         public Form1()
         {
             InitializeComponent();
             this.TopMost = true;
             this.WindowState = FormWindowState.Maximized;
+
+            CaptureCamera();
+            isCameraRunning = true;
+
 
             //Connection
             controller.Connection.ValueChanged += Connection_ValueChanged;
