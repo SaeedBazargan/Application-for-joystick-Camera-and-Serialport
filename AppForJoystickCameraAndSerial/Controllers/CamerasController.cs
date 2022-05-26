@@ -33,8 +33,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning = false;
             Task.WaitAll(cameraCaptureTasks.ToArray());
             cameraCaptureTasks.Clear();
-            ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
-            ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
+            ChangePictureBox(_mainPictureBox, Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
+            ChangePictureBox(_minorPictureBox, Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
         }
 
         private void StartCamera(int index, bool isMain)
@@ -65,12 +65,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             }
         }
 
-        private static Bitmap GetColoredBitmap(int width, int height, Color color = default)
+        /*private static Bitmap GetColoredBitmap(int width, int height, Color color = default)
         {
             var bitmap = new Bitmap(width, height);
             Graphics g = Graphics.FromImage(bitmap);
             g.Clear(color);
             return bitmap;
-        }
+        }*/
     }
 }
