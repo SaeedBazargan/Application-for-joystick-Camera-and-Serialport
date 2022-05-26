@@ -16,6 +16,7 @@ namespace AppForJoystickCameraAndSerial
         public Form1()
         {
             InitializeComponent();
+            Joystick_Lable.ForeColor = Color.Red;
             cancellationTokenSource = new CancellationTokenSource();
             joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Lable);
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1_Lable, Camera2_Lable);
@@ -29,17 +30,14 @@ namespace AppForJoystickCameraAndSerial
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            camerasController.Start();
         }
 
-        private void checkBox1_CheckStateChanged(object sender, EventArgs e)
+        private void SearchCheckBox_CheckStateChanged(object sender, EventArgs e)
         {
-            if(((CheckBox)sender).Checked)
-            {
-                camerasController.Stop();
-            }
-            else
+            if (((CheckBox)sender).Checked)
                 camerasController.Start();
+            else
+                camerasController.Stop();
         }
     }
 }

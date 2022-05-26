@@ -33,8 +33,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning = false;
             Task.WaitAll(cameraCaptureTasks.ToArray());
             cameraCaptureTasks.Clear();
-            ChangePictureBox(_mainPictureBox, null);
-            ChangePictureBox(_minorPictureBox, null);
+            ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
+            ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
         }
 
         private void StartCamera(int index, bool isMain)
