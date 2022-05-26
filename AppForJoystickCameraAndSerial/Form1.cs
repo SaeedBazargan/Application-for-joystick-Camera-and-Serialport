@@ -17,6 +17,8 @@ namespace AppForJoystickCameraAndSerial
         {
             InitializeComponent();
             Joystick_Lable.ForeColor = Color.Red;
+            Camera1_Lable.ForeColor = Color.Red;
+            Camera2_Lable.ForeColor = Color.Red;
             cancellationTokenSource = new CancellationTokenSource();
             joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Lable);
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1_Lable, Camera2_Lable);

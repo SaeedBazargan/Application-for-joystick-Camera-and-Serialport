@@ -35,6 +35,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             cameraCaptureTasks.Clear();
             ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
             ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
+            ChangeLable(_Camera1Lable, Color.Red);
+            ChangeLable(_Camera2Lable, Color.Red);
         }
 
         private void StartCamera(int index, bool isMain)
@@ -51,6 +53,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 capture.Read(frame);
                 image = BitmapConverter.ToBitmap(frame);
                 ChangePictureBox(isMain ? _mainPictureBox : _minorPictureBox, image);
+                ChangeLable(isMain ? _Camera1Lable : _Camera2Lable, Color.Green);
             }
         }
 
