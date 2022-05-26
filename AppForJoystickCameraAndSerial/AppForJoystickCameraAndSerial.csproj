@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="OpenCvSharp3-AnyCPU" Version="4.0.0.20181129" />
   </ItemGroup>
 

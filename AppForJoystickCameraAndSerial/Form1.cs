@@ -1,3 +1,4 @@
+using AppForJoystickCameraAndSerial.Controllers;
 using Com.Okmer.GameController;
 
 using OpenCvSharp;
@@ -8,112 +9,37 @@ namespace AppForJoystickCameraAndSerial
 {
     public partial class Form1 : Form
     {
-        XBoxController controller = new XBoxController();
-
-
-        VideoCapture capture;
-        Mat frame;
-        Bitmap image;
-        private Thread camera;
-        bool isCameraRunning = false;
-        private void CaptureCamera()
-        {
-            camera = new Thread(new ThreadStart(CaptureCameraCallback));
-            camera.Start();
-        }
-        private void CaptureCameraCallback()
-        {
-
-            frame = new Mat();
-            capture = new VideoCapture(0);
-            capture.Open(0);
-
-            if (capture.IsOpened())
-            {
-                while (isCameraRunning)
-                {
-
-                    capture.Read(frame);
-                    image = BitmapConverter.ToBitmap(frame);
-                    if (pictureBox1.Image != null)
-                    {
-                        pictureBox1.Image.Dispose();
-                    }
-                    pictureBox1.Image = image;
-                }
-            }
-        }
-
-
-
-
+        private readonly CancellationTokenSource cancellationTokenSource;
+        private readonly JoysticksController joysticksController;
+        private readonly CamerasController camerasController;
 
         public Form1()
         {
             InitializeComponent();
-            this.TopMost = true;
-            this.WindowState = FormWindowState.Maximized;
-
-            CaptureCamera();
-            isCameraRunning = true;
-
-
-            //Connection
-            controller.Connection.ValueChanged += Connection_ValueChanged;
-
-            //Buttons A, B, X, Y
-            controller.A.ValueChanged += (s, e) => ChangeTextBox(textBox1, "A");
-            controller.B.ValueChanged += (s, e) => ChangeTextBox(textBox1, "B");
-            controller.X.ValueChanged += (s, e) => ChangeTextBox(textBox1, "X");
-            controller.Y.ValueChanged += (s, e) => ChangeTextBox(textBox1, "Y");
-
-            //Buttons Start, Back
-            controller.Start.ValueChanged += (s, e) => ChangeTextBox(textBox1, "Start");
-            controller.Back.ValueChanged += (s, e) => ChangeTextBox(textBox1, "Back");
-
-            //Buttons D-Pad Up, Down, Left, Right
-            controller.Up.ValueChanged += (s, e) => ChangeTextBox(textBox1, "D-Pad Up");
-            controller.Down.ValueChanged += (s, e) => ChangeTextBox(textBox1, "D-Pad Down");
-            controller.Left.ValueChanged += (s, e) => ChangeTextBox(textBox1, "D-Pad Left");
-            controller.Right.ValueChanged += (s, e) => ChangeTextBox(textBox1, "D-Pad Right");
-
-            //Buttons Shoulder Left, Right
-            controller.LeftShoulder.ValueChanged += (s, e) => ChangeTextBox(textBox1, "Shoulder Left");
-            controller.RightShoulder.ValueChanged += (s, e) => ChangeTextBox(textBox1, "Shoulder Right");
-
-            //Buttons Thumb Left, Right
-            controller.LeftThumbclick.ValueChanged += (s, e) => ChangeTextBox(textBox1, "Thumb Left");
-            controller.RightThumbclick.ValueChanged += (s, e) => ChangeTextBox(textBox1, "Thumb Right");
-
-            //Trigger Position Left, Right 
-            controller.LeftTrigger.ValueChanged += (s, e) => ChangeTextBox(textBox1, "Position Left");
-            controller.RightTrigger.ValueChanged += (s, e) => ChangeTextBox(textBox1, "Position Right");
-
-            //Thumb Positions Left, Right
-            controller.LeftThumbstick.ValueChanged += LeftThumbstick_ValueChanged;
-            controller.RightThumbstick.ValueChanged += RightThumbstick_ValueChanged;
+            cancellationTokenSource = new CancellationTokenSource();
+            joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Lable);
+            camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1_Lable, Camera2_Lable);
         }
-        private void RightThumbstick_ValueChanged(object sender, ValueChangeArgs<System.Numerics.Vector2> e)
+
+        private void Exit_Btn_Click(object sender, EventArgs e)
         {
-            ChangeTextBox(textBox1, $"Right Thumbstick : {e.Value.Length()}");
+            cancellationTokenSource.Cancel();
+            this.Close();
         }
-        private void LeftThumbstick_ValueChanged(object sender, ValueChangeArgs<System.Numerics.Vector2> e)
+
+        private void Form1_Load(object sender, EventArgs e)
         {
-            ChangeTextBox(textBox1, $"Left Thumbstick : {e.Value.Length()}");
+            camerasController.Start();
         }
-        private void Connection_ValueChanged(object sender, ValueChangeArgs<bool> e)
+
+        private void checkBox1_CheckStateChanged(object sender, EventArgs e)
         {
-            if (e.Value)
-                ChangeTextBox(textBox1, "Connected");
-            else
-                ChangeTextBox(textBox1, "Not Connected");
-        }
-        void ChangeTextBox(TextBox textBox, string txt)
-        {
-            BeginInvoke((MethodInvoker)delegate ()
+            if(((CheckBox)sender).Checked)
             {
-                textBox.Text = txt;
-            });
+                camerasController.Stop();
+            }
+            else
+                camerasController.Start();
         }
     }
 }
