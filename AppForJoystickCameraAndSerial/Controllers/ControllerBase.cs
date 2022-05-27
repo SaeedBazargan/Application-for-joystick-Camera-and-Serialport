@@ -20,11 +20,11 @@
             });
         }
 
-        protected static void ChangeLable(Label lable, Color color)
+        protected static void ChangeLabel(Label label, Color color)
         {
-            lable.BeginInvoke((MethodInvoker)delegate ()
+            label.BeginInvoke((MethodInvoker)delegate ()
             {
-                lable.ForeColor = color;
+                label.ForeColor = color;
             });
         }
     }

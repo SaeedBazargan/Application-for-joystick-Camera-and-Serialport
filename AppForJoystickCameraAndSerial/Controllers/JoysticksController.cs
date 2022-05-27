@@ -6,12 +6,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
     {
         private readonly TextBox _infoTxtBox;
         private readonly XBoxController xboxController;
-        private readonly Label _JoystickLable;
-        public JoysticksController(TextBox infoTxtBox, Label lable)
+        private readonly Label _JoystickLabel;
+        public JoysticksController(TextBox infoTxtBox, Label label)
         {
             xboxController = new XBoxController();
             _infoTxtBox = infoTxtBox;
-            _JoystickLable = lable;
+            _JoystickLabel = label;
             Init();
         }
 
@@ -58,12 +58,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (e.Value)
             {
                 ChangeTextBox(_infoTxtBox, "Connected");
-                ChangeLable(_JoystickLable, Color.Green);
+                ChangeLabel(_JoystickLabel, Color.Green);
             }
             else
             {
                 ChangeTextBox(_infoTxtBox, "Not Connected");
-                ChangeLable(_JoystickLable, Color.Red);
+                ChangeLabel(_JoystickLabel, Color.Red);
             }
         }
 

@@ -6,7 +6,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
     public class CamerasController : ControllerBase
     {
         private readonly PictureBox _mainPictureBox, _minorPictureBox;
-        private readonly Label _Camera1Lable, _Camera2Lable;
+        private readonly Label _Camera1Label, _Camera2Label;
         private readonly CancellationToken _cancellationToken;
         private readonly List<Task> cameraCaptureTasks;
         private bool isRunning;
@@ -15,8 +15,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _cancellationToken = cancellationToken;
             _mainPictureBox = main;
             _minorPictureBox = minor;
-            _Camera1Lable = Cam1;
-            _Camera2Lable = Cam2;
+            _Camera1Label = Cam1;
+            _Camera2Label = Cam2;
             isRunning = false;
             cameraCaptureTasks = new List<Task>(2);
         }
@@ -35,8 +35,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             cameraCaptureTasks.Clear();
             ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
             ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
-            ChangeLable(_Camera1Lable, Color.Red);
-            ChangeLable(_Camera2Lable, Color.Red);
+            ChangeLabel(_Camera1Label, Color.Red);
+            ChangeLabel(_Camera2Label, Color.Red);
             ChangePictureBox(_mainPictureBox, Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
             ChangePictureBox(_minorPictureBox, Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
         }
@@ -55,7 +55,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 capture.Read(frame);
                 image = BitmapConverter.ToBitmap(frame);
                 ChangePictureBox(isMain ? _mainPictureBox : _minorPictureBox, image);
-                ChangeLable(isMain ? _Camera1Lable : _Camera2Lable, Color.Green);
+                ChangeLabel(isMain ? _Camera1Label : _Camera2Label, Color.Green);
             }
         }
 
@@ -64,18 +64,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (!task.IsCompletedSuccessfully)
             {
                 if (isMain)
-                    ChangeLable(_Camera1Lable, Color.Red);
+                    ChangeLabel(_Camera1Label, Color.Red);
                 else
-                    ChangeLable(_Camera2Lable, Color.Red);
+                    ChangeLabel(_Camera2Label, Color.Red);
             }
         }
-
-        /*private static Bitmap GetColoredBitmap(int width, int height, Color color = default)
-        {
-            var bitmap = new Bitmap(width, height);
-            Graphics g = Graphics.FromImage(bitmap);
-            g.Clear(color);
-            return bitmap;
-        }*/
     }
 }
