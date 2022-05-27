@@ -44,23 +44,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.EiError_Label = new System.Windows.Forms.Label();
-            this.AzError_Label = new System.Windows.Forms.Label();
-            this.ProcessMode_TextBox = new System.Windows.Forms.TextBox();
-            this.ProcessMode_Label = new System.Windows.Forms.Label();
-            this.Fov_TextBox = new System.Windows.Forms.TextBox();
-            this.FOV_Lable = new System.Windows.Forms.Label();
-            this.AzError_TextBox = new System.Windows.Forms.TextBox();
-            this.EiError_TextBox = new System.Windows.Forms.TextBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.AX_Lable = new System.Windows.Forms.Label();
-            this.Ax_TextBox = new System.Windows.Forms.TextBox();
-            this.Ay_TextBox = new System.Windows.Forms.TextBox();
-            this.Ay_Label = new System.Windows.Forms.Label();
-            this.Az_TextBox = new System.Windows.Forms.TextBox();
-            this.Az_Label = new System.Windows.Forms.Label();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.RadarRange_TextBox = new System.Windows.Forms.TextBox();
             this.Range_Label = new System.Windows.Forms.Label();
@@ -68,19 +51,37 @@
             this.Theta_Label = new System.Windows.Forms.Label();
             this.Phi_TextBox = new System.Windows.Forms.TextBox();
             this.Phi_Label = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.Az_TextBox = new System.Windows.Forms.TextBox();
+            this.Az_Label = new System.Windows.Forms.Label();
+            this.Ay_TextBox = new System.Windows.Forms.TextBox();
+            this.Ay_Label = new System.Windows.Forms.Label();
+            this.Ax_TextBox = new System.Windows.Forms.TextBox();
+            this.AX_Lable = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.EiError_TextBox = new System.Windows.Forms.TextBox();
+            this.AzError_TextBox = new System.Windows.Forms.TextBox();
+            this.EiError_Label = new System.Windows.Forms.Label();
+            this.AzError_Label = new System.Windows.Forms.Label();
+            this.ProcessMode_TextBox = new System.Windows.Forms.TextBox();
+            this.ProcessMode_Label = new System.Windows.Forms.Label();
+            this.Fov_TextBox = new System.Windows.Forms.TextBox();
+            this.FOV_Lable = new System.Windows.Forms.Label();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.LrfRange_TextBox = new System.Windows.Forms.TextBox();
             this.LrfRange_Label = new System.Windows.Forms.Label();
             this.LrfStatus_Label = new System.Windows.Forms.Label();
+            this.SerialPortSetting_Btn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // JoystickInfoTxtBox
@@ -289,179 +290,6 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Monitoring";
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.EiError_TextBox);
-            this.groupBox5.Controls.Add(this.AzError_TextBox);
-            this.groupBox5.Controls.Add(this.EiError_Label);
-            this.groupBox5.Controls.Add(this.AzError_Label);
-            this.groupBox5.Controls.Add(this.ProcessMode_TextBox);
-            this.groupBox5.Controls.Add(this.ProcessMode_Label);
-            this.groupBox5.Controls.Add(this.Fov_TextBox);
-            this.groupBox5.Controls.Add(this.FOV_Lable);
-            this.groupBox5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.groupBox5.Location = new System.Drawing.Point(8, 24);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(188, 159);
-            this.groupBox5.TabIndex = 28;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Camera && Processing";
-            // 
-            // EiError_Label
-            // 
-            this.EiError_Label.AutoSize = true;
-            this.EiError_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.EiError_Label.ForeColor = System.Drawing.Color.White;
-            this.EiError_Label.Location = new System.Drawing.Point(8, 128);
-            this.EiError_Label.Name = "EiError_Label";
-            this.EiError_Label.Size = new System.Drawing.Size(57, 19);
-            this.EiError_Label.TabIndex = 33;
-            this.EiError_Label.Text = "EI Error:";
-            // 
-            // AzError_Label
-            // 
-            this.AzError_Label.AutoSize = true;
-            this.AzError_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.AzError_Label.ForeColor = System.Drawing.Color.White;
-            this.AzError_Label.Location = new System.Drawing.Point(8, 97);
-            this.AzError_Label.Name = "AzError_Label";
-            this.AzError_Label.Size = new System.Drawing.Size(63, 19);
-            this.AzError_Label.TabIndex = 32;
-            this.AzError_Label.Text = "AZ Error:";
-            // 
-            // ProcessMode_TextBox
-            // 
-            this.ProcessMode_TextBox.Location = new System.Drawing.Point(132, 54);
-            this.ProcessMode_TextBox.Name = "ProcessMode_TextBox";
-            this.ProcessMode_TextBox.Size = new System.Drawing.Size(50, 25);
-            this.ProcessMode_TextBox.TabIndex = 31;
-            // 
-            // ProcessMode_Label
-            // 
-            this.ProcessMode_Label.AutoSize = true;
-            this.ProcessMode_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ProcessMode_Label.ForeColor = System.Drawing.Color.White;
-            this.ProcessMode_Label.Location = new System.Drawing.Point(8, 57);
-            this.ProcessMode_Label.Name = "ProcessMode_Label";
-            this.ProcessMode_Label.Size = new System.Drawing.Size(98, 19);
-            this.ProcessMode_Label.TabIndex = 30;
-            this.ProcessMode_Label.Text = "Process Mode:";
-            // 
-            // Fov_TextBox
-            // 
-            this.Fov_TextBox.Location = new System.Drawing.Point(82, 21);
-            this.Fov_TextBox.Name = "Fov_TextBox";
-            this.Fov_TextBox.Size = new System.Drawing.Size(100, 25);
-            this.Fov_TextBox.TabIndex = 29;
-            // 
-            // FOV_Lable
-            // 
-            this.FOV_Lable.AutoSize = true;
-            this.FOV_Lable.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FOV_Lable.ForeColor = System.Drawing.Color.White;
-            this.FOV_Lable.Location = new System.Drawing.Point(8, 24);
-            this.FOV_Lable.Name = "FOV_Lable";
-            this.FOV_Lable.Size = new System.Drawing.Size(39, 19);
-            this.FOV_Lable.TabIndex = 28;
-            this.FOV_Lable.Text = "FOV:";
-            // 
-            // AzError_TextBox
-            // 
-            this.AzError_TextBox.Location = new System.Drawing.Point(82, 94);
-            this.AzError_TextBox.Name = "AzError_TextBox";
-            this.AzError_TextBox.Size = new System.Drawing.Size(100, 25);
-            this.AzError_TextBox.TabIndex = 34;
-            // 
-            // EiError_TextBox
-            // 
-            this.EiError_TextBox.Location = new System.Drawing.Point(82, 125);
-            this.EiError_TextBox.Name = "EiError_TextBox";
-            this.EiError_TextBox.Size = new System.Drawing.Size(100, 25);
-            this.EiError_TextBox.TabIndex = 35;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.Az_TextBox);
-            this.groupBox6.Controls.Add(this.Az_Label);
-            this.groupBox6.Controls.Add(this.Ay_TextBox);
-            this.groupBox6.Controls.Add(this.Ay_Label);
-            this.groupBox6.Controls.Add(this.Ax_TextBox);
-            this.groupBox6.Controls.Add(this.AX_Lable);
-            this.groupBox6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.groupBox6.Location = new System.Drawing.Point(8, 189);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(188, 117);
-            this.groupBox6.TabIndex = 29;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Axes Angles";
-            // 
-            // AX_Lable
-            // 
-            this.AX_Lable.AutoSize = true;
-            this.AX_Lable.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.AX_Lable.ForeColor = System.Drawing.Color.White;
-            this.AX_Lable.Location = new System.Drawing.Point(8, 24);
-            this.AX_Lable.Name = "AX_Lable";
-            this.AX_Lable.Size = new System.Drawing.Size(29, 19);
-            this.AX_Lable.TabIndex = 36;
-            this.AX_Lable.Text = "AX:";
-            // 
-            // Ax_TextBox
-            // 
-            this.Ax_TextBox.Location = new System.Drawing.Point(82, 21);
-            this.Ax_TextBox.Name = "Ax_TextBox";
-            this.Ax_TextBox.Size = new System.Drawing.Size(100, 25);
-            this.Ax_TextBox.TabIndex = 36;
-            // 
-            // Ay_TextBox
-            // 
-            this.Ay_TextBox.Location = new System.Drawing.Point(82, 52);
-            this.Ay_TextBox.Name = "Ay_TextBox";
-            this.Ay_TextBox.Size = new System.Drawing.Size(100, 25);
-            this.Ay_TextBox.TabIndex = 37;
-            // 
-            // Ay_Label
-            // 
-            this.Ay_Label.AutoSize = true;
-            this.Ay_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Ay_Label.ForeColor = System.Drawing.Color.White;
-            this.Ay_Label.Location = new System.Drawing.Point(8, 55);
-            this.Ay_Label.Name = "Ay_Label";
-            this.Ay_Label.Size = new System.Drawing.Size(28, 19);
-            this.Ay_Label.TabIndex = 38;
-            this.Ay_Label.Text = "AY:";
-            // 
-            // Az_TextBox
-            // 
-            this.Az_TextBox.Location = new System.Drawing.Point(82, 83);
-            this.Az_TextBox.Name = "Az_TextBox";
-            this.Az_TextBox.Size = new System.Drawing.Size(100, 25);
-            this.Az_TextBox.TabIndex = 39;
-            // 
-            // Az_Label
-            // 
-            this.Az_Label.AutoSize = true;
-            this.Az_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Az_Label.ForeColor = System.Drawing.Color.White;
-            this.Az_Label.Location = new System.Drawing.Point(8, 86);
-            this.Az_Label.Name = "Az_Label";
-            this.Az_Label.Size = new System.Drawing.Size(29, 19);
-            this.Az_Label.TabIndex = 40;
-            this.Az_Label.Text = "AZ:";
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.LrfRange_TextBox);
-            this.groupBox7.Controls.Add(this.LrfRange_Label);
-            this.groupBox7.Controls.Add(this.LrfStatus_Label);
-            this.groupBox7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.groupBox7.Location = new System.Drawing.Point(8, 312);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(188, 77);
-            this.groupBox7.TabIndex = 30;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "LRF";
-            // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.RadarRange_TextBox);
@@ -532,6 +360,179 @@
             this.Phi_Label.TabIndex = 42;
             this.Phi_Label.Text = "Phi:";
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.Az_TextBox);
+            this.groupBox6.Controls.Add(this.Az_Label);
+            this.groupBox6.Controls.Add(this.Ay_TextBox);
+            this.groupBox6.Controls.Add(this.Ay_Label);
+            this.groupBox6.Controls.Add(this.Ax_TextBox);
+            this.groupBox6.Controls.Add(this.AX_Lable);
+            this.groupBox6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.groupBox6.Location = new System.Drawing.Point(8, 189);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(188, 117);
+            this.groupBox6.TabIndex = 29;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Axes Angles";
+            // 
+            // Az_TextBox
+            // 
+            this.Az_TextBox.Location = new System.Drawing.Point(82, 83);
+            this.Az_TextBox.Name = "Az_TextBox";
+            this.Az_TextBox.Size = new System.Drawing.Size(100, 25);
+            this.Az_TextBox.TabIndex = 39;
+            // 
+            // Az_Label
+            // 
+            this.Az_Label.AutoSize = true;
+            this.Az_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Az_Label.ForeColor = System.Drawing.Color.White;
+            this.Az_Label.Location = new System.Drawing.Point(8, 86);
+            this.Az_Label.Name = "Az_Label";
+            this.Az_Label.Size = new System.Drawing.Size(29, 19);
+            this.Az_Label.TabIndex = 40;
+            this.Az_Label.Text = "AZ:";
+            // 
+            // Ay_TextBox
+            // 
+            this.Ay_TextBox.Location = new System.Drawing.Point(82, 52);
+            this.Ay_TextBox.Name = "Ay_TextBox";
+            this.Ay_TextBox.Size = new System.Drawing.Size(100, 25);
+            this.Ay_TextBox.TabIndex = 37;
+            // 
+            // Ay_Label
+            // 
+            this.Ay_Label.AutoSize = true;
+            this.Ay_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Ay_Label.ForeColor = System.Drawing.Color.White;
+            this.Ay_Label.Location = new System.Drawing.Point(8, 55);
+            this.Ay_Label.Name = "Ay_Label";
+            this.Ay_Label.Size = new System.Drawing.Size(28, 19);
+            this.Ay_Label.TabIndex = 38;
+            this.Ay_Label.Text = "AY:";
+            // 
+            // Ax_TextBox
+            // 
+            this.Ax_TextBox.Location = new System.Drawing.Point(82, 21);
+            this.Ax_TextBox.Name = "Ax_TextBox";
+            this.Ax_TextBox.Size = new System.Drawing.Size(100, 25);
+            this.Ax_TextBox.TabIndex = 36;
+            // 
+            // AX_Lable
+            // 
+            this.AX_Lable.AutoSize = true;
+            this.AX_Lable.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AX_Lable.ForeColor = System.Drawing.Color.White;
+            this.AX_Lable.Location = new System.Drawing.Point(8, 24);
+            this.AX_Lable.Name = "AX_Lable";
+            this.AX_Lable.Size = new System.Drawing.Size(29, 19);
+            this.AX_Lable.TabIndex = 36;
+            this.AX_Lable.Text = "AX:";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.EiError_TextBox);
+            this.groupBox5.Controls.Add(this.AzError_TextBox);
+            this.groupBox5.Controls.Add(this.EiError_Label);
+            this.groupBox5.Controls.Add(this.AzError_Label);
+            this.groupBox5.Controls.Add(this.ProcessMode_TextBox);
+            this.groupBox5.Controls.Add(this.ProcessMode_Label);
+            this.groupBox5.Controls.Add(this.Fov_TextBox);
+            this.groupBox5.Controls.Add(this.FOV_Lable);
+            this.groupBox5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.groupBox5.Location = new System.Drawing.Point(8, 24);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(188, 159);
+            this.groupBox5.TabIndex = 28;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Camera && Processing";
+            // 
+            // EiError_TextBox
+            // 
+            this.EiError_TextBox.Location = new System.Drawing.Point(82, 125);
+            this.EiError_TextBox.Name = "EiError_TextBox";
+            this.EiError_TextBox.Size = new System.Drawing.Size(100, 25);
+            this.EiError_TextBox.TabIndex = 35;
+            // 
+            // AzError_TextBox
+            // 
+            this.AzError_TextBox.Location = new System.Drawing.Point(82, 94);
+            this.AzError_TextBox.Name = "AzError_TextBox";
+            this.AzError_TextBox.Size = new System.Drawing.Size(100, 25);
+            this.AzError_TextBox.TabIndex = 34;
+            // 
+            // EiError_Label
+            // 
+            this.EiError_Label.AutoSize = true;
+            this.EiError_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.EiError_Label.ForeColor = System.Drawing.Color.White;
+            this.EiError_Label.Location = new System.Drawing.Point(8, 128);
+            this.EiError_Label.Name = "EiError_Label";
+            this.EiError_Label.Size = new System.Drawing.Size(57, 19);
+            this.EiError_Label.TabIndex = 33;
+            this.EiError_Label.Text = "EI Error:";
+            // 
+            // AzError_Label
+            // 
+            this.AzError_Label.AutoSize = true;
+            this.AzError_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AzError_Label.ForeColor = System.Drawing.Color.White;
+            this.AzError_Label.Location = new System.Drawing.Point(8, 97);
+            this.AzError_Label.Name = "AzError_Label";
+            this.AzError_Label.Size = new System.Drawing.Size(63, 19);
+            this.AzError_Label.TabIndex = 32;
+            this.AzError_Label.Text = "AZ Error:";
+            // 
+            // ProcessMode_TextBox
+            // 
+            this.ProcessMode_TextBox.Location = new System.Drawing.Point(132, 54);
+            this.ProcessMode_TextBox.Name = "ProcessMode_TextBox";
+            this.ProcessMode_TextBox.Size = new System.Drawing.Size(50, 25);
+            this.ProcessMode_TextBox.TabIndex = 31;
+            // 
+            // ProcessMode_Label
+            // 
+            this.ProcessMode_Label.AutoSize = true;
+            this.ProcessMode_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ProcessMode_Label.ForeColor = System.Drawing.Color.White;
+            this.ProcessMode_Label.Location = new System.Drawing.Point(8, 57);
+            this.ProcessMode_Label.Name = "ProcessMode_Label";
+            this.ProcessMode_Label.Size = new System.Drawing.Size(98, 19);
+            this.ProcessMode_Label.TabIndex = 30;
+            this.ProcessMode_Label.Text = "Process Mode:";
+            // 
+            // Fov_TextBox
+            // 
+            this.Fov_TextBox.Location = new System.Drawing.Point(82, 21);
+            this.Fov_TextBox.Name = "Fov_TextBox";
+            this.Fov_TextBox.Size = new System.Drawing.Size(100, 25);
+            this.Fov_TextBox.TabIndex = 29;
+            // 
+            // FOV_Lable
+            // 
+            this.FOV_Lable.AutoSize = true;
+            this.FOV_Lable.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.FOV_Lable.ForeColor = System.Drawing.Color.White;
+            this.FOV_Lable.Location = new System.Drawing.Point(8, 24);
+            this.FOV_Lable.Name = "FOV_Lable";
+            this.FOV_Lable.Size = new System.Drawing.Size(39, 19);
+            this.FOV_Lable.TabIndex = 28;
+            this.FOV_Lable.Text = "FOV:";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.LrfRange_TextBox);
+            this.groupBox7.Controls.Add(this.LrfRange_Label);
+            this.groupBox7.Controls.Add(this.LrfStatus_Label);
+            this.groupBox7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.groupBox7.Location = new System.Drawing.Point(8, 312);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(188, 77);
+            this.groupBox7.TabIndex = 30;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "LRF";
+            // 
             // LrfRange_TextBox
             // 
             this.LrfRange_TextBox.Location = new System.Drawing.Point(81, 18);
@@ -561,12 +562,24 @@
             this.LrfStatus_Label.TabIndex = 43;
             this.LrfStatus_Label.Text = "Status";
             // 
+            // SerialPortSetting_Btn
+            // 
+            this.SerialPortSetting_Btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SerialPortSetting_Btn.Location = new System.Drawing.Point(12, 118);
+            this.SerialPortSetting_Btn.Name = "SerialPortSetting_Btn";
+            this.SerialPortSetting_Btn.Size = new System.Drawing.Size(116, 23);
+            this.SerialPortSetting_Btn.TabIndex = 28;
+            this.SerialPortSetting_Btn.Text = "&SerialPort Setting";
+            this.SerialPortSetting_Btn.UseVisualStyleBackColor = true;
+            this.SerialPortSetting_Btn.Click += new System.EventHandler(this.SerialPortSetting_Btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1176, 674);
+            this.Controls.Add(this.SerialPortSetting_Btn);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
@@ -589,14 +602,14 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -647,5 +660,6 @@
         private TextBox LrfRange_TextBox;
         private Label LrfRange_Label;
         private Label LrfStatus_Label;
+        private Button SerialPortSetting_Btn;
     }
 }

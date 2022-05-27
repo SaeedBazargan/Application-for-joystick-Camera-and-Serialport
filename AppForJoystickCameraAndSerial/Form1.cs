@@ -41,5 +41,11 @@ namespace AppForJoystickCameraAndSerial
             else
                 camerasController.Stop();
         }
+
+        private void SerialPortSetting_Btn_Click(object sender, EventArgs e)
+        {
+            Form SerialPort_Setting = new SerialPort_Configuration();
+            SerialPort_Setting.Show(this);
+        }
     }
 }
