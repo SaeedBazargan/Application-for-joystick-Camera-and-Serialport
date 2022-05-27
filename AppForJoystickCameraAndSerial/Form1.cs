@@ -1,9 +1,4 @@
 using AppForJoystickCameraAndSerial.Controllers;
-using Com.Okmer.GameController;
-
-using OpenCvSharp;
-using OpenCvSharp.Extensions;
-
 
 namespace AppForJoystickCameraAndSerial
 {
