@@ -32,7 +32,7 @@ namespace AppForJoystickCameraAndSerial
 
             Serial1_Lable.ForeColor = Color.Red;
             Serial2_Lable.ForeColor = Color.Red;
-            PortNumber = Com_ComboBox.Text;
+            //PortNumber = Com_ComboBox.Text;
             //Baudrate = int.Parse(Baud_ComboBox.Text);
             //DataBit = int.Parse(DataBits_ComboBox.Text);
             //_SerialPort = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
@@ -84,6 +84,12 @@ namespace AppForJoystickCameraAndSerial
         string ReadExisting()
         {
             return _SerialPort.ReadExisting();
+        }
+
+        private void ConfigButton_Click(object sender, EventArgs e)
+        {
+            Form configForm = new ConfigForm();
+            configForm.Show(this);
         }
     }
 }

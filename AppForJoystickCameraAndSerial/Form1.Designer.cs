@@ -77,6 +77,8 @@
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.OpenPort_Button = new System.Windows.Forms.Button();
             this.SerialMonitoring_TextBox = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ConfigButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -87,6 +89,7 @@
             this.groupBox5.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // JoystickInfoTxtBox
@@ -655,12 +658,37 @@
             this.SerialMonitoring_TextBox.Size = new System.Drawing.Size(218, 93);
             this.SerialMonitoring_TextBox.TabIndex = 36;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.ConfigButton);
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(12, 373);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(173, 59);
+            this.groupBox1.TabIndex = 36;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Config";
+            // 
+            // ConfigButton
+            // 
+            this.ConfigButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ConfigButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ConfigButton.Location = new System.Drawing.Point(8, 22);
+            this.ConfigButton.Name = "ConfigButton";
+            this.ConfigButton.Size = new System.Drawing.Size(75, 23);
+            this.ConfigButton.TabIndex = 37;
+            this.ConfigButton.Text = "Config";
+            this.ConfigButton.UseVisualStyleBackColor = true;
+            this.ConfigButton.Click += new System.EventHandler(this.ConfigButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1176, 674);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
@@ -691,6 +719,7 @@
             this.groupBox7.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -747,5 +776,7 @@
         private GroupBox groupBox9;
         private TextBox SerialMonitoring_TextBox;
         private Button OpenPort_Button;
+        private GroupBox groupBox1;
+        private Button ConfigButton;
     }
 }
