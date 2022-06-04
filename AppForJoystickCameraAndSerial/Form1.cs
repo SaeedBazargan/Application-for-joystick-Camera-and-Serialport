@@ -14,9 +14,7 @@ namespace AppForJoystickCameraAndSerial
 
         const Parity ParityBit = Parity.None;
         const StopBits StopBit = StopBits.One;
-        const int DefualtBaudRate = 6800;
-        const int DefaultSize = 8;
-        //int Baudrate, DataBit;
+        int Baudrate, DataBit;
         string PortNumber;
 
         public Form1()
@@ -32,11 +30,6 @@ namespace AppForJoystickCameraAndSerial
 
             Serial1_Lable.ForeColor = Color.Red;
             Serial2_Lable.ForeColor = Color.Red;
-            //PortNumber = Com_ComboBox.Text;
-            //Baudrate = int.Parse(Baud_ComboBox.Text);
-            //DataBit = int.Parse(DataBits_ComboBox.Text);
-            //_SerialPort = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
-            _SerialPort = new SerialPort("COM3", DefualtBaudRate, ParityBit, DefaultSize, StopBit);
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -61,29 +54,45 @@ namespace AppForJoystickCameraAndSerial
             else
                 camerasController.Stop();
         }
+        private void SetSetting_Button_Click(object sender, EventArgs e)
+        {
+            if (Com_ComboBox.SelectedItem != null)
+                PortNumber = Com_ComboBox.SelectedItem.ToString();
+            else
+                MessageBox.Show("Wrong Port", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+            if (Baud_ComboBox.SelectedItem != null)
+                Baudrate = int.Parse(Baud_ComboBox.SelectedItem.ToString());
+            else
+                MessageBox.Show("Wrong Baudrate", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            if (DataBits_ComboBox.SelectedItem != null)
+                DataBit = int.Parse(DataBits_ComboBox.SelectedItem.ToString());
+            else
+                MessageBox.Show("Wrong DataBits", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            _SerialPort = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
+        }
         private void OpenPort_Button_Click(object sender, EventArgs e)
         {
+            _SerialPort.DataReceived += new SerialDataReceivedEventHandler(_SerialPort_DataReceived);
             Open = true;
             _SerialPort.Open();
             if (_SerialPort.IsOpen)
                 Serial1_Lable.ForeColor = Color.Green;
             else
                 Serial1_Lable.ForeColor = Color.Red;
+        }
+        private void _SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
             SerialMonitoring_TextBox.Text = Readbyte().ToString();
         }
+        public int Read(byte[] buffer, int offset, int count)
+  	    {
+      	    return _SerialPort.Read(buffer, offset, count);
+  	    }
         byte Readbyte()
         {
             return (byte)_SerialPort.ReadByte();
-        }
-
-        char ReadChar()
-        {
-            return (char)_SerialPort.ReadByte();
-        }
-        string ReadExisting()
-        {
-            return _SerialPort.ReadExisting();
         }
 
         private void ConfigButton_Click(object sender, EventArgs e)

@@ -79,6 +79,7 @@
             this.SerialMonitoring_TextBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ConfigButton = new System.Windows.Forms.Button();
+            this.SetSetting_Button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -620,6 +621,7 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.SetSetting_Button);
             this.groupBox9.Controls.Add(this.OpenPort_Button);
             this.groupBox9.Controls.Add(this.SerialMonitoring_TextBox);
             this.groupBox9.Controls.Add(this.PortNumber_Label);
@@ -681,6 +683,19 @@
             this.ConfigButton.Text = "Config";
             this.ConfigButton.UseVisualStyleBackColor = true;
             this.ConfigButton.Click += new System.EventHandler(this.ConfigButton_Click);
+            // 
+            // SetSetting_Button
+            // 
+            this.SetSetting_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SetSetting_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SetSetting_Button.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.SetSetting_Button.Location = new System.Drawing.Point(8, 220);
+            this.SetSetting_Button.Name = "SetSetting_Button";
+            this.SetSetting_Button.Size = new System.Drawing.Size(75, 23);
+            this.SetSetting_Button.TabIndex = 37;
+            this.SetSetting_Button.Text = "&Set Setting";
+            this.SetSetting_Button.UseVisualStyleBackColor = true;
+            this.SetSetting_Button.Click += new System.EventHandler(this.SetSetting_Button_Click);
             // 
             // Form1
             // 
@@ -778,5 +793,6 @@
         private Button OpenPort_Button;
         private GroupBox groupBox1;
         private Button ConfigButton;
+        private Button SetSetting_Button;
     }
 }
