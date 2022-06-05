@@ -80,6 +80,7 @@
             this.SerialMonitoring_TextBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ConfigButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -697,12 +698,22 @@
             this.ConfigButton.UseVisualStyleBackColor = true;
             this.ConfigButton.Click += new System.EventHandler(this.ConfigButton_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBox1.Location = new System.Drawing.Point(10, 454);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(111, 38);
+            this.textBox1.TabIndex = 37;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1176, 674);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox4);
@@ -794,5 +805,6 @@
         private Button SetSetting_Button;
         private GroupBox groupBox1;
         private Button ConfigButton;
+        private TextBox textBox1;
     }
 }

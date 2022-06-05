@@ -73,7 +73,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _SerialMonitoring_TextBox.AppendText(Environment.NewLine);
                 //_SerialMonitoring_TextBox.AppendText(Readbyte().ToString());
             }
-            Master_CheckPacket(DataBuffer_Rx);
+            Master_CheckPacket(DataBuffer_Rx, _SerialMonitoring_TextBox);
         }
         public int Read(byte[] buffer, int offset, int count)
         {

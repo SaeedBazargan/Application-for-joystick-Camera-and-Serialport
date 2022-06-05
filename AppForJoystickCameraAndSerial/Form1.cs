@@ -8,7 +8,6 @@ namespace AppForJoystickCameraAndSerial
         private readonly JoysticksController joysticksController;
         private readonly CamerasController camerasController;
         private readonly SerialController serialportController;
-
         public Form1()
         {
             InitializeComponent();
