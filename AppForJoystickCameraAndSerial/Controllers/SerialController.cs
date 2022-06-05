@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
-    public class SerialController
+    public class SerialController : SerialPacketHandler
     {
         public SerialPort _SerialPort { get; private set; }
         public bool Open { get; private set; } = false;
@@ -20,6 +15,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int Baudrate, DataBit;
         string PortNumber;
 
+        byte[] DataBuffer_Rx = new byte[35];
 
         public SerialController(ComboBox _ComComboBox, ComboBox _BaudComboBox, ComboBox _DataBitsComboBox, TextBox _SerialMonitoringTextBox, Label _Serial1Label, Label _Serial2Label)
         {
@@ -42,10 +38,13 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         public void ClosePort()
         {
-            Open = false;
-            Disposed = true;
-            _SerialPort.Close();
-            _SerialPort.Dispose();
+            if (Open)
+            {
+                Open = false;
+                Disposed = true;
+                _SerialPort.Close();
+                _SerialPort.Dispose();
+            }
         }
         public void SetSetting_Port()
         {
@@ -67,7 +66,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         private void _SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            _SerialMonitoring_TextBox.Text = Readbyte().ToString();
+            for (int i = 0; i < 35; i++)
+            {
+                DataBuffer_Rx[i] = Readbyte();
+                _SerialMonitoring_TextBox.AppendText(DataBuffer_Rx[i].ToString());
+                _SerialMonitoring_TextBox.AppendText(Environment.NewLine);
+                //_SerialMonitoring_TextBox.AppendText(Readbyte().ToString());
+            }
+            Master_CheckPacket(DataBuffer_Rx);
         }
         public int Read(byte[] buffer, int offset, int count)
         {

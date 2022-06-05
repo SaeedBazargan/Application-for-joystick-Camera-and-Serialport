@@ -75,11 +75,11 @@
             this.Com_ComboBox = new System.Windows.Forms.ComboBox();
             this.PortNumber_Label = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.SetSetting_Button = new System.Windows.Forms.Button();
             this.OpenPort_Button = new System.Windows.Forms.Button();
             this.SerialMonitoring_TextBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ConfigButton = new System.Windows.Forms.Button();
-            this.SetSetting_Button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -639,6 +639,19 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Serial Configuration";
             // 
+            // SetSetting_Button
+            // 
+            this.SetSetting_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SetSetting_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SetSetting_Button.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.SetSetting_Button.Location = new System.Drawing.Point(8, 220);
+            this.SetSetting_Button.Name = "SetSetting_Button";
+            this.SetSetting_Button.Size = new System.Drawing.Size(75, 23);
+            this.SetSetting_Button.TabIndex = 37;
+            this.SetSetting_Button.Text = "&Set Setting";
+            this.SetSetting_Button.UseVisualStyleBackColor = true;
+            this.SetSetting_Button.Click += new System.EventHandler(this.SetSetting_Button_Click);
+            // 
             // OpenPort_Button
             // 
             this.OpenPort_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -683,19 +696,6 @@
             this.ConfigButton.Text = "Config";
             this.ConfigButton.UseVisualStyleBackColor = true;
             this.ConfigButton.Click += new System.EventHandler(this.ConfigButton_Click);
-            // 
-            // SetSetting_Button
-            // 
-            this.SetSetting_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SetSetting_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SetSetting_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.SetSetting_Button.Location = new System.Drawing.Point(8, 220);
-            this.SetSetting_Button.Name = "SetSetting_Button";
-            this.SetSetting_Button.Size = new System.Drawing.Size(75, 23);
-            this.SetSetting_Button.TabIndex = 37;
-            this.SetSetting_Button.Text = "&Set Setting";
-            this.SetSetting_Button.UseVisualStyleBackColor = true;
-            this.SetSetting_Button.Click += new System.EventHandler(this.SetSetting_Button_Click);
             // 
             // Form1
             // 
@@ -791,8 +791,8 @@
         private GroupBox groupBox9;
         private TextBox SerialMonitoring_TextBox;
         private Button OpenPort_Button;
+        private Button SetSetting_Button;
         private GroupBox groupBox1;
         private Button ConfigButton;
-        private Button SetSetting_Button;
     }
 }
