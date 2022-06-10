@@ -80,7 +80,6 @@
             this.SerialMonitoring_TextBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ConfigButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -168,7 +167,7 @@
             this.Camera2_Label.AutoSize = true;
             this.Camera2_Label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Camera2_Label.ForeColor = System.Drawing.Color.White;
-            this.Camera2_Label.Location = new System.Drawing.Point(110, 19);
+            this.Camera2_Label.Location = new System.Drawing.Point(6, 40);
             this.Camera2_Label.Name = "Camera2_Label";
             this.Camera2_Label.Size = new System.Drawing.Size(77, 21);
             this.Camera2_Label.TabIndex = 17;
@@ -179,7 +178,7 @@
             this.Serial1_Lable.AutoSize = true;
             this.Serial1_Lable.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Serial1_Lable.ForeColor = System.Drawing.Color.White;
-            this.Serial1_Lable.Location = new System.Drawing.Point(6, 40);
+            this.Serial1_Lable.Location = new System.Drawing.Point(6, 61);
             this.Serial1_Lable.Name = "Serial1_Lable";
             this.Serial1_Lable.Size = new System.Drawing.Size(94, 21);
             this.Serial1_Lable.TabIndex = 18;
@@ -190,7 +189,7 @@
             this.Serial2_Lable.AutoSize = true;
             this.Serial2_Lable.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Serial2_Lable.ForeColor = System.Drawing.Color.White;
-            this.Serial2_Lable.Location = new System.Drawing.Point(110, 40);
+            this.Serial2_Lable.Location = new System.Drawing.Point(6, 82);
             this.Serial2_Lable.Name = "Serial2_Lable";
             this.Serial2_Lable.Size = new System.Drawing.Size(94, 21);
             this.Serial2_Lable.TabIndex = 19;
@@ -201,7 +200,7 @@
             this.Joystick_Label.AutoSize = true;
             this.Joystick_Label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Joystick_Label.ForeColor = System.Drawing.Color.White;
-            this.Joystick_Label.Location = new System.Drawing.Point(6, 61);
+            this.Joystick_Label.Location = new System.Drawing.Point(6, 103);
             this.Joystick_Label.Name = "Joystick_Label";
             this.Joystick_Label.Size = new System.Drawing.Size(64, 21);
             this.Joystick_Label.TabIndex = 20;
@@ -218,7 +217,7 @@
             this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(230, 100);
+            this.groupBox3.Size = new System.Drawing.Size(230, 132);
             this.groupBox3.TabIndex = 25;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Port Status";
@@ -633,7 +632,7 @@
             this.groupBox9.Controls.Add(this.Baud_ComboBox);
             this.groupBox9.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox9.ForeColor = System.Drawing.Color.White;
-            this.groupBox9.Location = new System.Drawing.Point(12, 118);
+            this.groupBox9.Location = new System.Drawing.Point(12, 150);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(230, 249);
             this.groupBox9.TabIndex = 35;
@@ -679,7 +678,7 @@
             this.groupBox1.Controls.Add(this.ConfigButton);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(12, 373);
+            this.groupBox1.Location = new System.Drawing.Point(12, 405);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(173, 59);
             this.groupBox1.TabIndex = 36;
@@ -698,22 +697,12 @@
             this.ConfigButton.UseVisualStyleBackColor = true;
             this.ConfigButton.Click += new System.EventHandler(this.ConfigButton_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(10, 454);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(111, 38);
-            this.textBox1.TabIndex = 37;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1176, 674);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox4);
@@ -805,6 +794,5 @@
         private Button SetSetting_Button;
         private GroupBox groupBox1;
         private Button ConfigButton;
-        private TextBox textBox1;
     }
 }

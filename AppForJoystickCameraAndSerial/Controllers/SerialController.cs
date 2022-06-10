@@ -2,7 +2,7 @@
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
-    public class SerialController : SerialPacketHandler
+    public class SerialController : ControllerBase
     {
         public SerialPort _SerialPort { get; private set; }
         public bool Open { get; private set; } = false;
@@ -73,7 +73,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _SerialMonitoring_TextBox.AppendText(Environment.NewLine);
                 //_SerialMonitoring_TextBox.AppendText(Readbyte().ToString());
             }
-            Master_CheckPacket(DataBuffer_Rx, _SerialMonitoring_TextBox);
+            //Master_CheckPacket(DataBuffer_Rx);
         }
         public int Read(byte[] buffer, int offset, int count)
         {

@@ -2,6 +2,8 @@
 {
     public abstract class ControllerBase
     {
+        private static PaintEventArgs e;
+
         protected static void ChangeTextBox(TextBox textBox, string txt)
         {
             textBox.BeginInvoke((MethodInvoker)delegate ()

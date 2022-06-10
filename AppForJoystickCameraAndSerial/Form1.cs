@@ -53,8 +53,8 @@ namespace AppForJoystickCameraAndSerial
 
         private void ConfigButton_Click(object sender, EventArgs e)
         {
-            Form configForm = new ConfigForm();
-            configForm.Show(this);
+            Form LoginconfigForm = new LoginConfig_Form();
+            LoginconfigForm.Show(this);
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿namespace AppForJoystickCameraAndSerial.Controllers
 {
-    public class SerialPacketHandler : Form
+    public class SerialPacketHandler
     {
-        protected static void Master_CheckPacket(byte[] Rx_Data, TextBox test)
+        protected static void Master_CheckPacket(byte[] Rx_Data)
         {
             if (Rx_Data[0] == 85)
             {
-                test.AppendText("HELLO");
-                test.AppendText(Environment.NewLine);
             }
         }
     }
