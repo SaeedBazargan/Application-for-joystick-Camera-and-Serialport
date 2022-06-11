@@ -71,7 +71,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 {
                     ChangeLabel(_Camera2Label, Color.Red);
                     ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
-
                 }
             }
             else
