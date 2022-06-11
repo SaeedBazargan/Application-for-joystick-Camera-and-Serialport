@@ -31,7 +31,7 @@
             this.JoystickInfoTxtBox = new System.Windows.Forms.TextBox();
             this.Camera1_Label = new System.Windows.Forms.Label();
             this.MainCameraPictureBox = new System.Windows.Forms.PictureBox();
-            this.SearchCheckBox = new System.Windows.Forms.CheckBox();
+            this.Camera1CheckBox = new System.Windows.Forms.CheckBox();
             this.Exit_Btn = new System.Windows.Forms.Button();
             this.MinorPictureBox = new System.Windows.Forms.PictureBox();
             this.Camera2_Label = new System.Windows.Forms.Label();
@@ -80,6 +80,8 @@
             this.SerialMonitoring_TextBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ConfigButton = new System.Windows.Forms.Button();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.Camera2CheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -91,6 +93,7 @@
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // JoystickInfoTxtBox
@@ -123,23 +126,23 @@
             this.MainCameraPictureBox.TabIndex = 2;
             this.MainCameraPictureBox.TabStop = false;
             // 
-            // SearchCheckBox
+            // Camera1CheckBox
             // 
-            this.SearchCheckBox.AutoSize = true;
-            this.SearchCheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.SearchCheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.SearchCheckBox.FlatAppearance.BorderSize = 3;
-            this.SearchCheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
-            this.SearchCheckBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SearchCheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.SearchCheckBox.Location = new System.Drawing.Point(310, 498);
-            this.SearchCheckBox.Name = "SearchCheckBox";
-            this.SearchCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.SearchCheckBox.Size = new System.Drawing.Size(76, 25);
-            this.SearchCheckBox.TabIndex = 4;
-            this.SearchCheckBox.Text = "Search";
-            this.SearchCheckBox.UseVisualStyleBackColor = false;
-            this.SearchCheckBox.CheckStateChanged += new System.EventHandler(this.SearchCheckBox_CheckStateChanged);
+            this.Camera1CheckBox.AutoSize = true;
+            this.Camera1CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Camera1CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Camera1CheckBox.FlatAppearance.BorderSize = 3;
+            this.Camera1CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Camera1CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Camera1CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Camera1CheckBox.Location = new System.Drawing.Point(8, 24);
+            this.Camera1CheckBox.Name = "Camera1CheckBox";
+            this.Camera1CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Camera1CheckBox.Size = new System.Drawing.Size(83, 23);
+            this.Camera1CheckBox.TabIndex = 4;
+            this.Camera1CheckBox.Text = "Camera1";
+            this.Camera1CheckBox.UseVisualStyleBackColor = false;
+            this.Camera1CheckBox.CheckStateChanged += new System.EventHandler(this.Camera1CheckBox_CheckStateChanged);
             // 
             // Exit_Btn
             // 
@@ -675,12 +678,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.ConfigButton);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(12, 405);
+            this.groupBox1.Location = new System.Drawing.Point(191, 592);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(173, 59);
+            this.groupBox1.Size = new System.Drawing.Size(173, 70);
             this.groupBox1.TabIndex = 36;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Config";
@@ -697,12 +701,38 @@
             this.ConfigButton.UseVisualStyleBackColor = true;
             this.ConfigButton.Click += new System.EventHandler(this.ConfigButton_Click);
             // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.Camera2CheckBox);
+            this.groupBox10.Controls.Add(this.Camera1CheckBox);
+            this.groupBox10.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.groupBox10.ForeColor = System.Drawing.Color.White;
+            this.groupBox10.Location = new System.Drawing.Point(12, 405);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(230, 136);
+            this.groupBox10.TabIndex = 37;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Camera Configuration";
+            // 
+            // Camera2CheckBox
+            // 
+            this.Camera2CheckBox.AutoSize = true;
+            this.Camera2CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Camera2CheckBox.Location = new System.Drawing.Point(132, 26);
+            this.Camera2CheckBox.Name = "Camera2CheckBox";
+            this.Camera2CheckBox.Size = new System.Drawing.Size(83, 23);
+            this.Camera2CheckBox.TabIndex = 38;
+            this.Camera2CheckBox.Text = "Camera2";
+            this.Camera2CheckBox.UseVisualStyleBackColor = false;
+            this.Camera2CheckBox.CheckStateChanged += new System.EventHandler(this.Camera2CheckBox_CheckStateChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1176, 674);
+            this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox4);
@@ -710,7 +740,6 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.MinorPictureBox);
             this.Controls.Add(this.Exit_Btn);
-            this.Controls.Add(this.SearchCheckBox);
             this.Controls.Add(this.MainCameraPictureBox);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -735,8 +764,9 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -745,7 +775,7 @@
         private TextBox JoystickInfoTxtBox;
         private Label Camera1_Label;
         private PictureBox MainCameraPictureBox;
-        private CheckBox SearchCheckBox;
+        private CheckBox Camera1CheckBox;
         private Button Exit_Btn;
         private PictureBox MinorPictureBox;
         private Label Camera2_Label;
@@ -794,5 +824,7 @@
         private Button SetSetting_Button;
         private GroupBox groupBox1;
         private Button ConfigButton;
+        private GroupBox groupBox10;
+        private CheckBox Camera2CheckBox;
     }
 }

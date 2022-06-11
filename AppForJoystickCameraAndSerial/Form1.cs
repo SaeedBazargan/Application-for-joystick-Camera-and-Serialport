@@ -19,7 +19,7 @@ namespace AppForJoystickCameraAndSerial
             Serial2_Lable.ForeColor = Color.Red;
             cancellationTokenSource = new CancellationTokenSource();
             joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label);
-            camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1_Label, Camera2_Label);
+            camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1_Label, Camera2_Label, CameraExceptionCallBack);
             serialportController = new SerialController(Com_ComboBox, Baud_ComboBox, DataBits_ComboBox, SerialMonitoring_TextBox, Serial1_Lable, Serial2_Lable);
         }
 
@@ -32,16 +32,9 @@ namespace AppForJoystickCameraAndSerial
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
-        private void SearchCheckBox_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked)
-                camerasController.Start();
-            else
-                camerasController.Stop();
-        }
         private void SetSetting_Button_Click(object sender, EventArgs e)
         {
             serialportController.SetSetting_Port();
@@ -55,6 +48,27 @@ namespace AppForJoystickCameraAndSerial
         {
             Form LoginconfigForm = new LoginConfig_Form();
             LoginconfigForm.Show(this);
+        }
+
+        private void Camera1CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+                camerasController.Start(0);
+            else
+                camerasController.Stop(0);
+        }
+
+        private void Camera2CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+                camerasController.Start(1);
+            else
+                camerasController.Stop(1);
+        }
+
+        private void CameraExceptionCallBack(string message)
+        {
+            BeginInvoke(() => MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error));
         }
     }
 }
