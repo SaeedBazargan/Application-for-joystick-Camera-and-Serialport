@@ -6,18 +6,18 @@ namespace AppForJoystickCameraAndSerial.Controllers
     public class CamerasController : ControllerBase
     {
         private readonly PictureBox _mainPictureBox, _minorPictureBox;
-        private readonly Label _Camera1Label, _Camera2Label;
+        private readonly PictureBox _Camera1Status, _Camera2Status;
         private readonly CancellationToken _cancellationToken;
         private readonly Task[] cameraCaptureTasks;
         private readonly bool[] isRunning;
         private readonly Action<string> _exceptionCallback;
-        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, Label Cam1, Label Cam2, Action<string> exceptionCallback)
+        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, Action<string> exceptionCallback)
         {
             _cancellationToken = cancellationToken;
             _mainPictureBox = main;
             _minorPictureBox = minor;
-            _Camera1Label = Cam1;
-            _Camera2Label = Cam2;
+            _Camera1Status = camera1Status;
+            _Camera2Status = camera2Status;
             isRunning = new bool[2];
             cameraCaptureTasks = new Task[2];
             _exceptionCallback = exceptionCallback;
@@ -32,7 +32,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             }
             else
                 throw new ArgumentOutOfRangeException();
-            //cameraCaptureTasks.Add(Task.Factory.StartNew(() => StartCamera(1, false), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, false)));
         }
 
         public void Stop(int cameraIndex)
@@ -49,12 +48,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             capture.Open(index);
             if (!capture.IsOpened())
                 throw new Exception($"Cannot open camera {index}");
+            ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
             while (isRunning[index])
             {
                 capture.Read(frame);
                 image = BitmapConverter.ToBitmap(frame);
                 ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
-                ChangeLabel(index == 0 ? _Camera1Label : _Camera2Label, Color.Green);
             }
         }
 
@@ -64,12 +63,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 if (isMain)
                 {
-                    ChangeLabel(_Camera1Label, Color.Red);
+                    ChangePictureBox(_Camera1Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
                     ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
                 }
                 else
                 {
-                    ChangeLabel(_Camera2Label, Color.Red);
+                    ChangePictureBox(_Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
                     ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
                 }
             }

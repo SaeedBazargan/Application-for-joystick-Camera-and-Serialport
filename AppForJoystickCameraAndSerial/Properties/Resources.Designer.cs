@@ -63,6 +63,16 @@ namespace AppForJoystickCameraAndSerial.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Green_Circle {
+            get {
+                object obj = ResourceManager.GetObject("Green Circle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PEOPLE_PLACES_THINGS_ETC__Photo {
             get {
                 object obj = ResourceManager.GetObject("PEOPLE-PLACES-THINGS-ETC_ Photo", resourceCulture);
@@ -76,6 +86,16 @@ namespace AppForJoystickCameraAndSerial.Properties {
         internal static System.Drawing.Bitmap Premium_Photo___Macro_falling_coffee_bean_on_gray_background {
             get {
                 object obj = ResourceManager.GetObject("Premium Photo _ Macro falling coffee bean on gray background", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Red_Circle {
+            get {
+                object obj = ResourceManager.GetObject("Red Circle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -9,7 +9,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public bool Disposed { get; private set; } = false;
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
         private readonly TextBox _SerialMonitoring_TextBox;
-        private readonly Label _Serial1_Label, _Serial2_Label;
+        private readonly PictureBox _Serial1Status, _Serial2Status;
         const Parity ParityBit = Parity.None;
         const StopBits StopBit = StopBits.One;
         int Baudrate, DataBit;
@@ -17,14 +17,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         byte[] DataBuffer_Rx = new byte[35];
 
-        public SerialController(ComboBox _ComComboBox, ComboBox _BaudComboBox, ComboBox _DataBitsComboBox, TextBox _SerialMonitoringTextBox, Label _Serial1Label, Label _Serial2Label)
+        public SerialController(ComboBox _ComComboBox, ComboBox _BaudComboBox, ComboBox _DataBitsComboBox, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status)
         {
             _Com_ComboBox = _ComComboBox;
             _Baud_ComboBox = _BaudComboBox;
             _DataBits_ComboBox = _DataBitsComboBox;
             _SerialMonitoring_TextBox = _SerialMonitoringTextBox;
-            _Serial1_Label = _Serial1Label;
-            _Serial2_Label = _Serial2Label;
+            _Serial1Status = serial1Status;
+            _Serial2Status = serial2Status;
         }
         public void OpenPort()
         {
@@ -32,14 +32,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Open = true;
             _SerialPort.Open();
             if (_SerialPort.IsOpen)
-                _Serial1_Label.ForeColor = Color.Green;
+                ChangePictureBox(_Serial1Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
             else
-                _Serial1_Label.ForeColor = Color.Red;
+                ChangePictureBox(_Serial1Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
         }
         public void ClosePort()
         {
             if (Open)
             {
+                ChangePictureBox(_Serial1Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
                 Open = false;
                 Disposed = true;
                 _SerialPort.Close();

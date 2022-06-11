@@ -12,15 +12,10 @@ namespace AppForJoystickCameraAndSerial
         {
             InitializeComponent();
 
-            Joystick_Label.ForeColor = Color.Red;
-            Camera1_Label.ForeColor = Color.Red;
-            Camera2_Label.ForeColor = Color.Red;
-            Serial1_Lable.ForeColor = Color.Red;
-            Serial2_Lable.ForeColor = Color.Red;
             cancellationTokenSource = new CancellationTokenSource();
-            joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label);
-            camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1_Label, Camera2_Label, CameraExceptionCallBack);
-            serialportController = new SerialController(Com_ComboBox, Baud_ComboBox, DataBits_ComboBox, SerialMonitoring_TextBox, Serial1_Lable, Serial2_Lable);
+            joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox);
+            camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, CameraExceptionCallBack);
+            serialportController = new SerialController(Com_ComboBox, Baud_ComboBox, DataBits_ComboBox, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial1Status_pictureBox);
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -42,6 +37,10 @@ namespace AppForJoystickCameraAndSerial
         private void OpenPort_Button_Click(object sender, EventArgs e)
         {
             serialportController.OpenPort();
+        }
+        private void ClosePort_Button_Click(object sender, EventArgs e)
+        {
+            serialportController.ClosePort();
         }
 
         private void ConfigButton_Click(object sender, EventArgs e)
