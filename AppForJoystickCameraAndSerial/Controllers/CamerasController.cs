@@ -10,7 +10,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly CancellationToken _cancellationToken;
         private readonly Task[] cameraCaptureTasks;
         private readonly bool[] isRunning;
+        private readonly bool[] recording;
         private readonly Action<string> _exceptionCallback;
+        byte RecordCounter = 0;
+        public string RecordingDirectory { get; set; }
+
         public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, Action<string> exceptionCallback)
         {
             _cancellationToken = cancellationToken;
@@ -19,8 +23,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _Camera1Status = camera1Status;
             _Camera2Status = camera2Status;
             isRunning = new bool[2];
+            recording = new bool[2];
             cameraCaptureTasks = new Task[2];
             _exceptionCallback = exceptionCallback;
+            RecordingDirectory = "C:/Users/Sbzrgn/OneDrive/دسکتاپ/AppForJoystickCameraAndSerial/AppForJoystickCameraAndSerial/CameraLog/Log/";
         }
 
         public void Start(int cameraIndex)
@@ -34,6 +40,16 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 throw new ArgumentOutOfRangeException();
         }
 
+        public void Record(int cameraIndex)
+        {
+            recording[cameraIndex] = true;
+        }
+
+        public void StopRecord(int cameraIndex)
+        {
+            recording[cameraIndex] = false;
+        }
+
         public void Stop(int cameraIndex)
         {
             isRunning[cameraIndex] = false;
@@ -42,6 +58,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private void StartCamera(int index)
         {
             using VideoCapture capture = new(index);
+            VideoWriter writer = null;
             var frame = new Mat();
             Bitmap image;
 
@@ -54,6 +71,24 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 capture.Read(frame);
                 image = BitmapConverter.ToBitmap(frame);
                 ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
+                if (recording[index])
+                {
+                    if (writer == null)
+                    {
+                        string recordingDir = RecordingDirectory + index.ToString() + '/';
+                        if (!Directory.Exists(recordingDir))
+                            Directory.CreateDirectory(recordingDir);
+                        string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
+                        writer = new VideoWriter(recordingPath, FourCC.MJPG, capture.Fps, new OpenCvSharp.Size(capture.Get(VideoCaptureProperties.FrameWidth), capture.Get(VideoCaptureProperties.FrameHeight)));
+                    }
+                    writer.Write(frame);
+                }
+                else if (writer != null && !writer.IsDisposed)
+                {
+                    writer.Release();
+                    writer.Dispose();
+                    writer = null;
+                }
             }
         }
 

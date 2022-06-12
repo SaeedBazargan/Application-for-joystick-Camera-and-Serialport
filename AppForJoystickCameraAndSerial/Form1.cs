@@ -8,6 +8,7 @@ namespace AppForJoystickCameraAndSerial
         private readonly JoysticksController joysticksController;
         private readonly CamerasController camerasController;
         private readonly SerialController serialportController;
+
         public Form1()
         {
             InitializeComponent();
@@ -68,6 +69,22 @@ namespace AppForJoystickCameraAndSerial
         private void CameraExceptionCallBack(string message)
         {
             BeginInvoke(() => MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error));
+        }
+
+        private void RecordCamera1_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+                camerasController.Record(0);
+            else
+                camerasController.StopRecord(0);
+        }
+
+        private void RecordCamera2_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+                camerasController.Record(1);
+            else
+                camerasController.StopRecord(1);
         }
     }
 }

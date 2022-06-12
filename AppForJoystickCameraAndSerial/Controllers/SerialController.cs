@@ -64,6 +64,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             else
                 MessageBox.Show("Wrong DataBits", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
             _SerialPort = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
+            MessageBox.Show("Serial settings saved!");
         }
         private void _SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
