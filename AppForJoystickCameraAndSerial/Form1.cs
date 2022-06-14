@@ -28,7 +28,11 @@ namespace AppForJoystickCameraAndSerial
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //byte[] byteArray = { 0, 1, 2, 3, 4, 5, 10, 20, 254, 255 };
+            //string hexString = BitConverter.ToString(byteArray);
 
+            //Console.WriteLine(hexString);
+            //Console.WriteLine(hexString.Replace('-', ' '));
         }
 
         private void SetSetting_Button_Click(object sender, EventArgs e)

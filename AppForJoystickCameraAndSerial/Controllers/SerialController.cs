@@ -1,9 +1,11 @@
 ﻿using System.IO.Ports;
+using static AppForJoystickCameraAndSerial.Controllers.SerialPacketHandler;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
     public class SerialController : ControllerBase
     {
+        SerialPacketHandler Handler = new SerialPacketHandler();
         public SerialPort _SerialPort { get; private set; }
         public bool Open { get; private set; } = false;
         public bool Disposed { get; private set; } = false;
@@ -15,7 +17,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int Baudrate, DataBit;
         string PortNumber;
 
-        byte[] DataBuffer_Rx = new byte[35];
+        byte[] DataBuffer_Rx = new byte[55];
 
         public SerialController(ComboBox _ComComboBox, ComboBox _BaudComboBox, ComboBox _DataBitsComboBox, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status)
         {
@@ -68,14 +70,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         private void _SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            for (int i = 0; i < 35; i++)
+            for (int i = 0; i < 55; i++)
             {
                 DataBuffer_Rx[i] = Readbyte();
-                _SerialMonitoring_TextBox.AppendText(DataBuffer_Rx[i].ToString());
-                _SerialMonitoring_TextBox.AppendText(Environment.NewLine);
+                //_SerialMonitoring_TextBox.AppendText(DataBuffer_Rx[i].ToString());
+                //_SerialMonitoring_TextBox.AppendText(Environment.NewLine);
                 //_SerialMonitoring_TextBox.AppendText(Readbyte().ToString());
             }
-            //Master_CheckPacket(DataBuffer_Rx);
+            Handler.Master_CheckPacket(DataBuffer_Rx);
         }
         public int Read(byte[] buffer, int offset, int count)
         {
