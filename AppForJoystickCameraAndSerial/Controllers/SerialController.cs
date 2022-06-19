@@ -16,6 +16,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         const StopBits StopBit = StopBits.One;
         int Baudrate, DataBit;
         string PortNumber;
+        private readonly bool[] recording;
 
         byte[] DataBuffer_Rx = new byte[55];
 
@@ -27,6 +28,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _SerialMonitoring_TextBox = _SerialMonitoringTextBox;
             _Serial1Status = serial1Status;
             _Serial2Status = serial2Status;
+
         }
         public void OpenPort()
         {
@@ -73,15 +75,24 @@ namespace AppForJoystickCameraAndSerial.Controllers
             for (int i = 0; i < 55; i++)
             {
                 DataBuffer_Rx[i] = Readbyte();
-                //_SerialMonitoring_TextBox.AppendText(DataBuffer_Rx[i].ToString());
-                //_SerialMonitoring_TextBox.AppendText(Environment.NewLine);
-                //_SerialMonitoring_TextBox.AppendText(Readbyte().ToString());
+                ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
             }
             Handler.Master_CheckPacket(DataBuffer_Rx);
         }
-        public int Read(byte[] buffer, int offset, int count)
+        public void Write(byte Code, byte Value)
         {
-            return _SerialPort.Read(buffer, offset, count);
+            byte[] Data = new byte[55];
+            Handler.WriteMessage(Code, Value, Data);
+            //for (byte i = 0; i < 55; i++)
+            //{
+            //    Console.Write(i + ":      ");
+            //    Console.WriteLine(Data[i]);
+            //}
+
+            if (Open)
+                _SerialPort.Write(Data, 0, 55);
+            else
+                MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         byte Readbyte()
         {

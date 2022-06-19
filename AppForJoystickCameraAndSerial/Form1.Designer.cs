@@ -80,6 +80,8 @@
             this.Com_ComboBox = new System.Windows.Forms.ComboBox();
             this.PortNumber_Label = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.RecordSerial_2CheckBox = new System.Windows.Forms.CheckBox();
+            this.RecordSerial_1CheckBox = new System.Windows.Forms.CheckBox();
             this.ClosePort_Button = new System.Windows.Forms.Button();
             this.SetSetting_Button = new System.Windows.Forms.Button();
             this.OpenPort_Button = new System.Windows.Forms.Button();
@@ -90,6 +92,8 @@
             this.RecordCamera2_CheckBox = new System.Windows.Forms.CheckBox();
             this.RecordCamera1_CheckBox = new System.Windows.Forms.CheckBox();
             this.Camera2CheckBox = new System.Windows.Forms.CheckBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.AllMotorsCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -107,6 +111,7 @@
             this.groupBox9.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.SuspendLayout();
             // 
             // JoystickInfoTxtBox
@@ -149,7 +154,7 @@
             this.Camera1CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Camera1CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Camera1CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Camera1CheckBox.Location = new System.Drawing.Point(8, 28);
+            this.Camera1CheckBox.Location = new System.Drawing.Point(7, 28);
             this.Camera1CheckBox.Name = "Camera1CheckBox";
             this.Camera1CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Camera1CheckBox.Size = new System.Drawing.Size(83, 23);
@@ -161,7 +166,7 @@
             // Exit_Btn
             // 
             this.Exit_Btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Exit_Btn.Location = new System.Drawing.Point(1239, 778);
+            this.Exit_Btn.Location = new System.Drawing.Point(1239, 714);
             this.Exit_Btn.Name = "Exit_Btn";
             this.Exit_Btn.Size = new System.Drawing.Size(75, 23);
             this.Exit_Btn.TabIndex = 15;
@@ -240,7 +245,7 @@
             this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(230, 155);
+            this.groupBox3.Size = new System.Drawing.Size(242, 155);
             this.groupBox3.TabIndex = 25;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Port Status";
@@ -248,7 +253,7 @@
             // JoystickStatus_pictureBox
             // 
             this.JoystickStatus_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.JoystickStatus_pictureBox.Location = new System.Drawing.Point(198, 121);
+            this.JoystickStatus_pictureBox.Location = new System.Drawing.Point(212, 121);
             this.JoystickStatus_pictureBox.Name = "JoystickStatus_pictureBox";
             this.JoystickStatus_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.JoystickStatus_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -258,7 +263,7 @@
             // Camera1Status_pictureBox
             // 
             this.Camera1Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Camera1Status_pictureBox.Location = new System.Drawing.Point(198, 21);
+            this.Camera1Status_pictureBox.Location = new System.Drawing.Point(212, 21);
             this.Camera1Status_pictureBox.Name = "Camera1Status_pictureBox";
             this.Camera1Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Camera1Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -268,7 +273,7 @@
             // Serial2Status_pictureBox
             // 
             this.Serial2Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Serial2Status_pictureBox.Location = new System.Drawing.Point(198, 96);
+            this.Serial2Status_pictureBox.Location = new System.Drawing.Point(212, 96);
             this.Serial2Status_pictureBox.Name = "Serial2Status_pictureBox";
             this.Serial2Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Serial2Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -278,7 +283,7 @@
             // Serial1Status_pictureBox
             // 
             this.Serial1Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Serial1Status_pictureBox.Location = new System.Drawing.Point(198, 71);
+            this.Serial1Status_pictureBox.Location = new System.Drawing.Point(212, 71);
             this.Serial1Status_pictureBox.Name = "Serial1Status_pictureBox";
             this.Serial1Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Serial1Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -288,7 +293,7 @@
             // Camera2Status_pictureBox
             // 
             this.Camera2Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Camera2Status_pictureBox.Location = new System.Drawing.Point(198, 46);
+            this.Camera2Status_pictureBox.Location = new System.Drawing.Point(212, 46);
             this.Camera2Status_pictureBox.Name = "Camera2Status_pictureBox";
             this.Camera2Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Camera2Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -301,7 +306,7 @@
             this.groupBox2.Controls.Add(this.JoystickInfoTxtBox);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(4, 731);
+            this.groupBox2.Location = new System.Drawing.Point(12, 677);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(181, 70);
             this.groupBox2.TabIndex = 26;
@@ -602,7 +607,7 @@
             this.DataBits_ComboBox.Items.AddRange(new object[] {
             "7",
             "8"});
-            this.DataBits_ComboBox.Location = new System.Drawing.Point(140, 90);
+            this.DataBits_ComboBox.Location = new System.Drawing.Point(160, 88);
             this.DataBits_ComboBox.Name = "DataBits_ComboBox";
             this.DataBits_ComboBox.Size = new System.Drawing.Size(75, 25);
             this.DataBits_ComboBox.TabIndex = 34;
@@ -636,7 +641,7 @@
             "230400",
             "460800",
             "921600"});
-            this.Baud_ComboBox.Location = new System.Drawing.Point(140, 55);
+            this.Baud_ComboBox.Location = new System.Drawing.Point(160, 54);
             this.Baud_ComboBox.Name = "Baud_ComboBox";
             this.Baud_ComboBox.Size = new System.Drawing.Size(75, 25);
             this.Baud_ComboBox.TabIndex = 32;
@@ -676,7 +681,7 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.Com_ComboBox.Location = new System.Drawing.Point(140, 19);
+            this.Com_ComboBox.Location = new System.Drawing.Point(160, 19);
             this.Com_ComboBox.Name = "Com_ComboBox";
             this.Com_ComboBox.Size = new System.Drawing.Size(75, 25);
             this.Com_ComboBox.TabIndex = 30;
@@ -694,6 +699,8 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.RecordSerial_2CheckBox);
+            this.groupBox9.Controls.Add(this.RecordSerial_1CheckBox);
             this.groupBox9.Controls.Add(this.ClosePort_Button);
             this.groupBox9.Controls.Add(this.SetSetting_Button);
             this.groupBox9.Controls.Add(this.OpenPort_Button);
@@ -708,16 +715,40 @@
             this.groupBox9.ForeColor = System.Drawing.Color.White;
             this.groupBox9.Location = new System.Drawing.Point(12, 173);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(230, 249);
+            this.groupBox9.Size = new System.Drawing.Size(242, 277);
             this.groupBox9.TabIndex = 35;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Serial Configuration";
+            // 
+            // RecordSerial_2CheckBox
+            // 
+            this.RecordSerial_2CheckBox.AutoSize = true;
+            this.RecordSerial_2CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.RecordSerial_2CheckBox.Location = new System.Drawing.Point(122, 220);
+            this.RecordSerial_2CheckBox.Name = "RecordSerial_2CheckBox";
+            this.RecordSerial_2CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RecordSerial_2CheckBox.Size = new System.Drawing.Size(114, 23);
+            this.RecordSerial_2CheckBox.TabIndex = 40;
+            this.RecordSerial_2CheckBox.Text = "RecordSerial 2";
+            this.RecordSerial_2CheckBox.UseVisualStyleBackColor = false;
+            // 
+            // RecordSerial_1CheckBox
+            // 
+            this.RecordSerial_1CheckBox.AutoSize = true;
+            this.RecordSerial_1CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.RecordSerial_1CheckBox.Location = new System.Drawing.Point(4, 220);
+            this.RecordSerial_1CheckBox.Name = "RecordSerial_1CheckBox";
+            this.RecordSerial_1CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RecordSerial_1CheckBox.Size = new System.Drawing.Size(114, 23);
+            this.RecordSerial_1CheckBox.TabIndex = 39;
+            this.RecordSerial_1CheckBox.Text = "RecordSerial 1";
+            this.RecordSerial_1CheckBox.UseVisualStyleBackColor = false;
             // 
             // ClosePort_Button
             // 
             this.ClosePort_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ClosePort_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ClosePort_Button.Location = new System.Drawing.Point(153, 220);
+            this.ClosePort_Button.Location = new System.Drawing.Point(158, 248);
             this.ClosePort_Button.Name = "ClosePort_Button";
             this.ClosePort_Button.Size = new System.Drawing.Size(75, 23);
             this.ClosePort_Button.TabIndex = 38;
@@ -730,7 +761,7 @@
             this.SetSetting_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.SetSetting_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.SetSetting_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.SetSetting_Button.Location = new System.Drawing.Point(3, 220);
+            this.SetSetting_Button.Location = new System.Drawing.Point(8, 248);
             this.SetSetting_Button.Name = "SetSetting_Button";
             this.SetSetting_Button.Size = new System.Drawing.Size(75, 23);
             this.SetSetting_Button.TabIndex = 37;
@@ -743,7 +774,7 @@
             this.OpenPort_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OpenPort_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.OpenPort_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.OpenPort_Button.Location = new System.Drawing.Point(78, 220);
+            this.OpenPort_Button.Location = new System.Drawing.Point(83, 248);
             this.OpenPort_Button.Name = "OpenPort_Button";
             this.OpenPort_Button.Size = new System.Drawing.Size(75, 23);
             this.OpenPort_Button.TabIndex = 36;
@@ -756,7 +787,7 @@
             this.SerialMonitoring_TextBox.Location = new System.Drawing.Point(6, 121);
             this.SerialMonitoring_TextBox.Multiline = true;
             this.SerialMonitoring_TextBox.Name = "SerialMonitoring_TextBox";
-            this.SerialMonitoring_TextBox.Size = new System.Drawing.Size(218, 93);
+            this.SerialMonitoring_TextBox.Size = new System.Drawing.Size(230, 93);
             this.SerialMonitoring_TextBox.TabIndex = 36;
             // 
             // groupBox1
@@ -765,7 +796,7 @@
             this.groupBox1.Controls.Add(this.ConfigButton);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(191, 731);
+            this.groupBox1.Location = new System.Drawing.Point(199, 677);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(173, 70);
             this.groupBox1.TabIndex = 36;
@@ -786,15 +817,16 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox10.Controls.Add(this.RecordCamera2_CheckBox);
             this.groupBox10.Controls.Add(this.RecordCamera1_CheckBox);
             this.groupBox10.Controls.Add(this.Camera2CheckBox);
             this.groupBox10.Controls.Add(this.Camera1CheckBox);
             this.groupBox10.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox10.ForeColor = System.Drawing.Color.White;
-            this.groupBox10.Location = new System.Drawing.Point(12, 428);
+            this.groupBox10.Location = new System.Drawing.Point(12, 501);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(230, 145);
+            this.groupBox10.Size = new System.Drawing.Size(242, 93);
             this.groupBox10.TabIndex = 37;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Camera Configuration";
@@ -803,7 +835,7 @@
             // 
             this.RecordCamera2_CheckBox.AutoSize = true;
             this.RecordCamera2_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.RecordCamera2_CheckBox.Location = new System.Drawing.Point(8, 115);
+            this.RecordCamera2_CheckBox.Location = new System.Drawing.Point(103, 57);
             this.RecordCamera2_CheckBox.Name = "RecordCamera2_CheckBox";
             this.RecordCamera2_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RecordCamera2_CheckBox.Size = new System.Drawing.Size(133, 23);
@@ -816,7 +848,7 @@
             // 
             this.RecordCamera1_CheckBox.AutoSize = true;
             this.RecordCamera1_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.RecordCamera1_CheckBox.Location = new System.Drawing.Point(8, 86);
+            this.RecordCamera1_CheckBox.Location = new System.Drawing.Point(103, 28);
             this.RecordCamera1_CheckBox.Name = "RecordCamera1_CheckBox";
             this.RecordCamera1_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RecordCamera1_CheckBox.Size = new System.Drawing.Size(133, 23);
@@ -829,7 +861,7 @@
             // 
             this.Camera2CheckBox.AutoSize = true;
             this.Camera2CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.Camera2CheckBox.Location = new System.Drawing.Point(8, 57);
+            this.Camera2CheckBox.Location = new System.Drawing.Point(7, 57);
             this.Camera2CheckBox.Name = "Camera2CheckBox";
             this.Camera2CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Camera2CheckBox.Size = new System.Drawing.Size(83, 23);
@@ -838,12 +870,45 @@
             this.Camera2CheckBox.UseVisualStyleBackColor = false;
             this.Camera2CheckBox.CheckStateChanged += new System.EventHandler(this.Camera2CheckBox_CheckStateChanged);
             // 
+            // groupBox11
+            // 
+            this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox11.Controls.Add(this.AllMotorsCheckBox);
+            this.groupBox11.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.groupBox11.ForeColor = System.Drawing.Color.White;
+            this.groupBox11.Location = new System.Drawing.Point(12, 595);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(242, 82);
+            this.groupBox11.TabIndex = 38;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Motors Configuration";
+            // 
+            // AllMotorsCheckBox
+            // 
+            this.AllMotorsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AllMotorsCheckBox.AutoSize = true;
+            this.AllMotorsCheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.AllMotorsCheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.AllMotorsCheckBox.FlatAppearance.BorderSize = 3;
+            this.AllMotorsCheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.AllMotorsCheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AllMotorsCheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.AllMotorsCheckBox.Location = new System.Drawing.Point(8, 24);
+            this.AllMotorsCheckBox.Name = "AllMotorsCheckBox";
+            this.AllMotorsCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.AllMotorsCheckBox.Size = new System.Drawing.Size(94, 23);
+            this.AllMotorsCheckBox.TabIndex = 40;
+            this.AllMotorsCheckBox.Text = "All_Motors";
+            this.AllMotorsCheckBox.UseVisualStyleBackColor = false;
+            this.AllMotorsCheckBox.CheckStateChanged += new System.EventHandler(this.AllMotorsCheckBox_CheckStateChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1326, 813);
+            this.ClientSize = new System.Drawing.Size(1326, 749);
+            this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox9);
@@ -882,6 +947,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -950,5 +1017,9 @@
         private Button ClosePort_Button;
         private CheckBox RecordCamera2_CheckBox;
         private CheckBox RecordCamera1_CheckBox;
+        private GroupBox groupBox11;
+        private CheckBox AllMotorsCheckBox;
+        private CheckBox RecordSerial_1CheckBox;
+        private CheckBox RecordSerial_2CheckBox;
     }
 }

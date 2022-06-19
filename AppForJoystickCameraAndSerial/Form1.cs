@@ -4,6 +4,13 @@ namespace AppForJoystickCameraAndSerial
 {
     public partial class Form1 : Form
     {
+        enum WriteCodes : byte
+        {
+            Motor_1     = 1,
+            Motor_2     = 2,
+            Motor_3     = 3,
+            All_Motors  = 4
+        }
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly JoysticksController joysticksController;
         private readonly CamerasController camerasController;
@@ -28,11 +35,6 @@ namespace AppForJoystickCameraAndSerial
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //byte[] byteArray = { 0, 1, 2, 3, 4, 5, 10, 20, 254, 255 };
-            //string hexString = BitConverter.ToString(byteArray);
-
-            //Console.WriteLine(hexString);
-            //Console.WriteLine(hexString.Replace('-', ' '));
         }
 
         private void SetSetting_Button_Click(object sender, EventArgs e)
@@ -89,6 +91,14 @@ namespace AppForJoystickCameraAndSerial
                 camerasController.Record(1);
             else
                 camerasController.StopRecord(1);
+        }
+
+        private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+                serialportController.Write((byte)WriteCodes.All_Motors, 1);
+            else
+                serialportController.Write((byte)WriteCodes.All_Motors, 0);
         }
     }
 }

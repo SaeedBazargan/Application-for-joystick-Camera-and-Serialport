@@ -1,14 +1,23 @@
 ﻿using System.IO;
+using System.IO.Ports;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
     public class SerialPacketHandler
     {
         byte[] LookUpTable = new byte[55];
+        byte Counter = 0;
+        byte[] Data_CRC = new byte[52];
         byte CurrentState = 0;
 
         public void Master_CheckPacket(byte[] Rx_Data)
         {
+            //for (byte i = 0; i < 55; i++)
+            //{
+            //    Console.Write(i + ":      ");
+            //    Console.WriteLine(Rx_Data[i]);
+            //}
+
             if (Rx_Data[0] == 85 && CurrentState == 0)
                 CurrentState = 1;
 
@@ -23,7 +32,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             }
             if (CurrentState == 3 && CheckCRC(LookUpTable, Rx_Data))
             {
-                //SplitLookupTable(LookUpTable);
+                SplitLookupTable(LookUpTable);
                 CurrentState = 0;
             }
             else
@@ -34,31 +43,50 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         public void SplitLookupTable(byte[] LUT)
         {
-            //byte[] SpliCounter = new byte[4] { LUT[0], LUT[1], LUT[2], LUT[3] };
-            //byte[] Data_1 = new byte[4] { LUT[6], LUT[7], LUT[8], LUT[9] };
-            //byte[] Data_2 = new byte[4] { LUT[10], LUT[11], LUT[12], LUT[13] };
-            //byte[] Data_3 = new byte[4] { LUT[14], LUT[15], LUT[16], LUT[17] };
-            //byte[] Data_4 = new byte[4] { LUT[18], LUT[19], LUT[20], LUT[21] };
-            //byte[] Data_5 = new byte[4] { LUT[22], LUT[23], LUT[24], LUT[25] };
-            //byte[] Data_6 = new byte[4] { LUT[26], LUT[27], LUT[28], LUT[29] };
-            //byte[] Data_7 = new byte[4] { LUT[30], LUT[31], LUT[32], LUT[33] };
-            //byte[] Data_8 = new byte[4] { LUT[34], LUT[35], LUT[36], LUT[37] };
-            //byte[] Data_9 = new byte[4] { LUT[38], LUT[39], LUT[40], LUT[41] };
-            //byte[] Data_10 = new byte[4] { LUT[42], LUT[43], LUT[44], LUT[45] };
-            //byte[] Data_11 = new byte[4] { LUT[46], LUT[47], LUT[48], LUT[49] };
+            Int32 SpliCounter;
+            byte Address;
+            byte Code;
+            Int32 Data_1;
+            Int32 Data_2;
+            Int32 Data_3;
+            Int32 Data_4;
+            Int32 Data_5;
+            Int32 Data_6;
+            Int32 Data_7;
+            Int32 Data_8;
+            Int32 Data_9;
+            Int32 Data_10;
+            Int32 Data_11;
 
-            //Console.WriteLine("111:::" + BitConverter.ToInt32(SpliCounter, 0));
-            //Console.WriteLine("333:::" + BitConverter.ToInt32(Data_1, 0));
-            //Console.WriteLine("444:::" + BitConverter.ToInt32(Data_2, 0));
-            //Console.WriteLine("555:::" + BitConverter.ToInt32(Data_3, 0));
-            //Console.WriteLine("666:::" + BitConverter.ToInt32(Data_4, 0));
-            //Console.WriteLine("777:::" + BitConverter.ToInt32(Data_5, 0));
-            //Console.WriteLine("888:::" + BitConverter.ToInt32(Data_6, 0));
-            //Console.WriteLine("999:::" + BitConverter.ToInt32(Data_7, 0));
-            //Console.WriteLine("1111:::" + BitConverter.ToInt32(Data_8, 0));
-            //Console.WriteLine("1010:::" + BitConverter.ToInt32(Data_9, 0));
-            //Console.WriteLine("1212:::" + BitConverter.ToInt32(Data_10, 0));
-            //Console.WriteLine("1313:::" + BitConverter.ToInt32(Data_11, 0));
+            SpliCounter = (LUT[0] << 32) + (LUT[1] << 16) + (LUT[2] << 8) + (LUT[3]);
+            Address = LUT[4];
+            Code = LUT[5];
+            Data_1 = (LUT[6] << 32) + (LUT[7] << 16) + (LUT[8] << 8) + (LUT[9]);
+            Data_2 = (LUT[10] << 32) + (LUT[11] << 16) + (LUT[12] << 8) + (LUT[13]);
+            Data_3 = (LUT[14] << 32) + (LUT[15] << 16) + (LUT[16] << 8) + (LUT[17]);
+            Data_4 = (LUT[18] << 32) + (LUT[19] << 16) + (LUT[20] << 8) + (LUT[21]);
+            Data_5 = (LUT[22] << 32) + (LUT[23] << 16) + (LUT[24] << 8) + (LUT[25]);
+            Data_6 = (LUT[26] << 32) + (LUT[27] << 16) + (LUT[28] << 8) + (LUT[29]);
+            Data_7 = (LUT[30] << 32) + (LUT[31] << 16) + (LUT[32] << 8) + (LUT[33]);
+            Data_8 = (LUT[34] << 32) + (LUT[35] << 16) + (LUT[36] << 8) + (LUT[37]);
+            Data_9 = (LUT[38] << 32) + (LUT[39] << 16) + (LUT[40] << 8) + (LUT[41]);
+            Data_10 = (LUT[42] << 32) + (LUT[43] << 16) + (LUT[44] << 8) + (LUT[45]);
+            Data_11 = (LUT[46] << 32) + (LUT[47] << 16) + (LUT[48] << 8) + (LUT[49]);
+
+            //Console.WriteLine("111:::" + SpliCounter);
+            //Console.WriteLine("222:::" + Address);
+            //Console.WriteLine("333:::" + Code);
+            //Console.WriteLine("444:::" + Data_1);
+            //Console.WriteLine("555:::" + Data_2);
+            //Console.WriteLine("666:::" + Data_3);
+            //Console.WriteLine("777:::" + Data_4);
+            //Console.WriteLine("888:::" + Data_5);
+            //Console.WriteLine("999:::" + Data_6);
+            //Console.WriteLine("1010:::" + Data_7);
+            //Console.WriteLine("1111:::" + Data_8);
+            //Console.WriteLine("1212:::" + Data_9);
+            //Console.WriteLine("1313:::" + Data_10);
+            //Console.WriteLine("1414:::" + Data_11);
         }
         public bool CheckCRC(byte[] LutData, byte[] rxData)
         {
@@ -75,6 +103,35 @@ namespace AppForJoystickCameraAndSerial.Controllers
             for (int i = 0; i < n; i++)
                 xor_arr = xor_arr ^ arr[i];
             return xor_arr;
+        }
+        public void WriteMessage(byte Code, byte Tx_Data, byte[] Template)
+        {
+            Counter++;
+            Template[0]   = 0x55;                                                                   //Header 1
+            Template[1]   = 0xAA;                                                                   //Header 2
+            Template[2] = Counter; Template[3] = 0x00; Template[4] = 0x00; Template[5] = 0x00;      //Counter
+            Template[6] = 0x01;                                                                     //Address
+            Template[7] = Code;                                                                     //Code
+            Template[8] = 0x00; Template[9] = 0x00; Template[10] = 0x00; Template[11] = Tx_Data;    //Data 1
+            Template[12] = 0x00; Template[13] = 0x00; Template[14] = 0x00; Template[15] = 0x00;     //Data 2
+            Template[16] = 0x00; Template[17] = 0x00; Template[18] = 0x00; Template[19] = 0x00;     //Data 3
+            Template[20] = 0x00; Template[21] = 0x00; Template[22] = 0x00; Template[23] = 0x00;     //Data 4
+            Template[24] = 0x00; Template[25] = 0x00; Template[26] = 0x00; Template[27] = 0x00;     //Data 5
+            Template[28] = 0x00; Template[29] = 0x00; Template[30] = 0x00; Template[31] = 0x00;     //Data 6
+            Template[32] = 0x00; Template[33] = 0x00; Template[34] = 0x00; Template[35] = 0x00;     //Data 7
+            Template[36] = 0x00; Template[37] = 0x00; Template[38] = 0x00; Template[39] = 0x00;     //Data 8
+            Template[40] = 0x00; Template[41] = 0x00; Template[42] = 0x00; Template[43] = 0x00;     //Data 9
+            Template[44] = 0x00; Template[45] = 0x00; Template[46] = 0x00; Template[47] = 0x00;     //Data 10
+            Template[48] = 0x00; Template[49] = 0x00; Template[50] = 0x00; Template[51] = 0x00;     //Data 11
+            Template[52] = 0x00;                                                                    //CRC
+            Template[53]  = 0x40;                                                                   //Footer 1
+            Template[54]  = 0x24;                                                                   //Footer 2
+            for (byte i = 0; i < 52; i++)
+            {
+                Data_CRC[i] = Template[i];
+            }
+            int SizeData_CRC = Data_CRC.Length;
+            Template[52] = (byte)xorOfArray(Data_CRC, SizeData_CRC);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly bool[] isRunning;
         private readonly bool[] recording;
         private readonly Action<string> _exceptionCallback;
-        byte RecordCounter = 0;
+
         public string RecordingDirectory { get; set; }
 
         public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, Action<string> exceptionCallback)
