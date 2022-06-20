@@ -1,16 +1,13 @@
-﻿using System.IO;
-using System.IO.Ports;
-
-namespace AppForJoystickCameraAndSerial.Controllers
+﻿namespace AppForJoystickCameraAndSerial.Controllers
 {
-    public class SerialPacketHandler
+    public static class SerialPacketHandler
     {
-        byte[] LookUpTable = new byte[55];
-        byte Counter = 0;
-        byte[] Data_CRC = new byte[52];
-        byte CurrentState = 0;
+        static byte[] LookUpTable = new byte[55];
+        static byte Counter = 0;
+        static byte[] Data_CRC = new byte[52];
+        static byte CurrentState = 0;
 
-        public void Master_CheckPacket(byte[] Rx_Data)
+        public static void Master_CheckPacket(byte[] Rx_Data)
         {
             //for (byte i = 0; i < 55; i++)
             //{
@@ -41,7 +38,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 Array.Clear(Rx_Data, 0, Rx_Data.Length);
             }
         }
-        public void SplitLookupTable(byte[] LUT)
+        public static void SplitLookupTable(byte[] LUT)
         {
             Int32 SpliCounter;
             byte Address;
@@ -88,7 +85,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             //Console.WriteLine("1313:::" + Data_10);
             //Console.WriteLine("1414:::" + Data_11);
         }
-        public bool CheckCRC(byte[] LutData, byte[] rxData)
+        public static bool CheckCRC(byte[] LutData, byte[] rxData)
         {
             int Len = LutData.Length;
             if (xorOfArray(LutData, Len) == rxData[52])
@@ -96,7 +93,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             else
                 return false;
         }
-        static int xorOfArray(byte[] arr, int n)
+        private static int xorOfArray(byte[] arr, int n)
         {
             int xor_arr = 0;
 
@@ -104,11 +101,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 xor_arr = xor_arr ^ arr[i];
             return xor_arr;
         }
-        public void WriteMessage(byte Code, byte Tx_Data, byte[] Template)
+        public static void WriteMessage(byte Code, byte Tx_Data, byte[] Template)
         {
             Counter++;
-            Template[0]   = 0x55;                                                                   //Header 1
-            Template[1]   = 0xAA;                                                                   //Header 2
+            Template[0] = 0x55;                                                                   //Header 1
+            Template[1] = 0xAA;                                                                   //Header 2
             Template[2] = Counter; Template[3] = 0x00; Template[4] = 0x00; Template[5] = 0x00;      //Counter
             Template[6] = 0x01;                                                                     //Address
             Template[7] = Code;                                                                     //Code
@@ -124,8 +121,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Template[44] = 0x00; Template[45] = 0x00; Template[46] = 0x00; Template[47] = 0x00;     //Data 10
             Template[48] = 0x00; Template[49] = 0x00; Template[50] = 0x00; Template[51] = 0x00;     //Data 11
             Template[52] = 0x00;                                                                    //CRC
-            Template[53]  = 0x40;                                                                   //Footer 1
-            Template[54]  = 0x24;                                                                   //Footer 2
+            Template[53] = 0x40;                                                                   //Footer 1
+            Template[54] = 0x24;                                                                   //Footer 2
             for (byte i = 0; i < 52; i++)
             {
                 Data_CRC[i] = Template[i];
