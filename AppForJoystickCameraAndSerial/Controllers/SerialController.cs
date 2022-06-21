@@ -2,145 +2,122 @@
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
-    public class SerialSetting
-    {
-        public string PortName { get; set; }
-        public int BaudRate { get; set; }
-        public int DataBits { get; set; }
-        public static Parity Parity => Parity.None;
-        public static StopBits StopBits => StopBits.One;
-
-        public SerialSetting(string portName, int baudRate, int dataBits)
-        {
-            PortName = portName;
-            BaudRate = baudRate;
-            DataBits = dataBits;
-        }
-    }
-
-    class Serial
-    {
-        public SerialSetting Setting { get; set; }
-        public SerialPort Port { get; set; }
-        public bool IsRunnig { get; set; }
-        public bool Recording { get; set; }
-    }
-
-
     public class SerialController : ControllerBase
     {
-        private const int buffer_rx_size = 55;
+        SerialPacketHandler Handler = new SerialPacketHandler();
 
-        private readonly SerialPort _serialPort;
-        private readonly Task[] serialPortTasks;
-        private readonly CancellationToken _cancellationToken;
+        public SerialPort[] _SerialPort { get; private set; }
+        public bool Open { get; private set; } = false;
+        public bool Disposed { get; private set; } = false;
+        const Parity ParityBit = Parity.None;
+        const StopBits StopBit = StopBits.One;
+        int Baudrate, DataBit;
+        string PortNumber;
+
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
         private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
         private readonly TextBox _SerialMonitoring_TextBox;
         private readonly PictureBox _Serial1Status, _Serial2Status;
-        private readonly bool[] recording;
-        private readonly bool[] isRunning;
-        private readonly byte[] dataBuffer_Rx;
-        private readonly SerialSetting[] settings;
 
-        public enum SerialName
-        {
-            Gun = 0,
-            Radar
-        }
+        private readonly CancellationToken _cancellationToken;
+        private readonly Task[] serialPortTasks;
+        private readonly bool[] isRunning;
+        private readonly bool[] recording;
+
+        byte[] DataBuffer_Rx = new byte[55];
 
         public SerialController(CancellationToken cancellationToken, ComboBox _ComComboBox, ComboBox _ComComboBox2, ComboBox _BaudComboBox, ComboBox _BaudComboBox2, ComboBox _DataBitsComboBox, ComboBox _DataBitsComboBox2, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status)
         {
+            _SerialPort = new SerialPort[2];
+
+            _Com_ComboBox = _ComComboBox; _Com_ComboBox2 = _ComComboBox2;
+            _Baud_ComboBox = _BaudComboBox; _Baud_ComboBox2 = _BaudComboBox2;
+            _DataBits_ComboBox = _DataBitsComboBox; _DataBits_ComboBox2 = _DataBitsComboBox2;
+            _SerialMonitoring_TextBox = _SerialMonitoringTextBox;
+            _Serial1Status = serial1Status; _Serial2Status = serial2Status;
+
+            _cancellationToken = cancellationToken;
             serialPortTasks = new Task[2];
             isRunning = new bool[2];
             recording = new bool[2];
-            _Com_ComboBox = _ComComboBox;
-            _Baud_ComboBox = _BaudComboBox;
-            _DataBits_ComboBox = _DataBitsComboBox;
-            _Com_ComboBox2 = _ComComboBox2;
-            _Baud_ComboBox2 = _BaudComboBox2;
-            _DataBits_ComboBox2 = _DataBitsComboBox2;
-            _SerialMonitoring_TextBox = _SerialMonitoringTextBox;
-            _Serial1Status = serial1Status;
-            _Serial2Status = serial2Status;
-            dataBuffer_Rx = new byte[buffer_rx_size];
-            settings = new SerialSetting[2];
+        }
+        public void Start(int SerialIndex)
+        {
+            if (0 <= SerialIndex || SerialIndex <= 2)
+            {
+                isRunning[SerialIndex] = true;
+                serialPortTasks[SerialIndex] = Task.Factory.StartNew(() => StartSerial(SerialIndex), _cancellationToken).ContinueWith((t) => SerialTaskDone(t, SerialIndex == 0));
+            }
+            else
+                throw new ArgumentOutOfRangeException();
+        }
+        public void Stop(int SerialIndex)
+        {
+            isRunning[SerialIndex] = false;
         }
 
-        public void OpenPort()
+        public void SetSetting_Port(int SerialIndex)
         {
-            _SerialPort.DataReceived += new SerialDataReceivedEventHandler(_SerialPort_DataReceived);
+            byte setOk = 1;
+            if (SerialIndex == 0)
+            {
+                if (_Com_ComboBox.SelectedItem != null)
+                    PortNumber = _Com_ComboBox.SelectedItem.ToString();
+                if (_Baud_ComboBox.SelectedItem != null)
+                    Baudrate = int.Parse(_Baud_ComboBox.SelectedItem.ToString());
+                if (_DataBits_ComboBox.SelectedItem != null)
+                    DataBit = int.Parse(_DataBits_ComboBox.SelectedItem.ToString());
+                else
+                {
+                    setOk = 0;
+                    MessageBox.Show("Please fill in the fields.", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                _SerialPort[0] = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
+            }
+            if (SerialIndex == 1)
+            {
+                if (_Com_ComboBox2.SelectedItem != null)
+                    PortNumber = _Com_ComboBox2.SelectedItem.ToString();
+                if (_Baud_ComboBox2.SelectedItem != null)
+                    Baudrate = int.Parse(_Baud_ComboBox2.SelectedItem.ToString());
+                if (_DataBits_ComboBox2.SelectedItem != null)
+                    DataBit = int.Parse(_DataBits_ComboBox2.SelectedItem.ToString());
+                else
+                {
+                    setOk = 0;
+                    MessageBox.Show("Please fill in the fields.", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                _SerialPort[1] = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
+            }
+            if(setOk == 1)
+                MessageBox.Show("Serial settings saved!");
+        }
+        private void StartSerial(int index)
+        {
+            //_SerialPort[index].DataReceived += new SerialDataReceivedEventHandler(_SerialPort_DataReceived);
             Open = true;
-            _SerialPort.Open();
-            if (_SerialPort.IsOpen)
-                ChangePictureBox(_Serial1Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-            else
-                ChangePictureBox(_Serial1Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-        }
-        public void ClosePort()
-        {
-            if (Open)
+            _SerialPort[index].Open();
+            if (!_SerialPort[index].IsOpen)
+                throw new Exception($"Cannot open camera {index}");
+            ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+            while (isRunning[index])
             {
-                ChangePictureBox(_Serial1Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                Open = false;
-                Disposed = true;
-                _SerialPort.Close();
-                _SerialPort.Dispose();
+                //_SerialPort[index].DataReceived += new SerialDataReceivedEventHandler(_SerialPort_DataReceived);
+                for (int i = 0; i < 55; i++)
+                {
+                    DataBuffer_Rx[i] = (byte)_SerialPort[index].ReadByte();
+                    ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
+                }
+                Handler.Master_CheckPacket(DataBuffer_Rx);
             }
         }
-        public void SetSetting(SerialName serial,SerialSetting setting)
+        private void SerialTaskDone(Task task, bool isMain)
         {
-            settings[(int)serial] = setting;
-            //if (0 <= SerialIndex || SerialIndex <= 2)
-            //{
-            //    isRunning[SerialIndex] = true;
-            //    SerialPortTasks[SerialIndex] = Task.Factory.StartNew(() => StartSerial(SerialIndex), _cancellationToken).ContinueWith((t) => SerialTaskDone(t, SerialIndex == 0));
-            //}
-            //if (_Com_ComboBox.SelectedItem != null)
-            //    PortNumber = _Com_ComboBox.SelectedItem.ToString();
-            //else
-            //    MessageBox.Show("Wrong Port", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            //if (_Baud_ComboBox.SelectedItem != null)
-            //    Baudrate = int.Parse(_Baud_ComboBox.SelectedItem.ToString());
-            //else
-            //    MessageBox.Show("Wrong Baudrate", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            //if (_DataBits_ComboBox.SelectedItem != null)
-            //    DataBit = int.Parse(_DataBits_ComboBox.SelectedItem.ToString());
-            //else
-            //    MessageBox.Show("Wrong DataBits", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //_SerialPort = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
-            //MessageBox.Show("Serial settings saved!");
-        }
-        private void _SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            for (int i = 0; i < 55; i++)
-            {
-                DataBuffer_Rx[i] = Readbyte();
-                ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
-            }
-            SerialPacketHandler.Master_CheckPacket(DataBuffer_Rx);
-        }
-        public void Write(byte Code, byte Value)
-        {
-            byte[] Data = new byte[55];
-            SerialPacketHandler.WriteMessage(Code, Value, Data);
-            //for (byte i = 0; i < 55; i++)
-            //{
-            //    Console.Write(i + ":      ");
-            //    Console.WriteLine(Data[i]);
-            //}
-
-            if (Open)
-                _SerialPort.Write(Data, 0, 55);
+            if (task.IsCompletedSuccessfully)
+                ChangePictureBox(isMain == true ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
             else
-                MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                isRunning[Convert.ToInt32(isMain)] = false;
         }
-        byte Readbyte()
-        {
-            return (byte)_SerialPort.ReadByte();
-        }
-
     }
 }
+

@@ -1,13 +1,16 @@
-﻿namespace AppForJoystickCameraAndSerial.Controllers
-{
-    public static class SerialPacketHandler
-    {
-        static byte[] LookUpTable = new byte[55];
-        static byte Counter = 0;
-        static byte[] Data_CRC = new byte[52];
-        static byte CurrentState = 0;
+﻿using System.IO;
+using System.IO.Ports;
 
-        public static void Master_CheckPacket(byte[] Rx_Data)
+namespace AppForJoystickCameraAndSerial.Controllers
+{
+    public class SerialPacketHandler
+    {
+        byte[] LookUpTable = new byte[55];
+        byte Counter = 0;
+        byte[] Data_CRC = new byte[52];
+        byte CurrentState = 0;
+
+        public void Master_CheckPacket(byte[] Rx_Data)
         {
             //for (byte i = 0; i < 55; i++)
             //{
@@ -38,7 +41,7 @@
                 Array.Clear(Rx_Data, 0, Rx_Data.Length);
             }
         }
-        public static void SplitLookupTable(byte[] LUT)
+        public void SplitLookupTable(byte[] LUT)
         {
             Int32 SpliCounter;
             byte Address;
@@ -85,7 +88,7 @@
             //Console.WriteLine("1313:::" + Data_10);
             //Console.WriteLine("1414:::" + Data_11);
         }
-        public static bool CheckCRC(byte[] LutData, byte[] rxData)
+        public bool CheckCRC(byte[] LutData, byte[] rxData)
         {
             int Len = LutData.Length;
             if (xorOfArray(LutData, Len) == rxData[52])
@@ -93,7 +96,7 @@
             else
                 return false;
         }
-        private static int xorOfArray(byte[] arr, int n)
+        static int xorOfArray(byte[] arr, int n)
         {
             int xor_arr = 0;
 
@@ -101,7 +104,7 @@
                 xor_arr = xor_arr ^ arr[i];
             return xor_arr;
         }
-        public static void WriteMessage(byte Code, byte Tx_Data, byte[] Template)
+        public void WriteMessage(byte Code, byte Tx_Data, byte[] Template)
         {
             Counter++;
             Template[0] = 0x55;                                                                   //Header 1

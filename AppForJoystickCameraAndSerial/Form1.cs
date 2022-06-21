@@ -24,12 +24,11 @@ namespace AppForJoystickCameraAndSerial
             joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox);
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, CameraExceptionCallBack);
             serialportController = new SerialController(cancellationTokenSource.Token, Com_ComboBox, Com_ComboBox2, Baud_ComboBox, Baud_ComboBox2, DataBits_ComboBox, DataBits_ComboBox2, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial1Status_pictureBox);
-            //SelectSerial = new bool[2];
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
         {
-            serialportController.ClosePort();
+            //serialportController.ClosePort();
             cancellationTokenSource.Cancel();
             this.Close();
         }
@@ -40,20 +39,29 @@ namespace AppForJoystickCameraAndSerial
 
         private void SetSetting_Button_Click(object sender, EventArgs e)
         {
-            //if (SelectSerial1_CheckBox.Checked)
-            //    serialportController.SetSetting_Port(0);
-            //else if (SelectSerial2_CheckBox.Checked)
-            //    serialportController.SetSetting_Port(1);
-            //else
-            //    MessageBox.Show("No port selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (SelectSerial1_CheckBox.Checked)
+                serialportController.SetSetting_Port(0);
+            if (SelectSerial2_CheckBox.Checked)
+                serialportController.SetSetting_Port(1);
+            else
+                MessageBox.Show("No port selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void OpenPort_Button_Click(object sender, EventArgs e)
         {
-            serialportController.OpenPort();
+            if (SelectSerial1_CheckBox.Checked)
+                serialportController.Start(0);
+            else if (SelectSerial2_CheckBox.Checked)
+                serialportController.Start(1);
+            else
+                MessageBox.Show("No port selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            //serialportController.OpenPort();
         }
         private void ClosePort_Button_Click(object sender, EventArgs e)
         {
-            serialportController.ClosePort();
+            serialportController.Stop(0);
+            serialportController.Stop(1);
+            //serialportController.ClosePort();
         }
 
         private void ConfigButton_Click(object sender, EventArgs e)
@@ -101,10 +109,10 @@ namespace AppForJoystickCameraAndSerial
 
         private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
-                serialportController.Write((byte)WriteCodes.All_Motors, 1);
-            else
-                serialportController.Write((byte)WriteCodes.All_Motors, 0);
+            //if (((CheckBox)sender).Checked)
+            //    serialportController.Write((byte)WriteCodes.All_Motors, 1);
+            //else
+            //    serialportController.Write((byte)WriteCodes.All_Motors, 0);
         }
 
     }
