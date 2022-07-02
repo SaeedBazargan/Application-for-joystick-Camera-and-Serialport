@@ -94,6 +94,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ConfigButton = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.CameraLogDirectory_TextBox = new System.Windows.Forms.TextBox();
+            this.CameraLogBrowse_Button = new System.Windows.Forms.Button();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.TeleButton = new System.Windows.Forms.Button();
             this.WideCameraButton = new System.Windows.Forms.Button();
@@ -105,6 +107,7 @@
             this.Camera2CheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.AllMotorsCheckBox = new System.Windows.Forms.CheckBox();
+            this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -836,6 +839,7 @@
             this.RecordSerial_2CheckBox.TabIndex = 40;
             this.RecordSerial_2CheckBox.Text = "RecordSerial 2";
             this.RecordSerial_2CheckBox.UseVisualStyleBackColor = false;
+            this.RecordSerial_2CheckBox.CheckStateChanged += new System.EventHandler(this.RecordSerial_2CheckBox_CheckStateChanged);
             // 
             // RecordSerial_1CheckBox
             // 
@@ -848,6 +852,7 @@
             this.RecordSerial_1CheckBox.TabIndex = 39;
             this.RecordSerial_1CheckBox.Text = "RecordSerial 1";
             this.RecordSerial_1CheckBox.UseVisualStyleBackColor = false;
+            this.RecordSerial_1CheckBox.CheckStateChanged += new System.EventHandler(this.RecordSerial_1CheckBox_CheckStateChanged);
             // 
             // ClosePort_Button
             // 
@@ -923,7 +928,9 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox10.Controls.Add(this.CameraLogDirectory_TextBox);
+            this.groupBox10.Controls.Add(this.CameraLogBrowse_Button);
             this.groupBox10.Controls.Add(this.groupBox12);
             this.groupBox10.Controls.Add(this.RecordCamera2_CheckBox);
             this.groupBox10.Controls.Add(this.groupBox13);
@@ -932,12 +939,32 @@
             this.groupBox10.Controls.Add(this.Camera1CheckBox);
             this.groupBox10.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox10.ForeColor = System.Drawing.Color.White;
-            this.groupBox10.Location = new System.Drawing.Point(12, 506);
+            this.groupBox10.Location = new System.Drawing.Point(12, 571);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(335, 153);
+            this.groupBox10.Size = new System.Drawing.Size(335, 176);
             this.groupBox10.TabIndex = 37;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Camera Configuration";
+            // 
+            // CameraLogDirectory_TextBox
+            // 
+            this.CameraLogDirectory_TextBox.Location = new System.Drawing.Point(109, 147);
+            this.CameraLogDirectory_TextBox.Name = "CameraLogDirectory_TextBox";
+            this.CameraLogDirectory_TextBox.Size = new System.Drawing.Size(217, 25);
+            this.CameraLogDirectory_TextBox.TabIndex = 39;
+            // 
+            // CameraLogBrowse_Button
+            // 
+            this.CameraLogBrowse_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CameraLogBrowse_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.CameraLogBrowse_Button.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.CameraLogBrowse_Button.Location = new System.Drawing.Point(6, 147);
+            this.CameraLogBrowse_Button.Name = "CameraLogBrowse_Button";
+            this.CameraLogBrowse_Button.Size = new System.Drawing.Size(75, 23);
+            this.CameraLogBrowse_Button.TabIndex = 43;
+            this.CameraLogBrowse_Button.Text = "&Browse";
+            this.CameraLogBrowse_Button.UseVisualStyleBackColor = true;
+            this.CameraLogBrowse_Button.Click += new System.EventHandler(this.CameraLogBrowse_Button_Click);
             // 
             // groupBox12
             // 
@@ -1056,9 +1083,9 @@
             this.groupBox11.Controls.Add(this.AllMotorsCheckBox);
             this.groupBox11.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox11.ForeColor = System.Drawing.Color.White;
-            this.groupBox11.Location = new System.Drawing.Point(12, 690);
+            this.groupBox11.Location = new System.Drawing.Point(353, 619);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(335, 57);
+            this.groupBox11.Size = new System.Drawing.Size(335, 128);
             this.groupBox11.TabIndex = 38;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Motors Configuration";
@@ -1073,7 +1100,7 @@
             this.AllMotorsCheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.AllMotorsCheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.AllMotorsCheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.AllMotorsCheckBox.Location = new System.Drawing.Point(6, 24);
+            this.AllMotorsCheckBox.Location = new System.Drawing.Point(6, 25);
             this.AllMotorsCheckBox.Name = "AllMotorsCheckBox";
             this.AllMotorsCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.AllMotorsCheckBox.Size = new System.Drawing.Size(94, 23);
@@ -1214,5 +1241,8 @@
         private Button WideCameraButton;
         private Button FarButton;
         private Button NearButton;
+        private TextBox CameraLogDirectory_TextBox;
+        private Button CameraLogBrowse_Button;
+        private FolderBrowserDialog FolderBrowserDialog;
     }
 }

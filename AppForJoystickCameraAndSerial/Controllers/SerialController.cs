@@ -18,6 +18,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
         private readonly TextBox _SerialMonitoring_TextBox;
         private readonly PictureBox _Serial1Status, _Serial2Status;
+        private readonly Button _openPortBtn;
 
         private readonly CancellationToken _cancellationToken;
         private readonly Task[] serialPortTasks;
@@ -26,7 +27,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         byte[] DataBuffer_Rx = new byte[55];
 
-        public SerialController(CancellationToken cancellationToken, ComboBox _ComComboBox, ComboBox _ComComboBox2, ComboBox _BaudComboBox, ComboBox _BaudComboBox2, ComboBox _DataBitsComboBox, ComboBox _DataBitsComboBox2, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status)
+        public SerialController(CancellationToken cancellationToken, ComboBox _ComComboBox, ComboBox _ComComboBox2, ComboBox _BaudComboBox, ComboBox _BaudComboBox2, ComboBox _DataBitsComboBox, ComboBox _DataBitsComboBox2, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn)
         {
             _SerialPort = new SerialPort[2];
 
@@ -35,6 +36,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _DataBits_ComboBox = _DataBitsComboBox; _DataBits_ComboBox2 = _DataBitsComboBox2;
             _SerialMonitoring_TextBox = _SerialMonitoringTextBox;
             _Serial1Status = serial1Status; _Serial2Status = serial2Status;
+            _openPortBtn = openPortBtn;
 
             _cancellationToken = cancellationToken;
             serialPortTasks = new Task[2];
@@ -54,6 +56,19 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public void Stop(int SerialIndex)
         {
             isRunning[SerialIndex] = false;
+            _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
+            {
+                _openPortBtn.Enabled = true;
+            });
+        }
+
+        public void Record(int SerialIndex)
+        {
+            recording[SerialIndex] = true;
+        }
+        public void StopRecord(int SerialIndex)
+        {
+            recording[SerialIndex] = false;
         }
 
         public void SetSetting_Port(int SerialIndex)
@@ -94,19 +109,26 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         private void StartSerial(int index)
         {
-            //_SerialPort[index].DataReceived += new SerialDataReceivedEventHandler(_SerialPort_DataReceived);
             Open = true;
             _SerialPort[index].Open();
+            _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
+            {
+                _openPortBtn.Enabled = false;
+            });
             if (!_SerialPort[index].IsOpen)
                 throw new Exception($"Cannot open camera {index}");
             ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
             while (isRunning[index])
             {
-                //_SerialPort[index].DataReceived += new SerialDataReceivedEventHandler(_SerialPort_DataReceived);
                 for (int i = 0; i < 55; i++)
                 {
                     DataBuffer_Rx[i] = (byte)_SerialPort[index].ReadByte();
                     ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
+                }
+                if (recording[index])
+                {
+                    //string DataRec = _SerialMonitoring_TextBox.Text;
+                    //File.WriteAllText(@"C:/Users/Sbzrgn/OneDrive/دسکتاپ/AppForJoystickCameraAndSerial/AppForJoystickCameraAndSerial/SerialPortLog/Log/test.txt/", DataRec);
                 }
                 Handler.Master_CheckPacket(DataBuffer_Rx);
             }

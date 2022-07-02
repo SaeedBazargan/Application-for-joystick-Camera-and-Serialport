@@ -26,7 +26,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             recording = new bool[2];
             cameraCaptureTasks = new Task[2];
             _exceptionCallback = exceptionCallback;
-            RecordingDirectory = "C:/Users/Sbzrgn/OneDrive/دسکتاپ/AppForJoystickCameraAndSerial/AppForJoystickCameraAndSerial/CameraLog/Log/";
+            //RecordingDirectory = "C:/Users/Sbzrgn/OneDrive/دسکتاپ/AppForJoystickCameraAndSerial/AppForJoystickCameraAndSerial/CameraLog/Log/";
         }
 
         public void Start(int cameraIndex)
@@ -48,6 +48,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public void StopRecord(int cameraIndex)
         {
             recording[cameraIndex] = false;
+        }
+
+        public void RecordDirectory(string Directory)
+        {
+            RecordingDirectory = Directory;
         }
 
         public void Stop(int cameraIndex)
