@@ -26,6 +26,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly bool[] recording;
 
         byte[] DataBuffer_Rx = new byte[55];
+        public string RecordingDirectory { get; set; }
 
         public SerialController(CancellationToken cancellationToken, ComboBox _ComComboBox, ComboBox _ComComboBox2, ComboBox _BaudComboBox, ComboBox _BaudComboBox2, ComboBox _DataBitsComboBox, ComboBox _DataBitsComboBox2, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn)
         {
@@ -69,6 +70,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public void StopRecord(int SerialIndex)
         {
             recording[SerialIndex] = false;
+        }
+        public void RecordDirectory(string Directory)
+        {
+            RecordingDirectory = Directory;
         }
 
         public void SetSetting_Port(int SerialIndex)
@@ -125,12 +130,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     DataBuffer_Rx[i] = (byte)_SerialPort[index].ReadByte();
                     ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
                 }
-                if (recording[index])
-                {
-                    //string DataRec = _SerialMonitoring_TextBox.Text;
-                    //File.WriteAllText(@"C:/Users/Sbzrgn/OneDrive/دسکتاپ/AppForJoystickCameraAndSerial/AppForJoystickCameraAndSerial/SerialPortLog/Log/test.txt/", DataRec);
-                }
-                Handler.Master_CheckPacket(DataBuffer_Rx);
+                Handler.Master_CheckPacket(DataBuffer_Rx , RecordingDirectory, recording[index], index);
             }
         }
         private void SerialTaskDone(Task task, bool isMain)

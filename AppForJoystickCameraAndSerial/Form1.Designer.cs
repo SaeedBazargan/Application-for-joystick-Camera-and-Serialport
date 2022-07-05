@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.JoystickInfoTxtBox = new System.Windows.Forms.TextBox();
             this.Camera1_Label = new System.Windows.Forms.Label();
             this.MainCameraPictureBox = new System.Windows.Forms.PictureBox();
@@ -80,7 +81,9 @@
             this.Com_ComboBox = new System.Windows.Forms.ComboBox();
             this.PortNumber_Label = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.SerialLogDirectory_TextBox = new System.Windows.Forms.TextBox();
             this.SelectSerial2_CheckBox = new System.Windows.Forms.CheckBox();
+            this.SerialLogBrowse_Button = new System.Windows.Forms.Button();
             this.SelectSerial1_CheckBox = new System.Windows.Forms.CheckBox();
             this.DataBits_ComboBox2 = new System.Windows.Forms.ComboBox();
             this.Baud_ComboBox2 = new System.Windows.Forms.ComboBox();
@@ -153,11 +156,11 @@
             // MainCameraPictureBox
             // 
             this.MainCameraPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.MainCameraPictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash;
+            this.MainCameraPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MainCameraPictureBox.Image")));
             this.MainCameraPictureBox.Location = new System.Drawing.Point(463, 12);
             this.MainCameraPictureBox.Name = "MainCameraPictureBox";
             this.MainCameraPictureBox.Size = new System.Drawing.Size(640, 480);
-            this.MainCameraPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.MainCameraPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.MainCameraPictureBox.TabIndex = 2;
             this.MainCameraPictureBox.TabStop = false;
             // 
@@ -193,8 +196,8 @@
             // MinorPictureBox
             // 
             this.MinorPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.MinorPictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash;
-            this.MinorPictureBox.Location = new System.Drawing.Point(479, 29);
+            this.MinorPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MinorPictureBox.Image")));
+            this.MinorPictureBox.Location = new System.Drawing.Point(463, 12);
             this.MinorPictureBox.Name = "MinorPictureBox";
             this.MinorPictureBox.Size = new System.Drawing.Size(320, 240);
             this.MinorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -715,7 +718,9 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.SerialLogDirectory_TextBox);
             this.groupBox9.Controls.Add(this.SelectSerial2_CheckBox);
+            this.groupBox9.Controls.Add(this.SerialLogBrowse_Button);
             this.groupBox9.Controls.Add(this.SelectSerial1_CheckBox);
             this.groupBox9.Controls.Add(this.DataBits_ComboBox2);
             this.groupBox9.Controls.Add(this.Baud_ComboBox2);
@@ -736,10 +741,17 @@
             this.groupBox9.ForeColor = System.Drawing.Color.White;
             this.groupBox9.Location = new System.Drawing.Point(12, 173);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(335, 305);
+            this.groupBox9.Size = new System.Drawing.Size(335, 339);
             this.groupBox9.TabIndex = 35;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Serial Configuration";
+            // 
+            // SerialLogDirectory_TextBox
+            // 
+            this.SerialLogDirectory_TextBox.Location = new System.Drawing.Point(102, 279);
+            this.SerialLogDirectory_TextBox.Name = "SerialLogDirectory_TextBox";
+            this.SerialLogDirectory_TextBox.Size = new System.Drawing.Size(217, 25);
+            this.SerialLogDirectory_TextBox.TabIndex = 44;
             // 
             // SelectSerial2_CheckBox
             // 
@@ -752,6 +764,19 @@
             this.SelectSerial2_CheckBox.TabIndex = 41;
             this.SelectSerial2_CheckBox.Text = "Serial 2";
             this.SelectSerial2_CheckBox.UseVisualStyleBackColor = false;
+            // 
+            // SerialLogBrowse_Button
+            // 
+            this.SerialLogBrowse_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SerialLogBrowse_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SerialLogBrowse_Button.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.SerialLogBrowse_Button.Location = new System.Drawing.Point(3, 280);
+            this.SerialLogBrowse_Button.Name = "SerialLogBrowse_Button";
+            this.SerialLogBrowse_Button.Size = new System.Drawing.Size(75, 23);
+            this.SerialLogBrowse_Button.TabIndex = 45;
+            this.SerialLogBrowse_Button.Text = "&Browse";
+            this.SerialLogBrowse_Button.UseVisualStyleBackColor = true;
+            this.SerialLogBrowse_Button.Click += new System.EventHandler(this.SerialLogBrowse_Button_Click);
             // 
             // SelectSerial1_CheckBox
             // 
@@ -859,7 +884,7 @@
             this.ClosePort_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ClosePort_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ClosePort_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ClosePort_Button.Location = new System.Drawing.Point(254, 276);
+            this.ClosePort_Button.Location = new System.Drawing.Point(254, 310);
             this.ClosePort_Button.Name = "ClosePort_Button";
             this.ClosePort_Button.Size = new System.Drawing.Size(75, 23);
             this.ClosePort_Button.TabIndex = 38;
@@ -872,7 +897,7 @@
             this.SetSetting_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SetSetting_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.SetSetting_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.SetSetting_Button.Location = new System.Drawing.Point(3, 276);
+            this.SetSetting_Button.Location = new System.Drawing.Point(3, 310);
             this.SetSetting_Button.Name = "SetSetting_Button";
             this.SetSetting_Button.Size = new System.Drawing.Size(75, 23);
             this.SetSetting_Button.TabIndex = 37;
@@ -885,7 +910,7 @@
             this.OpenPort_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.OpenPort_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.OpenPort_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.OpenPort_Button.Location = new System.Drawing.Point(126, 276);
+            this.OpenPort_Button.Location = new System.Drawing.Point(126, 310);
             this.OpenPort_Button.Name = "OpenPort_Button";
             this.OpenPort_Button.Size = new System.Drawing.Size(75, 23);
             this.OpenPort_Button.TabIndex = 36;
@@ -1244,5 +1269,7 @@
         private TextBox CameraLogDirectory_TextBox;
         private Button CameraLogBrowse_Button;
         private FolderBrowserDialog FolderBrowserDialog;
+        private TextBox SerialLogDirectory_TextBox;
+        private Button SerialLogBrowse_Button;
     }
 }

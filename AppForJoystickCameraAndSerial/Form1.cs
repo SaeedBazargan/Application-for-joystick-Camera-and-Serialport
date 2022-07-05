@@ -77,6 +77,26 @@ namespace AppForJoystickCameraAndSerial
             else
                 serialportController.StopRecord(1);
         }
+        private void SerialLogBrowse_Button_Click(object sender, EventArgs e)
+        {
+            string dir;
+            if (SelectSerial1_CheckBox.Checked || SelectSerial2_CheckBox.Checked)
+            {
+                FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+                folderBrowser.ShowNewFolderButton = true;
+                DialogResult result = folderBrowser.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    dir = folderBrowser.SelectedPath;
+                    dir = dir.Replace(@"\", @"/");
+                    SerialLogDirectory_TextBox.Text = dir + '/';
+                    serialportController.RecordDirectory(dir + '/');
+                    Environment.SpecialFolder root = folderBrowser.RootFolder;
+                }
+            }
+            else
+                MessageBox.Show("You can't record! First select one of the serials please", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
 
         private void ConfigButton_Click(object sender, EventArgs e)
         {

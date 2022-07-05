@@ -10,7 +10,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         byte[] Data_CRC = new byte[52];
         byte CurrentState = 0;
 
-        public void Master_CheckPacket(byte[] Rx_Data)
+        public void Master_CheckPacket(byte[] Rx_Data, string RecordDir, bool Record, int index)
         {
             //for (byte i = 0; i < 55; i++)
             //{
@@ -32,6 +32,17 @@ namespace AppForJoystickCameraAndSerial.Controllers
             }
             if (CurrentState == 3 && CheckCRC(LookUpTable, Rx_Data))
             {
+                if (Record)
+                { 
+                    string recordingDir = RecordDir + index.ToString() + '/';
+                    if (!Directory.Exists(recordingDir))
+                        Directory.CreateDirectory(recordingDir);
+                    string recordingPath = recordingDir + "Log" + ".txt";
+                    //string recordingPath = @"C:\\sbzrgn\\hh.txt";
+                    File.AppendAllText(recordingPath, '\n' + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + "  : ");
+                    for (int j = 0; j < 55; j++)
+                        File.AppendAllText(recordingPath, "" + Rx_Data[j] + ',');
+                }
                 SplitLookupTable(LookUpTable);
                 CurrentState = 0;
             }
@@ -43,7 +54,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         public void SplitLookupTable(byte[] LUT)
         {
-            Int32 SpliCounter;
+            Int32 Counter;
             byte Address;
             byte Code;
             Int32 Data_1;
@@ -58,7 +69,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Int32 Data_10;
             Int32 Data_11;
 
-            SpliCounter = (LUT[0] << 32) + (LUT[1] << 16) + (LUT[2] << 8) + (LUT[3]);
+            Counter = (LUT[0] << 32) + (LUT[1] << 16) + (LUT[2] << 8) + (LUT[3]);
             Address = LUT[4];
             Code = LUT[5];
             Data_1 = (LUT[6] << 32) + (LUT[7] << 16) + (LUT[8] << 8) + (LUT[9]);
@@ -87,6 +98,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             //Console.WriteLine("1212:::" + Data_9);
             //Console.WriteLine("1313:::" + Data_10);
             //Console.WriteLine("1414:::" + Data_11);
+            //Console.WriteLine("HHHHEEEEELLLLLLOOOOOOOOO");
         }
         public bool CheckCRC(byte[] LutData, byte[] rxData)
         {
