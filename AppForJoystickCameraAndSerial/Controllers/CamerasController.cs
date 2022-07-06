@@ -104,12 +104,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 if (isMain)
                 {
                     ChangePictureBox(_Camera1Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                    ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
+                    ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.my_pic_1);
                 }
                 else
                 {
                     ChangePictureBox(_Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                    ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.wesley_tingey_mvLyHPRGLCs_unsplash);
+                    ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.my_pic_2);
                 }
             }
             else

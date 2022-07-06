@@ -109,6 +109,12 @@
             this.RecordCamera1_CheckBox = new System.Windows.Forms.CheckBox();
             this.Camera2CheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.ResetAlarm_CheckBox = new System.Windows.Forms.CheckBox();
+            this.EnableMotors_CheckBox = new System.Windows.Forms.CheckBox();
+            this.Motor3_CheckBox = new System.Windows.Forms.CheckBox();
+            this.Motor2_CheckBox = new System.Windows.Forms.CheckBox();
+            this.Motor1_CheckBox = new System.Windows.Forms.CheckBox();
+            this.Joystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.AllMotorsCheckBox = new System.Windows.Forms.CheckBox();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
@@ -1105,15 +1111,135 @@
             // groupBox11
             // 
             this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox11.Controls.Add(this.ResetAlarm_CheckBox);
+            this.groupBox11.Controls.Add(this.EnableMotors_CheckBox);
+            this.groupBox11.Controls.Add(this.Motor3_CheckBox);
+            this.groupBox11.Controls.Add(this.Motor2_CheckBox);
+            this.groupBox11.Controls.Add(this.Motor1_CheckBox);
+            this.groupBox11.Controls.Add(this.Joystick_CheckBox);
             this.groupBox11.Controls.Add(this.AllMotorsCheckBox);
             this.groupBox11.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox11.ForeColor = System.Drawing.Color.White;
             this.groupBox11.Location = new System.Drawing.Point(353, 619);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(335, 128);
+            this.groupBox11.Size = new System.Drawing.Size(368, 128);
             this.groupBox11.TabIndex = 38;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Motors Configuration";
+            // 
+            // ResetAlarm_CheckBox
+            // 
+            this.ResetAlarm_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ResetAlarm_CheckBox.AutoSize = true;
+            this.ResetAlarm_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.ResetAlarm_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.ResetAlarm_CheckBox.FlatAppearance.BorderSize = 3;
+            this.ResetAlarm_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.ResetAlarm_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ResetAlarm_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.ResetAlarm_CheckBox.Location = new System.Drawing.Point(6, 83);
+            this.ResetAlarm_CheckBox.Name = "ResetAlarm_CheckBox";
+            this.ResetAlarm_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ResetAlarm_CheckBox.Size = new System.Drawing.Size(103, 23);
+            this.ResetAlarm_CheckBox.TabIndex = 44;
+            this.ResetAlarm_CheckBox.Text = "Reset_Alarm";
+            this.ResetAlarm_CheckBox.UseVisualStyleBackColor = false;
+            this.ResetAlarm_CheckBox.CheckStateChanged += new System.EventHandler(this.ResetAlarm_CheckBox_CheckStateChanged);
+            // 
+            // EnableMotors_CheckBox
+            // 
+            this.EnableMotors_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.EnableMotors_CheckBox.AutoSize = true;
+            this.EnableMotors_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.EnableMotors_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.EnableMotors_CheckBox.FlatAppearance.BorderSize = 3;
+            this.EnableMotors_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.EnableMotors_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.EnableMotors_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.EnableMotors_CheckBox.Location = new System.Drawing.Point(6, 54);
+            this.EnableMotors_CheckBox.Name = "EnableMotors_CheckBox";
+            this.EnableMotors_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.EnableMotors_CheckBox.Size = new System.Drawing.Size(119, 23);
+            this.EnableMotors_CheckBox.TabIndex = 41;
+            this.EnableMotors_CheckBox.Text = "Enable_Motors";
+            this.EnableMotors_CheckBox.UseVisualStyleBackColor = false;
+            this.EnableMotors_CheckBox.CheckStateChanged += new System.EventHandler(this.EnableMotors_CheckBox_CheckStateChanged);
+            // 
+            // Motor3_CheckBox
+            // 
+            this.Motor3_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Motor3_CheckBox.AutoSize = true;
+            this.Motor3_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Motor3_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Motor3_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Motor3_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Motor3_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Motor3_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Motor3_CheckBox.Location = new System.Drawing.Point(280, 25);
+            this.Motor3_CheckBox.Name = "Motor3_CheckBox";
+            this.Motor3_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Motor3_CheckBox.Size = new System.Drawing.Size(81, 23);
+            this.Motor3_CheckBox.TabIndex = 43;
+            this.Motor3_CheckBox.Text = "Motor_3";
+            this.Motor3_CheckBox.UseVisualStyleBackColor = false;
+            this.Motor3_CheckBox.CheckStateChanged += new System.EventHandler(this.Motor3_CheckBox_CheckStateChanged);
+            // 
+            // Motor2_CheckBox
+            // 
+            this.Motor2_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Motor2_CheckBox.AutoSize = true;
+            this.Motor2_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Motor2_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Motor2_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Motor2_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Motor2_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Motor2_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Motor2_CheckBox.Location = new System.Drawing.Point(193, 25);
+            this.Motor2_CheckBox.Name = "Motor2_CheckBox";
+            this.Motor2_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Motor2_CheckBox.Size = new System.Drawing.Size(81, 23);
+            this.Motor2_CheckBox.TabIndex = 42;
+            this.Motor2_CheckBox.Text = "Motor_2";
+            this.Motor2_CheckBox.UseVisualStyleBackColor = false;
+            this.Motor2_CheckBox.CheckStateChanged += new System.EventHandler(this.Motor2_CheckBox_CheckStateChanged);
+            // 
+            // Motor1_CheckBox
+            // 
+            this.Motor1_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Motor1_CheckBox.AutoSize = true;
+            this.Motor1_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Motor1_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Motor1_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Motor1_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Motor1_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Motor1_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Motor1_CheckBox.Location = new System.Drawing.Point(106, 25);
+            this.Motor1_CheckBox.Name = "Motor1_CheckBox";
+            this.Motor1_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Motor1_CheckBox.Size = new System.Drawing.Size(81, 23);
+            this.Motor1_CheckBox.TabIndex = 41;
+            this.Motor1_CheckBox.Text = "Motor_1";
+            this.Motor1_CheckBox.UseVisualStyleBackColor = false;
+            this.Motor1_CheckBox.CheckStateChanged += new System.EventHandler(this.Motor1_CheckBox_CheckStateChanged);
+            // 
+            // Joystick_CheckBox
+            // 
+            this.Joystick_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Joystick_CheckBox.AutoSize = true;
+            this.Joystick_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Joystick_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Joystick_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Joystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Joystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Joystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Joystick_CheckBox.Location = new System.Drawing.Point(287, 99);
+            this.Joystick_CheckBox.Name = "Joystick_CheckBox";
+            this.Joystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Joystick_CheckBox.Size = new System.Drawing.Size(75, 23);
+            this.Joystick_CheckBox.TabIndex = 41;
+            this.Joystick_CheckBox.Text = "Joystick";
+            this.Joystick_CheckBox.UseVisualStyleBackColor = false;
+            this.Joystick_CheckBox.CheckStateChanged += new System.EventHandler(this.Joystick_CheckBox_CheckStateChanged);
             // 
             // AllMotorsCheckBox
             // 
@@ -1271,5 +1397,11 @@
         private FolderBrowserDialog FolderBrowserDialog;
         private TextBox SerialLogDirectory_TextBox;
         private Button SerialLogBrowse_Button;
+        private CheckBox Joystick_CheckBox;
+        private CheckBox Motor3_CheckBox;
+        private CheckBox Motor2_CheckBox;
+        private CheckBox Motor1_CheckBox;
+        private CheckBox EnableMotors_CheckBox;
+        private CheckBox ResetAlarm_CheckBox;
     }
 }

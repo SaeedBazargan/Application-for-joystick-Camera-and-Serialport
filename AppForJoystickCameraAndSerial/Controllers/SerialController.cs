@@ -25,7 +25,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly bool[] isRunning;
         private readonly bool[] recording;
 
-        byte[] DataBuffer_Rx = new byte[55];
+        const byte MaxDataBuffer_Rx_Size = 55;
+        byte[] DataBuffer_Rx = new byte[MaxDataBuffer_Rx_Size];
         public string RecordingDirectory { get; set; }
 
         public SerialController(CancellationToken cancellationToken, ComboBox _ComComboBox, ComboBox _ComComboBox2, ComboBox _BaudComboBox, ComboBox _BaudComboBox2, ComboBox _DataBitsComboBox, ComboBox _DataBitsComboBox2, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn)
@@ -123,7 +124,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (!_SerialPort[index].IsOpen)
                 throw new Exception($"Cannot open camera {index}");
             ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-            while (isRunning[index])
+            while(isRunning[index])
             {
                 for (int i = 0; i < 55; i++)
                 {
@@ -139,6 +140,21 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 ChangePictureBox(isMain == true ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
             else
                 isRunning[Convert.ToInt32(isMain)] = false;
+        }
+        public void Write(byte Code, byte Address, byte Value)
+        {
+            byte[] Data = new byte[55];
+            Handler.WriteMessage_Generator(Code, Address, Value, Data);
+            for (byte i = 0; i < 55; i++)
+            {
+                Console.Write(i + ":      ");
+                Console.WriteLine(Data[i]);
+            }
+
+            //if (Open)
+            //    _SerialPort[0].Write(Data, 0, 55);
+            //else
+            //    MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

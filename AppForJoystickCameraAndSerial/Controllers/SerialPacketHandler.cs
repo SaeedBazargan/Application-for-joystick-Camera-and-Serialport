@@ -38,7 +38,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     if (!Directory.Exists(recordingDir))
                         Directory.CreateDirectory(recordingDir);
                     string recordingPath = recordingDir + "Log" + ".txt";
-                    //string recordingPath = @"C:\\sbzrgn\\hh.txt";
                     File.AppendAllText(recordingPath, '\n' + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + "  : ");
                     for (int j = 0; j < 55; j++)
                         File.AppendAllText(recordingPath, "" + Rx_Data[j] + ',');
@@ -116,15 +115,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 xor_arr = xor_arr ^ arr[i];
             return xor_arr;
         }
-        public void WriteMessage(byte Code, byte Tx_Data, byte[] Template)
+        public void WriteMessage_Generator(byte Code, byte Address, byte Tx_Data, byte[] Template)
         {
             Counter++;
-            Template[0] = 0x55;                                                                   //Header 1
-            Template[1] = 0xAA;                                                                   //Header 2
+            Template[0] = 0x55;                                                                     //Header 1
+            Template[1] = 0xAA;                                                                     //Header 2
             Template[2] = Counter; Template[3] = 0x00; Template[4] = 0x00; Template[5] = 0x00;      //Counter
-            Template[6] = 0x01;                                                                     //Address
+            Template[6] = Address;                                                                     //Address
             Template[7] = Code;                                                                     //Code
-            Template[8] = 0x00; Template[9] = 0x00; Template[10] = 0x00; Template[11] = Tx_Data;    //Data 1
+            Template[8] = Tx_Data; Template[9] = 0x00; Template[10] = 0x00; Template[11] = 0x00;    //Data 1
             Template[12] = 0x00; Template[13] = 0x00; Template[14] = 0x00; Template[15] = 0x00;     //Data 2
             Template[16] = 0x00; Template[17] = 0x00; Template[18] = 0x00; Template[19] = 0x00;     //Data 3
             Template[20] = 0x00; Template[21] = 0x00; Template[22] = 0x00; Template[23] = 0x00;     //Data 4
@@ -136,8 +135,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Template[44] = 0x00; Template[45] = 0x00; Template[46] = 0x00; Template[47] = 0x00;     //Data 10
             Template[48] = 0x00; Template[49] = 0x00; Template[50] = 0x00; Template[51] = 0x00;     //Data 11
             Template[52] = 0x00;                                                                    //CRC
-            Template[53] = 0x40;                                                                   //Footer 1
-            Template[54] = 0x24;                                                                   //Footer 2
+            Template[53] = 0x40;                                                                    //Footer 1
+            Template[54] = 0x24;                                                                    //Footer 2
             for (byte i = 0; i < 52; i++)
             {
                 Data_CRC[i] = Template[i];

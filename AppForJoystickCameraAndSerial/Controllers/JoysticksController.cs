@@ -15,9 +15,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _infoTxtBox = infoTxtBox;
             _JoystickLabel = label;
             _JoystickStatus = JoystickStatus;
-            Init();
         }
 
+        public void Start()
+        {
+            Init();
+        }
         private void Init()
         {
             //Connection

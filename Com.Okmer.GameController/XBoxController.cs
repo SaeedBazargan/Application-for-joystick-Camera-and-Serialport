@@ -61,7 +61,7 @@ namespace Com.Okmer.GameController
         public XBoxController(int fastPollIntervalMilliseconds = 10, int slowPollIntervalMilliseconds = 1000)
         {
             controller = new Controller(UserIndex.One);
-
+            
             //Forward changed left rumble speed to the controller 
             LeftRumble.ValueChanged += (s, e) =>
             {

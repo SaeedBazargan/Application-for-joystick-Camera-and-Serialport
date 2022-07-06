@@ -109,5 +109,29 @@ namespace AppForJoystickCameraAndSerial.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap my_pic_1
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("my-pic-1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap my_pic_2
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("my-pic-2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

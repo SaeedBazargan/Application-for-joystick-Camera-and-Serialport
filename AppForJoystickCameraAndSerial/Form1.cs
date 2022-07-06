@@ -4,13 +4,27 @@ namespace AppForJoystickCameraAndSerial
 {
     public partial class Form1 : Form
     {
+        enum WriteAddresses : byte
+        {
+            Relay = 1,
+            CAN = 8
+        }
+
         enum WriteCodes : byte
         {
-            Motor_1     = 1,
-            Motor_2     = 2,
-            Motor_3     = 3,
-            All_Motors  = 4
+            Motor_1         = 1,
+            Motor_2         = 2,
+            Motor_3         = 3,
+            All_Motors      = 4,
+
+            Enable_Motors   = 6,
+            Disable_Motors  = 7,
+            Reset_Alarm     = 8
         }
+        byte ON     = 1;
+        byte OFF    = 0;
+        bool Enable_Flag = false;
+
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly JoysticksController joysticksController;
         private readonly CamerasController camerasController;
@@ -28,7 +42,6 @@ namespace AppForJoystickCameraAndSerial
 
         private void Exit_Btn_Click(object sender, EventArgs e)
         {
-            //serialportController.ClosePort();
             cancellationTokenSource.Cancel();
             this.Close();
         }
@@ -54,14 +67,11 @@ namespace AppForJoystickCameraAndSerial
                 serialportController.Start(1);
             else
                 MessageBox.Show("No port selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            //serialportController.OpenPort();
         }
         private void ClosePort_Button_Click(object sender, EventArgs e)
         {
             serialportController.Stop(0);
             serialportController.Stop(1);
-            //serialportController.ClosePort();
         }
         private void RecordSerial_1CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
@@ -161,13 +171,97 @@ namespace AppForJoystickCameraAndSerial
                 MessageBox.Show("You can't record! First select one of the cameras please", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)
+
+        private void Joystick_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
-            //if (((CheckBox)sender).Checked)
-            //    serialportController.Write((byte)WriteCodes.All_Motors, 1);
+            if (((CheckBox)sender).Checked)
+                joysticksController.Start();
             //else
             //    serialportController.Write((byte)WriteCodes.All_Motors, 0);
         }
+        private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                serialportController.Write((byte)WriteCodes.All_Motors, (byte)WriteAddresses.Relay, ON);
+                Enable_Flag = true;
+            }
+            else
+            {
+                serialportController.Write((byte)WriteCodes.All_Motors, (byte)WriteAddresses.Relay, OFF);
+                Motor1_CheckBox.Checked         = false;
+                Motor2_CheckBox.Checked         = false;
+                Motor3_CheckBox.Checked         = false;
+                EnableMotors_CheckBox.Checked   = false;
+            }
+        }
 
+        private void Motor1_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                serialportController.Write((byte)WriteCodes.Motor_1, (byte)WriteAddresses.Relay, ON);
+                Enable_Flag = true;
+            }
+            else
+                serialportController.Write((byte)WriteCodes.Motor_1, (byte)WriteAddresses.Relay, OFF);
+        }
+
+        private void Motor2_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                serialportController.Write((byte)WriteCodes.Motor_2, (byte)WriteAddresses.Relay, ON);
+                Enable_Flag = true;
+            }
+            else
+                serialportController.Write((byte)WriteCodes.Motor_2, (byte)WriteAddresses.Relay, OFF);
+        }
+
+        private void Motor3_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                serialportController.Write((byte)WriteCodes.Motor_3, (byte)WriteAddresses.Relay, ON);
+                Enable_Flag = true;
+            }
+            else
+                serialportController.Write((byte)WriteCodes.Motor_3, (byte)WriteAddresses.Relay, OFF);
+        }
+
+        private void EnableMotors_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                if (Enable_Flag)
+                {
+                    EnableMotors_CheckBox.Checked = false;
+                    MessageBox.Show($"You must be wait for 3seconds please", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Thread.Sleep(3000);
+                    serialportController.Write((byte)WriteCodes.Enable_Motors, (byte)WriteAddresses.CAN, OFF);
+                    EnableMotors_CheckBox.Text = "Disable_Motors";
+                    Enable_Flag = false;
+                    EnableMotors_CheckBox.Checked = true;
+                }
+                else
+                {
+                    serialportController.Write((byte)WriteCodes.Enable_Motors, (byte)WriteAddresses.CAN, OFF);
+                    EnableMotors_CheckBox.Text = "Disable_Motors";
+                }
+            }
+            else
+            {
+                serialportController.Write((byte)WriteCodes.Disable_Motors, (byte)WriteAddresses.CAN, OFF);
+                EnableMotors_CheckBox.Text = "Enable_Motors";
+            }
+        }
+
+        private void ResetAlarm_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+                serialportController.Write((byte)WriteCodes.Reset_Alarm, (byte)WriteAddresses.CAN, OFF);
+            Thread.Sleep(3000);
+            ResetAlarm_CheckBox.Checked = false;
+        }
     }
 }
