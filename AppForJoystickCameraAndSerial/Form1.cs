@@ -7,10 +7,11 @@ namespace AppForJoystickCameraAndSerial
         enum WriteAddresses : byte
         {
             Relay = 1,
-            CAN = 8
+            CAN = 8,
+            TableControl = 9
         }
 
-        enum WriteCodes : byte
+        enum WriteMotorCodes : byte
         {
             Motor_1         = 1,
             Motor_2         = 2,
@@ -21,6 +22,15 @@ namespace AppForJoystickCameraAndSerial
             Disable_Motors  = 7,
             Reset_Alarm     = 8
         }
+
+        enum WriteTableCodes : byte
+        {
+            Home        = 4,
+            Track       = 5,
+            Search      = 6,
+            Position    = 7,
+            Cancle      = 8
+        }
         byte ON     = 1;
         byte OFF    = 0;
         bool Enable_Flag = false;
@@ -30,12 +40,15 @@ namespace AppForJoystickCameraAndSerial
         private readonly CamerasController camerasController;
         private readonly SerialController serialportController;
 
+        //Rectangle rec = new Rectangle(125, 125, 50, 50);
+        //bool isMouseDown = false;
+
         public Form1()
         {
             InitializeComponent();
 
             cancellationTokenSource = new CancellationTokenSource();
-            joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox);
+            joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox, MainCameraPictureBox);
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, CameraExceptionCallBack);
             serialportController = new SerialController(cancellationTokenSource.Token, Com_ComboBox, Com_ComboBox2, Baud_ComboBox, Baud_ComboBox2, DataBits_ComboBox, DataBits_ComboBox2, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button);
         }
@@ -48,6 +61,7 @@ namespace AppForJoystickCameraAndSerial
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            joysticksController.drawIntoImage();
         }
 
         private void SetSetting_Button_Click(object sender, EventArgs e)
@@ -177,18 +191,18 @@ namespace AppForJoystickCameraAndSerial
             if (((CheckBox)sender).Checked)
                 joysticksController.Start();
             //else
-            //    serialportController.Write((byte)WriteCodes.All_Motors, 0);
+            //    serialportController.Write((byte)WriteMotorCodes.All_Motors, 0);
         }
         private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
             {
-                serialportController.Write((byte)WriteCodes.All_Motors, (byte)WriteAddresses.Relay, ON);
+                serialportController.Write((byte)WriteMotorCodes.All_Motors, (byte)WriteAddresses.Relay, ON);
                 Enable_Flag = true;
             }
             else
             {
-                serialportController.Write((byte)WriteCodes.All_Motors, (byte)WriteAddresses.Relay, OFF);
+                serialportController.Write((byte)WriteMotorCodes.All_Motors, (byte)WriteAddresses.Relay, OFF);
                 Motor1_CheckBox.Checked         = false;
                 Motor2_CheckBox.Checked         = false;
                 Motor3_CheckBox.Checked         = false;
@@ -200,33 +214,33 @@ namespace AppForJoystickCameraAndSerial
         {
             if (((CheckBox)sender).Checked)
             {
-                serialportController.Write((byte)WriteCodes.Motor_1, (byte)WriteAddresses.Relay, ON);
+                serialportController.Write((byte)WriteMotorCodes.Motor_1, (byte)WriteAddresses.Relay, ON);
                 Enable_Flag = true;
             }
             else
-                serialportController.Write((byte)WriteCodes.Motor_1, (byte)WriteAddresses.Relay, OFF);
+                serialportController.Write((byte)WriteMotorCodes.Motor_1, (byte)WriteAddresses.Relay, OFF);
         }
 
         private void Motor2_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
             {
-                serialportController.Write((byte)WriteCodes.Motor_2, (byte)WriteAddresses.Relay, ON);
+                serialportController.Write((byte)WriteMotorCodes.Motor_2, (byte)WriteAddresses.Relay, ON);
                 Enable_Flag = true;
             }
             else
-                serialportController.Write((byte)WriteCodes.Motor_2, (byte)WriteAddresses.Relay, OFF);
+                serialportController.Write((byte)WriteMotorCodes.Motor_2, (byte)WriteAddresses.Relay, OFF);
         }
 
         private void Motor3_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
             {
-                serialportController.Write((byte)WriteCodes.Motor_3, (byte)WriteAddresses.Relay, ON);
+                serialportController.Write((byte)WriteMotorCodes.Motor_3, (byte)WriteAddresses.Relay, ON);
                 Enable_Flag = true;
             }
             else
-                serialportController.Write((byte)WriteCodes.Motor_3, (byte)WriteAddresses.Relay, OFF);
+                serialportController.Write((byte)WriteMotorCodes.Motor_3, (byte)WriteAddresses.Relay, OFF);
         }
 
         private void EnableMotors_CheckBox_CheckStateChanged(object sender, EventArgs e)
@@ -236,22 +250,22 @@ namespace AppForJoystickCameraAndSerial
                 if (Enable_Flag)
                 {
                     EnableMotors_CheckBox.Checked = false;
-                    MessageBox.Show($"You must be wait for 3seconds please", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("You have to wait 3seconds please", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Thread.Sleep(3000);
-                    serialportController.Write((byte)WriteCodes.Enable_Motors, (byte)WriteAddresses.CAN, OFF);
+                    serialportController.Write((byte)WriteMotorCodes.Enable_Motors, (byte)WriteAddresses.CAN, OFF);
                     EnableMotors_CheckBox.Text = "Disable_Motors";
                     Enable_Flag = false;
                     EnableMotors_CheckBox.Checked = true;
                 }
                 else
                 {
-                    serialportController.Write((byte)WriteCodes.Enable_Motors, (byte)WriteAddresses.CAN, OFF);
+                    serialportController.Write((byte)WriteMotorCodes.Enable_Motors, (byte)WriteAddresses.CAN, OFF);
                     EnableMotors_CheckBox.Text = "Disable_Motors";
                 }
             }
             else
             {
-                serialportController.Write((byte)WriteCodes.Disable_Motors, (byte)WriteAddresses.CAN, OFF);
+                serialportController.Write((byte)WriteMotorCodes.Disable_Motors, (byte)WriteAddresses.CAN, OFF);
                 EnableMotors_CheckBox.Text = "Enable_Motors";
             }
         }
@@ -259,9 +273,34 @@ namespace AppForJoystickCameraAndSerial
         private void ResetAlarm_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
-                serialportController.Write((byte)WriteCodes.Reset_Alarm, (byte)WriteAddresses.CAN, OFF);
+                serialportController.Write((byte)WriteMotorCodes.Reset_Alarm, (byte)WriteAddresses.CAN, OFF);
             Thread.Sleep(3000);
             ResetAlarm_CheckBox.Checked = false;
+        }
+
+        private void TrackRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            serialportController.Write((byte)WriteTableCodes.Track, (byte)WriteAddresses.TableControl, ON);
+        }
+
+        private void SearchRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            serialportController.Write((byte)WriteTableCodes.Search, (byte)WriteAddresses.TableControl, ON);
+        }
+
+        private void PositionRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            serialportController.Write((byte)WriteTableCodes.Position, (byte)WriteAddresses.TableControl, ON);
+        }
+
+        private void HomingRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            serialportController.Write((byte)WriteTableCodes.Home, (byte)WriteAddresses.TableControl, ON);
+        }
+
+        private void CancleRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            serialportController.Write((byte)WriteTableCodes.Cancle, (byte)WriteAddresses.TableControl, ON);
         }
     }
 }

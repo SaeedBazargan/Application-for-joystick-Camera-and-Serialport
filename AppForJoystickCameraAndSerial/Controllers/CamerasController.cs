@@ -3,6 +3,8 @@ using OpenCvSharp.Extensions;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
+    
+
     public class CamerasController : ControllerBase
     {
         private readonly PictureBox _mainPictureBox, _minorPictureBox;
@@ -26,7 +28,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             recording = new bool[2];
             cameraCaptureTasks = new Task[2];
             _exceptionCallback = exceptionCallback;
-            //RecordingDirectory = "C:/Users/Sbzrgn/OneDrive/دسکتاپ/AppForJoystickCameraAndSerial/AppForJoystickCameraAndSerial/CameraLog/Log/";
         }
 
         public void Start(int cameraIndex)
@@ -75,6 +76,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 capture.Read(frame);
                 image = BitmapConverter.ToBitmap(frame);
+                DrawJoyStickPointer(image);
                 ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
                 if (recording[index])
                 {
@@ -95,6 +97,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     writer = null;
                 }
             }
+        }
+
+        private void DrawJoyStickPointer(Bitmap image)
+        {
+            Graphics g = Graphics.FromImage(image);
+            var points = JoysticksController.Pointer.LinePoints;
+            g.DrawLine(new Pen(JoysticksController.Pointer.Color, 1f), points[0], points[1]);
+            g.DrawLine(new Pen(JoysticksController.Pointer.Color, 1f), points[2], points[3]);
         }
 
         private void CameraTaskDone(Task task, bool isMain)

@@ -114,9 +114,21 @@
             this.Motor3_CheckBox = new System.Windows.Forms.CheckBox();
             this.Motor2_CheckBox = new System.Windows.Forms.CheckBox();
             this.Motor1_CheckBox = new System.Windows.Forms.CheckBox();
-            this.Joystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.AllMotorsCheckBox = new System.Windows.Forms.CheckBox();
+            this.Joystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.CancleRadio = new System.Windows.Forms.RadioButton();
+            this.HomingRadio = new System.Windows.Forms.RadioButton();
+            this.PositionRadio = new System.Windows.Forms.RadioButton();
+            this.SearchRadio = new System.Windows.Forms.RadioButton();
+            this.TrackRadio = new System.Windows.Forms.RadioButton();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -137,6 +149,7 @@
             this.groupBox12.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.groupBox14.SuspendLayout();
             this.SuspendLayout();
             // 
             // JoystickInfoTxtBox
@@ -163,7 +176,7 @@
             // 
             this.MainCameraPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MainCameraPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MainCameraPictureBox.Image")));
-            this.MainCameraPictureBox.Location = new System.Drawing.Point(463, 12);
+            this.MainCameraPictureBox.Location = new System.Drawing.Point(463, 7);
             this.MainCameraPictureBox.Name = "MainCameraPictureBox";
             this.MainCameraPictureBox.Size = new System.Drawing.Size(640, 480);
             this.MainCameraPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -203,7 +216,7 @@
             // 
             this.MinorPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MinorPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MinorPictureBox.Image")));
-            this.MinorPictureBox.Location = new System.Drawing.Point(463, 12);
+            this.MinorPictureBox.Location = new System.Drawing.Point(463, 7);
             this.MinorPictureBox.Name = "MinorPictureBox";
             this.MinorPictureBox.Size = new System.Drawing.Size(320, 240);
             this.MinorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1116,13 +1129,12 @@
             this.groupBox11.Controls.Add(this.Motor3_CheckBox);
             this.groupBox11.Controls.Add(this.Motor2_CheckBox);
             this.groupBox11.Controls.Add(this.Motor1_CheckBox);
-            this.groupBox11.Controls.Add(this.Joystick_CheckBox);
             this.groupBox11.Controls.Add(this.AllMotorsCheckBox);
             this.groupBox11.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox11.ForeColor = System.Drawing.Color.White;
-            this.groupBox11.Location = new System.Drawing.Point(353, 619);
+            this.groupBox11.Location = new System.Drawing.Point(353, 657);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(368, 128);
+            this.groupBox11.Size = new System.Drawing.Size(368, 90);
             this.groupBox11.TabIndex = 38;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Motors Configuration";
@@ -1137,7 +1149,7 @@
             this.ResetAlarm_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.ResetAlarm_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ResetAlarm_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.ResetAlarm_CheckBox.Location = new System.Drawing.Point(6, 83);
+            this.ResetAlarm_CheckBox.Location = new System.Drawing.Point(259, 58);
             this.ResetAlarm_CheckBox.Name = "ResetAlarm_CheckBox";
             this.ResetAlarm_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.ResetAlarm_CheckBox.Size = new System.Drawing.Size(103, 23);
@@ -1156,7 +1168,7 @@
             this.EnableMotors_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.EnableMotors_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.EnableMotors_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.EnableMotors_CheckBox.Location = new System.Drawing.Point(6, 54);
+            this.EnableMotors_CheckBox.Location = new System.Drawing.Point(6, 58);
             this.EnableMotors_CheckBox.Name = "EnableMotors_CheckBox";
             this.EnableMotors_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.EnableMotors_CheckBox.Size = new System.Drawing.Size(119, 23);
@@ -1175,7 +1187,7 @@
             this.Motor3_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Motor3_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Motor3_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Motor3_CheckBox.Location = new System.Drawing.Point(280, 25);
+            this.Motor3_CheckBox.Location = new System.Drawing.Point(280, 29);
             this.Motor3_CheckBox.Name = "Motor3_CheckBox";
             this.Motor3_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Motor3_CheckBox.Size = new System.Drawing.Size(81, 23);
@@ -1194,7 +1206,7 @@
             this.Motor2_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Motor2_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Motor2_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Motor2_CheckBox.Location = new System.Drawing.Point(193, 25);
+            this.Motor2_CheckBox.Location = new System.Drawing.Point(193, 29);
             this.Motor2_CheckBox.Name = "Motor2_CheckBox";
             this.Motor2_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Motor2_CheckBox.Size = new System.Drawing.Size(81, 23);
@@ -1213,7 +1225,7 @@
             this.Motor1_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Motor1_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Motor1_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Motor1_CheckBox.Location = new System.Drawing.Point(106, 25);
+            this.Motor1_CheckBox.Location = new System.Drawing.Point(106, 29);
             this.Motor1_CheckBox.Name = "Motor1_CheckBox";
             this.Motor1_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Motor1_CheckBox.Size = new System.Drawing.Size(81, 23);
@@ -1221,25 +1233,6 @@
             this.Motor1_CheckBox.Text = "Motor_1";
             this.Motor1_CheckBox.UseVisualStyleBackColor = false;
             this.Motor1_CheckBox.CheckStateChanged += new System.EventHandler(this.Motor1_CheckBox_CheckStateChanged);
-            // 
-            // Joystick_CheckBox
-            // 
-            this.Joystick_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Joystick_CheckBox.AutoSize = true;
-            this.Joystick_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.Joystick_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.Joystick_CheckBox.FlatAppearance.BorderSize = 3;
-            this.Joystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
-            this.Joystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Joystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Joystick_CheckBox.Location = new System.Drawing.Point(287, 99);
-            this.Joystick_CheckBox.Name = "Joystick_CheckBox";
-            this.Joystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.Joystick_CheckBox.Size = new System.Drawing.Size(75, 23);
-            this.Joystick_CheckBox.TabIndex = 41;
-            this.Joystick_CheckBox.Text = "Joystick";
-            this.Joystick_CheckBox.UseVisualStyleBackColor = false;
-            this.Joystick_CheckBox.CheckStateChanged += new System.EventHandler(this.Joystick_CheckBox_CheckStateChanged);
             // 
             // AllMotorsCheckBox
             // 
@@ -1251,7 +1244,7 @@
             this.AllMotorsCheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.AllMotorsCheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.AllMotorsCheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.AllMotorsCheckBox.Location = new System.Drawing.Point(6, 25);
+            this.AllMotorsCheckBox.Location = new System.Drawing.Point(6, 29);
             this.AllMotorsCheckBox.Name = "AllMotorsCheckBox";
             this.AllMotorsCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.AllMotorsCheckBox.Size = new System.Drawing.Size(94, 23);
@@ -1260,12 +1253,169 @@
             this.AllMotorsCheckBox.UseVisualStyleBackColor = false;
             this.AllMotorsCheckBox.CheckStateChanged += new System.EventHandler(this.AllMotorsCheckBox_CheckStateChanged);
             // 
+            // Joystick_CheckBox
+            // 
+            this.Joystick_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Joystick_CheckBox.AutoSize = true;
+            this.Joystick_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Joystick_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Joystick_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Joystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Joystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Joystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Joystick_CheckBox.Location = new System.Drawing.Point(285, 15);
+            this.Joystick_CheckBox.Name = "Joystick_CheckBox";
+            this.Joystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Joystick_CheckBox.Size = new System.Drawing.Size(75, 23);
+            this.Joystick_CheckBox.TabIndex = 41;
+            this.Joystick_CheckBox.Text = "Joystick";
+            this.Joystick_CheckBox.UseVisualStyleBackColor = false;
+            this.Joystick_CheckBox.CheckStateChanged += new System.EventHandler(this.Joystick_CheckBox_CheckStateChanged);
+            // 
+            // groupBox14
+            // 
+            this.groupBox14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox14.Controls.Add(this.CancleRadio);
+            this.groupBox14.Controls.Add(this.HomingRadio);
+            this.groupBox14.Controls.Add(this.PositionRadio);
+            this.groupBox14.Controls.Add(this.SearchRadio);
+            this.groupBox14.Controls.Add(this.TrackRadio);
+            this.groupBox14.Controls.Add(this.textBox3);
+            this.groupBox14.Controls.Add(this.label3);
+            this.groupBox14.Controls.Add(this.label2);
+            this.groupBox14.Controls.Add(this.label1);
+            this.groupBox14.Controls.Add(this.textBox2);
+            this.groupBox14.Controls.Add(this.textBox1);
+            this.groupBox14.Controls.Add(this.Joystick_CheckBox);
+            this.groupBox14.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.groupBox14.ForeColor = System.Drawing.Color.White;
+            this.groupBox14.Location = new System.Drawing.Point(353, 542);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(368, 117);
+            this.groupBox14.TabIndex = 39;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "Joystick Configuration";
+            // 
+            // CancleRadio
+            // 
+            this.CancleRadio.AutoSize = true;
+            this.CancleRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.CancleRadio.Location = new System.Drawing.Point(173, 92);
+            this.CancleRadio.Name = "CancleRadio";
+            this.CancleRadio.Size = new System.Drawing.Size(61, 19);
+            this.CancleRadio.TabIndex = 51;
+            this.CancleRadio.TabStop = true;
+            this.CancleRadio.Text = "Cancle";
+            this.CancleRadio.UseVisualStyleBackColor = true;
+            this.CancleRadio.CheckedChanged += new System.EventHandler(this.CancleRadio_CheckedChanged);
+            // 
+            // HomingRadio
+            // 
+            this.HomingRadio.AutoSize = true;
+            this.HomingRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.HomingRadio.Location = new System.Drawing.Point(173, 72);
+            this.HomingRadio.Name = "HomingRadio";
+            this.HomingRadio.Size = new System.Drawing.Size(58, 19);
+            this.HomingRadio.TabIndex = 50;
+            this.HomingRadio.TabStop = true;
+            this.HomingRadio.Text = "Home";
+            this.HomingRadio.UseVisualStyleBackColor = true;
+            this.HomingRadio.CheckedChanged += new System.EventHandler(this.HomingRadio_CheckedChanged);
+            // 
+            // PositionRadio
+            // 
+            this.PositionRadio.AutoSize = true;
+            this.PositionRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.PositionRadio.Location = new System.Drawing.Point(173, 52);
+            this.PositionRadio.Name = "PositionRadio";
+            this.PositionRadio.Size = new System.Drawing.Size(68, 19);
+            this.PositionRadio.TabIndex = 49;
+            this.PositionRadio.TabStop = true;
+            this.PositionRadio.Text = "Position";
+            this.PositionRadio.UseVisualStyleBackColor = true;
+            this.PositionRadio.CheckedChanged += new System.EventHandler(this.PositionRadio_CheckedChanged);
+            // 
+            // SearchRadio
+            // 
+            this.SearchRadio.AutoSize = true;
+            this.SearchRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SearchRadio.Location = new System.Drawing.Point(173, 32);
+            this.SearchRadio.Name = "SearchRadio";
+            this.SearchRadio.Size = new System.Drawing.Size(60, 19);
+            this.SearchRadio.TabIndex = 48;
+            this.SearchRadio.TabStop = true;
+            this.SearchRadio.Text = "Search";
+            this.SearchRadio.UseVisualStyleBackColor = true;
+            this.SearchRadio.CheckedChanged += new System.EventHandler(this.SearchRadio_CheckedChanged);
+            // 
+            // TrackRadio
+            // 
+            this.TrackRadio.AutoSize = true;
+            this.TrackRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TrackRadio.Location = new System.Drawing.Point(173, 12);
+            this.TrackRadio.Name = "TrackRadio";
+            this.TrackRadio.Size = new System.Drawing.Size(52, 19);
+            this.TrackRadio.TabIndex = 47;
+            this.TrackRadio.TabStop = true;
+            this.TrackRadio.Text = "Track";
+            this.TrackRadio.UseVisualStyleBackColor = true;
+            this.TrackRadio.CheckedChanged += new System.EventHandler(this.TrackRadio_CheckedChanged);
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(53, 85);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 25);
+            this.textBox3.TabIndex = 46;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 57);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 19);
+            this.label3.TabIndex = 45;
+            this.label3.Text = "PosY:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 26);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 19);
+            this.label2.TabIndex = 44;
+            this.label2.Text = "PosX:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 88);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 19);
+            this.label1.TabIndex = 40;
+            this.label1.Text = "PosZ:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(53, 54);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 25);
+            this.textBox2.TabIndex = 43;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(53, 23);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 25);
+            this.textBox1.TabIndex = 42;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1326, 749);
+            this.Controls.Add(this.groupBox14);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox1);
@@ -1309,6 +1459,8 @@
             this.groupBox13.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1403,5 +1555,17 @@
         private CheckBox Motor1_CheckBox;
         private CheckBox EnableMotors_CheckBox;
         private CheckBox ResetAlarm_CheckBox;
+        private GroupBox groupBox14;
+        private TextBox textBox3;
+        private Label label3;
+        private Label label2;
+        private Label label1;
+        private TextBox textBox2;
+        private TextBox textBox1;
+        private RadioButton CancleRadio;
+        private RadioButton HomingRadio;
+        private RadioButton PositionRadio;
+        private RadioButton SearchRadio;
+        private RadioButton TrackRadio;
     }
 }
