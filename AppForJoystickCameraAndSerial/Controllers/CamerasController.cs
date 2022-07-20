@@ -3,8 +3,6 @@ using OpenCvSharp.Extensions;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
-    
-
     public class CamerasController : ControllerBase
     {
         private readonly PictureBox _mainPictureBox, _minorPictureBox;
@@ -103,8 +101,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             Graphics g = Graphics.FromImage(image);
             var points = JoysticksController.Pointer.LinePoints;
-            g.DrawLine(new Pen(JoysticksController.Pointer.Color, 1f), points[0], points[1]);
-            g.DrawLine(new Pen(JoysticksController.Pointer.Color, 1f), points[2], points[3]);
+            g.DrawLine(new Pen(JoysticksController.Pointer.Color, 3f), points[0], points[1]);
+            g.DrawLine(new Pen(JoysticksController.Pointer.Color, 3f), points[2], points[3]);
         }
 
         private void CameraTaskDone(Task task, bool isMain)

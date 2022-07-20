@@ -141,10 +141,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             else
                 isRunning[Convert.ToInt32(isMain)] = false;
         }
-        public void Write(byte Code, byte Address, byte Value)
+        public void Write(byte Code, byte Address, Int32[] Value, byte Length)
         {
             byte[] Data = new byte[55];
-            Handler.WriteMessage_Generator(Code, Address, Value, Data);
+            Handler.WriteMessage_Generator(Code, Address, Value, Length, Data);
             for (byte i = 0; i < 55; i++)
             {
                 Console.Write(i + ":      ");

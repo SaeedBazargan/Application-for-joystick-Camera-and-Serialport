@@ -1,4 +1,5 @@
 ﻿using Com.Okmer.GameController;
+using AppForJoystickCameraAndSerial.Controllers;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
@@ -7,7 +8,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public PointF Center { get; set; }
         public Size ContainerSize { get; set; }
         public int Radius { get; set; }
-        public Color Color { get; set; } = Color.Red;
+        public Color Color { get; set; } = Color.Blue;
         public PointF[] LinePoints => new PointF[]
         {
             new PointF(Center.X - Radius, Center.Y - Radius),
@@ -17,7 +18,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
             new PointF(Center.X - Radius, Center.Y + Radius)
         };
 
-        public CameraPointer(PointF center = default, int radius = 20)
+        int[] Cursor = new int[2];
+
+        public CameraPointer(PointF center = default, int radius = 10)
         {
             Center = center;
             Radius = radius;
@@ -33,7 +36,19 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             var center = new PointF(Center.X + v.X, Center.Y - v.Y);
             if (center.X > 0 && center.X < ContainerSize.Width && center.Y > 0 && center.Y < ContainerSize.Height)
+            {
                 Center = new PointF(Center.X + v.X, Center.Y - v.Y);
+                Cursor[0] = (int)((Center.X + v.X) * 1000);
+                Cursor[1] = (int)((Center.Y - v.Y) * 1000);
+                Console.WriteLine("bbbbbbbb =  " + Cursor[0]);
+                Console.WriteLine("fsfsfsfs =  " + Cursor[1]);
+
+                SerialController.Write(100, 100, Cursor, 2);
+                
+
+                //serialportController.Write(100, 100, ((Center.X + v.X) * 1000));
+                //serialportController.Write(100, 100, ((Center.Y - v.Y) * 1000));
+            }
         }
     }
 
@@ -45,20 +60,20 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly Label _JoystickLabel;
         private readonly PictureBox _JoystickStatus;
         private readonly PictureBox _mainCameraPicture;
+        private readonly RadioButton _searchRadioButton;
         private Task _movePointerTask;
         private bool _stopMoving = true;
 
-        public JoysticksController(TextBox infoTxtBox, Label label, PictureBox JoystickStatus, PictureBox mainCameraPicture)
+        public JoysticksController(TextBox infoTxtBox, Label label, PictureBox JoystickStatus, PictureBox mainCameraPicture, RadioButton searchRadio)
         {
             xboxController = new XBoxController();
             _infoTxtBox = infoTxtBox;
             _JoystickLabel = label;
             _JoystickStatus = JoystickStatus;
             _mainCameraPicture = mainCameraPicture;
+            _searchRadioButton = searchRadio;
             Pointer.SetContainerSize(_mainCameraPicture.Size);
         }
-        Rectangle rec = new Rectangle(125, 125, 50, 50);
-        bool isMouseDown = false;
 
         public void Start()
         {
@@ -118,26 +133,29 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         private void XboxRightThumbstick_ValueChanged(object sender, ValueChangeArgs<System.Numerics.Vector2> e)
         {
-            ChangeTextBox(_infoTxtBox, $"Right Thumbstick : {e.Value}");
+            if (_searchRadioButton.Checked)
+            {
+                ChangeTextBox(_infoTxtBox, $"Right Thumbstick : {e.Value.LengthSquared()}");
+                if (e.Value.LengthSquared() < 1e-1)
+                {
+                    _stopMoving = true;
+                    return;
+                }
+                _stopMoving = false;
+                if (_movePointerTask == null || _movePointerTask.IsCompleted)
+                    _movePointerTask = CreatePointerMovingTask(e.Value);
+                else
+                {
+                    _stopMoving = true;
+                    _movePointerTask.Wait();
+                    _movePointerTask = CreatePointerMovingTask(e.Value);
+                }
+            }
         }
 
         private void XboxLeftThumbstick_ValueChanged(object sender, ValueChangeArgs<System.Numerics.Vector2> e)
         {
-            ChangeTextBox(_infoTxtBox, $"Left Thumbstick : {e.Value.LengthSquared()}");
-            if (e.Value.LengthSquared() < 1e-1)
-            {
-                _stopMoving = true;
-                return;
-            }
-            _stopMoving = false;
-            if (_movePointerTask == null || _movePointerTask.IsCompleted)
-                _movePointerTask = CreatePointerMovingTask(e.Value);
-            else
-            {
-                _stopMoving = true;
-                _movePointerTask.Wait();
-                _movePointerTask = CreatePointerMovingTask(e.Value);
-            }
+            ChangeTextBox(_infoTxtBox, $"Left Thumbstick : {e.Value}");
         }
 
         private Task CreatePointerMovingTask(System.Numerics.Vector2 v)
@@ -156,38 +174,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             using (Graphics G = Graphics.FromImage(_mainCameraPicture.Image))
             {
-                G.DrawEllipse(Pens.Orange, new Rectangle(13, 14, 44, 44));
+                G.DrawEllipse(Pens.Blue, new Rectangle(10, 10, 0, 0));
             }
             _mainCameraPicture.Refresh();
-        }
-
-        private void OnPaint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.FillRectangle(new SolidBrush(Color.Red), rec);
-        }
-        private void PicMouseDown(object sender, MouseEventArgs e)
-        {
-            isMouseDown = true;
-        }
-        private void PicMouseMove(object sender, MouseEventArgs e)
-        {
-            if (isMouseDown)
-            {
-                rec.Location = e.Location;
-                if (rec.Right > _mainCameraPicture.Width)
-                    rec.X = _mainCameraPicture.Width - rec.Width;
-                if (rec.Top < 0)
-                    rec.Y = 0;
-                if (rec.Left < 0)
-                    rec.X = 0;
-                if (rec.Bottom > _mainCameraPicture.Height)
-                    rec.Y = _mainCameraPicture.Height - rec.Height;
-                //Refresh();
-            }
-        }
-        private void PicMouseUp(object sender, MouseEventArgs e)
-        {
-            isMouseDown = false;
         }
     }
 }
