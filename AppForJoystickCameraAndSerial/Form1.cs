@@ -49,9 +49,9 @@ namespace AppForJoystickCameraAndSerial
             InitializeComponent();
 
             cancellationTokenSource = new CancellationTokenSource();
-            joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox, MainCameraPictureBox, SearchRadio);
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, CameraExceptionCallBack);
             serialportController = new SerialController(cancellationTokenSource.Token, Com_ComboBox, Com_ComboBox2, Baud_ComboBox, Baud_ComboBox2, DataBits_ComboBox, DataBits_ComboBox2, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button);
+            joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController);
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -190,7 +190,7 @@ namespace AppForJoystickCameraAndSerial
                 if (result == DialogResult.OK)
                 {
                     dir = folderBrowser.SelectedPath;
-                    dir = dir.Replace(@"\" , @"/");
+                    dir = dir.Replace(@"\", @"/");
                     CameraLogDirectory_TextBox.Text = dir + '/';
                     camerasController.RecordDirectory(dir + '/');
                     Environment.SpecialFolder root = folderBrowser.RootFolder;
@@ -218,10 +218,10 @@ namespace AppForJoystickCameraAndSerial
             else
             {
                 serialportController.Write((byte)WriteMotorCodes.All_Motors, (byte)WriteAddresses.Relay, OFF, 1);
-                Motor1_CheckBox.Checked         = false;
-                Motor2_CheckBox.Checked         = false;
-                Motor3_CheckBox.Checked         = false;
-                EnableMotors_CheckBox.Checked   = false;
+                Motor1_CheckBox.Checked = false;
+                Motor2_CheckBox.Checked = false;
+                Motor3_CheckBox.Checked = false;
+                EnableMotors_CheckBox.Checked = false;
             }
         }
 

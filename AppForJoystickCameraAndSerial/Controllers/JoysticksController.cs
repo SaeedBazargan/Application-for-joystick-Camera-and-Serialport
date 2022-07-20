@@ -8,6 +8,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public PointF Center { get; set; }
         public Size ContainerSize { get; set; }
         public int Radius { get; set; }
+        public int[] Cursor => new int[] { (int)(Center.X * 1000), (int)(Center.Y * 1000) };
         public Color Color { get; set; } = Color.Blue;
         public PointF[] LinePoints => new PointF[]
         {
@@ -17,8 +18,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             new PointF(Center.X + Radius, Center.Y - Radius),
             new PointF(Center.X - Radius, Center.Y + Radius)
         };
-
-        int[] Cursor = new int[2];
 
         public CameraPointer(PointF center = default, int radius = 10)
         {
@@ -36,19 +35,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             var center = new PointF(Center.X + v.X, Center.Y - v.Y);
             if (center.X > 0 && center.X < ContainerSize.Width && center.Y > 0 && center.Y < ContainerSize.Height)
-            {
                 Center = new PointF(Center.X + v.X, Center.Y - v.Y);
-                Cursor[0] = (int)((Center.X + v.X) * 1000);
-                Cursor[1] = (int)((Center.Y - v.Y) * 1000);
-                Console.WriteLine("bbbbbbbb =  " + Cursor[0]);
-                Console.WriteLine("fsfsfsfs =  " + Cursor[1]);
-
-                SerialController.Write(100, 100, Cursor, 2);
-                
-
-                //serialportController.Write(100, 100, ((Center.X + v.X) * 1000));
-                //serialportController.Write(100, 100, ((Center.Y - v.Y) * 1000));
-            }
         }
     }
 
@@ -63,8 +50,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly RadioButton _searchRadioButton;
         private Task _movePointerTask;
         private bool _stopMoving = true;
+        private readonly SerialController _serialController;
 
-        public JoysticksController(TextBox infoTxtBox, Label label, PictureBox JoystickStatus, PictureBox mainCameraPicture, RadioButton searchRadio)
+        public JoysticksController(TextBox infoTxtBox, Label label, PictureBox JoystickStatus, PictureBox mainCameraPicture, RadioButton searchRadio, SerialController serialController)
         {
             xboxController = new XBoxController();
             _infoTxtBox = infoTxtBox;
@@ -73,6 +61,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _mainCameraPicture = mainCameraPicture;
             _searchRadioButton = searchRadio;
             Pointer.SetContainerSize(_mainCameraPicture.Size);
+            _serialController = serialController;
         }
 
         public void Start()
@@ -165,6 +154,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 while (!_stopMoving)
                 {
                     Pointer.Move(v);
+                    _serialController.Write(100, 100, Pointer.Cursor, 2);
                     await Task.Delay(2);
                 }
             });
