@@ -63,20 +63,6 @@ namespace AppForJoystickCameraAndSerial
         private void Form1_Load(object sender, EventArgs e)
         {
             joysticksController.drawIntoImage();
-
-            //int value = 666666;
-
-            //buffer[0] = (value >> 24) & 0xFF;
-            //buffer[1] = (value >> 16) & 0xFF;
-            //buffer[2] = (value >> 8) & 0xFF;
-            //buffer[3] = value & 0xFF;
-
-            //Console.WriteLine("aaaaa = " + buffer[0]);
-            //Console.WriteLine("bbbbb = " + buffer[1]);
-            //Console.WriteLine("xxxxx = " + buffer[2]);
-            //Console.WriteLine("zzzzz = " + buffer[3]);
-
-            //Console.WriteLine("FFFFF = " + ((buffer[0] << 24) + (buffer[1] << 16) + (buffer[2] << 8) + buffer[3]));
         }
 
         private void SetSetting_Button_Click(object sender, EventArgs e)
@@ -205,8 +191,6 @@ namespace AppForJoystickCameraAndSerial
         {
             if (((CheckBox)sender).Checked)
                 joysticksController.Start();
-            //else
-            //    serialportController.Write((byte)WriteMotorCodes.All_Motors, 0);
         }
         private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)
         {

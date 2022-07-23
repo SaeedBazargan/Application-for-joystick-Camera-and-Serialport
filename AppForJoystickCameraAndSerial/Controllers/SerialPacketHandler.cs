@@ -114,8 +114,6 @@
         }
         public void WriteMessage_Generator(byte Code, byte Address, Int32[] Tx_Data, byte Length, byte[] Template)
         {
-            int[] buffer = new int[4];
-
             Counter++;
             Template[0] = 0x55;                                                                     //Header 1
             Template[1] = 0xAA;                                                                     //Header 2
@@ -125,35 +123,28 @@
 
             if (Length == 1)
             {
-                Template[8]  = (byte)((Tx_Data[0] >> 24) & 0xFF);
-                Template[9]  = (byte)((Tx_Data[0] >> 16) & 0xFF); 
-                Template[10] = (byte)((Tx_Data[0] >> 8) & 0xFF);
-                Template[11] = (byte)((Tx_Data[0]) & 0xFF);
+                Template[8]  = (byte)((Tx_Data[0]) & 0xFF);
+                Template[9]  = (byte)((Tx_Data[0] >> 8) & 0xFF); 
+                Template[10] = (byte)((Tx_Data[0] >> 16) & 0xFF);
+                Template[11] = (byte)((Tx_Data[0] >> 24) & 0xFF);
 
-                Console.WriteLine("FFFFF = " + ((Template[8] << 24) + (Template[9] << 16) + (Template[10] << 8) + Template[11]));
+                //Console.WriteLine("FFFFF = " + ((Template[8] << 24) + (Template[9] << 16) + (Template[10] << 8) + Template[11]));
             }
             if (Length == 2)
             {
-                Console.WriteLine("HEELLO");
+                Template[8] = (byte)((Tx_Data[0]) & 0xFF);
+                Template[9] = (byte)((Tx_Data[0] >> 8) & 0xFF);
+                Template[10] = (byte)((Tx_Data[0] >> 16) & 0xFF);
+                Template[11] = (byte)((Tx_Data[0] >> 24) & 0xFF);
+                Console.WriteLine("AAAAA = " + ((Template[11] << 24) + (Template[10] << 16) + (Template[9] << 8) + Template[8]));
 
-                Template[8] = (byte)((Tx_Data[0] >> 24) & 0xFF);
-                Template[9] = (byte)((Tx_Data[0] >> 16) & 0xFF);
-                Template[10] = (byte)((Tx_Data[0] >> 8) & 0xFF);
-                Template[11] = (byte)((Tx_Data[0]) & 0xFF);
-                Console.WriteLine("AAAAA = " + ((Template[8] << 24) + (Template[9] << 16) + (Template[10] << 8) + Template[11]));
+                Template[12] = (byte)((Tx_Data[1]) & 0xFF);
+                Template[13] = (byte)((Tx_Data[1] >> 8) & 0xFF);
+                Template[14] = (byte)((Tx_Data[1] >> 16) & 0xFF);
+                Template[15] = (byte)((Tx_Data[1] >> 24) & 0xFF);
 
-                Template[12] = (byte)((Tx_Data[1] >> 24) & 0xFF);
-                Template[13] = (byte)((Tx_Data[1] >> 16) & 0xFF);
-                Template[14] = (byte)((Tx_Data[1] >> 8) & 0xFF);
-                Template[15] = (byte)((Tx_Data[1]) & 0xFF);
-
-                buffer[0] = ((Tx_Data[1] >> 24) & 0xFF);
-                buffer[1] = ((Tx_Data[1] >> 16) & 0xFF);
-                buffer[2] = ((Tx_Data[1] >> 8) & 0xFF);
-                buffer[3] = ((Tx_Data[1]) & 0xFF);
-
-                Console.WriteLine("BBBBB = " + ((Template[12] << 24) + (Template[13] << 16) + (Template[14] << 8) + Template[15]));
-                Console.WriteLine("CCCCC = " + ((buffer[0] << 24) + (buffer[1] << 16) + (buffer[2] << 8) + buffer[3]));
+                Console.WriteLine("BBBBB = " + ((Template[15] << 24) + (Template[14] << 16) + (Template[13] << 8) + Template[12]));
+                //Console.WriteLine("CCCCC = " + ((buffer[0] << 24) + (buffer[1] << 16) + (buffer[2] << 8) + buffer[3]));
             }
             //else
             //{

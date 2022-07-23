@@ -129,7 +129,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 for (int i = 0; i < 55; i++)
                 {
                     DataBuffer_Rx[i] = (byte)_SerialPort[index].ReadByte();
-                    ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
+                    //ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
                 }
                 Handler.Master_CheckPacket(DataBuffer_Rx , RecordingDirectory, recording[index], index);
             }
@@ -145,16 +145,16 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             byte[] Data = new byte[55];
             Handler.WriteMessage_Generator(Code, Address, Value, Length, Data);
-            for (byte i = 0; i < 55; i++)
-            {
-                Console.Write(i + ":      ");
-                Console.WriteLine(Data[i]);
-            }
+            //for (byte i = 0; i < 55; i++)
+            //{
+            //    Console.Write(i + ":      ");
+            //    Console.WriteLine(Data[i]);
+            //}
 
-            //if (Open)
-            //    _SerialPort[0].Write(Data, 0, 55);
-            //else
-            //    MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (Open)
+                _SerialPort[0].Write(Data, 0, 55);
+            else
+                MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

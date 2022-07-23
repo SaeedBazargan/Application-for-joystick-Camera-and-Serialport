@@ -97,6 +97,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ConfigButton = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.AutoWide_CheckBox = new System.Windows.Forms.CheckBox();
+            this.Track3D_CheckBox = new System.Windows.Forms.CheckBox();
             this.CameraLogDirectory_TextBox = new System.Windows.Forms.TextBox();
             this.CameraLogBrowse_Button = new System.Windows.Forms.Button();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
@@ -109,6 +111,7 @@
             this.RecordCamera1_CheckBox = new System.Windows.Forms.CheckBox();
             this.Camera2CheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.Degree_CheckBox = new System.Windows.Forms.CheckBox();
             this.ResetAlarm_CheckBox = new System.Windows.Forms.CheckBox();
             this.EnableMotors_CheckBox = new System.Windows.Forms.CheckBox();
             this.Motor3_CheckBox = new System.Windows.Forms.CheckBox();
@@ -129,6 +132,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Mouse_CheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -204,7 +208,9 @@
             // Exit_Btn
             // 
             this.Exit_Btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Exit_Btn.Location = new System.Drawing.Point(1239, 714);
+            this.Exit_Btn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Exit_Btn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Exit_Btn.Location = new System.Drawing.Point(109, 22);
             this.Exit_Btn.Name = "Exit_Btn";
             this.Exit_Btn.Size = new System.Drawing.Size(75, 23);
             this.Exit_Btn.TabIndex = 15;
@@ -344,9 +350,9 @@
             this.groupBox2.Controls.Add(this.JoystickInfoTxtBox);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(873, 677);
+            this.groupBox2.Location = new System.Drawing.Point(1125, 677);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(181, 70);
+            this.groupBox2.Size = new System.Drawing.Size(190, 70);
             this.groupBox2.TabIndex = 26;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Joystick Result";
@@ -949,11 +955,12 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.ConfigButton);
+            this.groupBox1.Controls.Add(this.Exit_Btn);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(1060, 677);
+            this.groupBox1.Location = new System.Drawing.Point(1125, 618);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(173, 70);
+            this.groupBox1.Size = new System.Drawing.Size(190, 53);
             this.groupBox1.TabIndex = 36;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Config";
@@ -973,6 +980,8 @@
             // groupBox10
             // 
             this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox10.Controls.Add(this.AutoWide_CheckBox);
+            this.groupBox10.Controls.Add(this.Track3D_CheckBox);
             this.groupBox10.Controls.Add(this.CameraLogDirectory_TextBox);
             this.groupBox10.Controls.Add(this.CameraLogBrowse_Button);
             this.groupBox10.Controls.Add(this.groupBox12);
@@ -983,18 +992,54 @@
             this.groupBox10.Controls.Add(this.Camera1CheckBox);
             this.groupBox10.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox10.ForeColor = System.Drawing.Color.White;
-            this.groupBox10.Location = new System.Drawing.Point(12, 571);
+            this.groupBox10.Location = new System.Drawing.Point(12, 568);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(335, 176);
+            this.groupBox10.Size = new System.Drawing.Size(481, 179);
             this.groupBox10.TabIndex = 37;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Camera Configuration";
             // 
+            // AutoWide_CheckBox
+            // 
+            this.AutoWide_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AutoWide_CheckBox.AutoSize = true;
+            this.AutoWide_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.AutoWide_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.AutoWide_CheckBox.FlatAppearance.BorderSize = 3;
+            this.AutoWide_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.AutoWide_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AutoWide_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.AutoWide_CheckBox.Location = new System.Drawing.Point(378, 146);
+            this.AutoWide_CheckBox.Name = "AutoWide_CheckBox";
+            this.AutoWide_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.AutoWide_CheckBox.Size = new System.Drawing.Size(93, 23);
+            this.AutoWide_CheckBox.TabIndex = 44;
+            this.AutoWide_CheckBox.Text = "Auto Wide";
+            this.AutoWide_CheckBox.UseVisualStyleBackColor = false;
+            // 
+            // Track3D_CheckBox
+            // 
+            this.Track3D_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Track3D_CheckBox.AutoSize = true;
+            this.Track3D_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Track3D_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Track3D_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Track3D_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Track3D_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Track3D_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Track3D_CheckBox.Location = new System.Drawing.Point(289, 146);
+            this.Track3D_CheckBox.Name = "Track3D_CheckBox";
+            this.Track3D_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Track3D_CheckBox.Size = new System.Drawing.Size(81, 23);
+            this.Track3D_CheckBox.TabIndex = 42;
+            this.Track3D_CheckBox.Text = "3D Track";
+            this.Track3D_CheckBox.UseVisualStyleBackColor = false;
+            // 
             // CameraLogDirectory_TextBox
             // 
-            this.CameraLogDirectory_TextBox.Location = new System.Drawing.Point(109, 147);
+            this.CameraLogDirectory_TextBox.Location = new System.Drawing.Point(87, 147);
             this.CameraLogDirectory_TextBox.Name = "CameraLogDirectory_TextBox";
-            this.CameraLogDirectory_TextBox.Size = new System.Drawing.Size(217, 25);
+            this.CameraLogDirectory_TextBox.Size = new System.Drawing.Size(196, 25);
             this.CameraLogDirectory_TextBox.TabIndex = 39;
             // 
             // CameraLogBrowse_Button
@@ -1002,7 +1047,7 @@
             this.CameraLogBrowse_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CameraLogBrowse_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.CameraLogBrowse_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.CameraLogBrowse_Button.Location = new System.Drawing.Point(6, 147);
+            this.CameraLogBrowse_Button.Location = new System.Drawing.Point(6, 150);
             this.CameraLogBrowse_Button.Name = "CameraLogBrowse_Button";
             this.CameraLogBrowse_Button.Size = new System.Drawing.Size(75, 23);
             this.CameraLogBrowse_Button.TabIndex = 43;
@@ -1015,7 +1060,7 @@
             this.groupBox12.Controls.Add(this.TeleButton);
             this.groupBox12.Controls.Add(this.WideCameraButton);
             this.groupBox12.ForeColor = System.Drawing.Color.BlanchedAlmond;
-            this.groupBox12.Location = new System.Drawing.Point(159, 24);
+            this.groupBox12.Location = new System.Drawing.Point(305, 17);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(168, 56);
             this.groupBox12.TabIndex = 39;
@@ -1050,7 +1095,7 @@
             // 
             this.RecordCamera2_CheckBox.AutoSize = true;
             this.RecordCamera2_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.RecordCamera2_CheckBox.Location = new System.Drawing.Point(5, 115);
+            this.RecordCamera2_CheckBox.Location = new System.Drawing.Point(6, 115);
             this.RecordCamera2_CheckBox.Name = "RecordCamera2_CheckBox";
             this.RecordCamera2_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RecordCamera2_CheckBox.Size = new System.Drawing.Size(133, 23);
@@ -1064,7 +1109,7 @@
             this.groupBox13.Controls.Add(this.FarButton);
             this.groupBox13.Controls.Add(this.NearButton);
             this.groupBox13.ForeColor = System.Drawing.Color.BlanchedAlmond;
-            this.groupBox13.Location = new System.Drawing.Point(159, 86);
+            this.groupBox13.Location = new System.Drawing.Point(305, 79);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(168, 52);
             this.groupBox13.TabIndex = 40;
@@ -1124,6 +1169,7 @@
             // groupBox11
             // 
             this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox11.Controls.Add(this.Degree_CheckBox);
             this.groupBox11.Controls.Add(this.ResetAlarm_CheckBox);
             this.groupBox11.Controls.Add(this.EnableMotors_CheckBox);
             this.groupBox11.Controls.Add(this.Motor3_CheckBox);
@@ -1132,12 +1178,30 @@
             this.groupBox11.Controls.Add(this.AllMotorsCheckBox);
             this.groupBox11.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox11.ForeColor = System.Drawing.Color.White;
-            this.groupBox11.Location = new System.Drawing.Point(353, 657);
+            this.groupBox11.Location = new System.Drawing.Point(873, 609);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(368, 90);
+            this.groupBox11.Size = new System.Drawing.Size(245, 138);
             this.groupBox11.TabIndex = 38;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Motors Configuration";
+            // 
+            // Degree_CheckBox
+            // 
+            this.Degree_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Degree_CheckBox.AutoSize = true;
+            this.Degree_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Degree_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Degree_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Degree_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Degree_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Degree_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Degree_CheckBox.Location = new System.Drawing.Point(119, 22);
+            this.Degree_CheckBox.Name = "Degree_CheckBox";
+            this.Degree_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Degree_CheckBox.Size = new System.Drawing.Size(80, 23);
+            this.Degree_CheckBox.TabIndex = 45;
+            this.Degree_CheckBox.Text = "3Degree";
+            this.Degree_CheckBox.UseVisualStyleBackColor = false;
             // 
             // ResetAlarm_CheckBox
             // 
@@ -1149,7 +1213,7 @@
             this.ResetAlarm_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.ResetAlarm_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ResetAlarm_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.ResetAlarm_CheckBox.Location = new System.Drawing.Point(259, 58);
+            this.ResetAlarm_CheckBox.Location = new System.Drawing.Point(119, 51);
             this.ResetAlarm_CheckBox.Name = "ResetAlarm_CheckBox";
             this.ResetAlarm_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.ResetAlarm_CheckBox.Size = new System.Drawing.Size(103, 23);
@@ -1168,7 +1232,7 @@
             this.EnableMotors_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.EnableMotors_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.EnableMotors_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.EnableMotors_CheckBox.Location = new System.Drawing.Point(6, 58);
+            this.EnableMotors_CheckBox.Location = new System.Drawing.Point(119, 80);
             this.EnableMotors_CheckBox.Name = "EnableMotors_CheckBox";
             this.EnableMotors_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.EnableMotors_CheckBox.Size = new System.Drawing.Size(119, 23);
@@ -1187,7 +1251,7 @@
             this.Motor3_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Motor3_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Motor3_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Motor3_CheckBox.Location = new System.Drawing.Point(280, 29);
+            this.Motor3_CheckBox.Location = new System.Drawing.Point(6, 109);
             this.Motor3_CheckBox.Name = "Motor3_CheckBox";
             this.Motor3_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Motor3_CheckBox.Size = new System.Drawing.Size(81, 23);
@@ -1206,7 +1270,7 @@
             this.Motor2_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Motor2_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Motor2_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Motor2_CheckBox.Location = new System.Drawing.Point(193, 29);
+            this.Motor2_CheckBox.Location = new System.Drawing.Point(6, 80);
             this.Motor2_CheckBox.Name = "Motor2_CheckBox";
             this.Motor2_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Motor2_CheckBox.Size = new System.Drawing.Size(81, 23);
@@ -1225,7 +1289,7 @@
             this.Motor1_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Motor1_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Motor1_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Motor1_CheckBox.Location = new System.Drawing.Point(106, 29);
+            this.Motor1_CheckBox.Location = new System.Drawing.Point(6, 51);
             this.Motor1_CheckBox.Name = "Motor1_CheckBox";
             this.Motor1_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Motor1_CheckBox.Size = new System.Drawing.Size(81, 23);
@@ -1244,7 +1308,7 @@
             this.AllMotorsCheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.AllMotorsCheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.AllMotorsCheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.AllMotorsCheckBox.Location = new System.Drawing.Point(6, 29);
+            this.AllMotorsCheckBox.Location = new System.Drawing.Point(6, 22);
             this.AllMotorsCheckBox.Name = "AllMotorsCheckBox";
             this.AllMotorsCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.AllMotorsCheckBox.Size = new System.Drawing.Size(94, 23);
@@ -1275,6 +1339,7 @@
             // groupBox14
             // 
             this.groupBox14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox14.Controls.Add(this.Mouse_CheckBox);
             this.groupBox14.Controls.Add(this.CancleRadio);
             this.groupBox14.Controls.Add(this.HomingRadio);
             this.groupBox14.Controls.Add(this.PositionRadio);
@@ -1289,7 +1354,7 @@
             this.groupBox14.Controls.Add(this.Joystick_CheckBox);
             this.groupBox14.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox14.ForeColor = System.Drawing.Color.White;
-            this.groupBox14.Location = new System.Drawing.Point(353, 542);
+            this.groupBox14.Location = new System.Drawing.Point(499, 630);
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.Size = new System.Drawing.Size(368, 117);
             this.groupBox14.TabIndex = 39;
@@ -1409,6 +1474,24 @@
             this.textBox1.Size = new System.Drawing.Size(100, 25);
             this.textBox1.TabIndex = 42;
             // 
+            // Mouse_CheckBox
+            // 
+            this.Mouse_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Mouse_CheckBox.AutoSize = true;
+            this.Mouse_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Mouse_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Mouse_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Mouse_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Mouse_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Mouse_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Mouse_CheckBox.Location = new System.Drawing.Point(285, 44);
+            this.Mouse_CheckBox.Name = "Mouse_CheckBox";
+            this.Mouse_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Mouse_CheckBox.Size = new System.Drawing.Size(70, 23);
+            this.Mouse_CheckBox.TabIndex = 46;
+            this.Mouse_CheckBox.Text = "Mouse";
+            this.Mouse_CheckBox.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1424,7 +1507,6 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.MinorPictureBox);
-            this.Controls.Add(this.Exit_Btn);
             this.Controls.Add(this.MainCameraPictureBox);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -1567,5 +1649,9 @@
         private RadioButton PositionRadio;
         private RadioButton SearchRadio;
         private RadioButton TrackRadio;
+        private CheckBox AutoWide_CheckBox;
+        private CheckBox Track3D_CheckBox;
+        private CheckBox Degree_CheckBox;
+        private CheckBox Mouse_CheckBox;
     }
 }

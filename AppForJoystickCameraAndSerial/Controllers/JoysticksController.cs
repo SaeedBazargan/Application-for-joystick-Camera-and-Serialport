@@ -8,15 +8,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public PointF Center { get; set; }
         public Size ContainerSize { get; set; }
         public int Radius { get; set; }
-        public int[] Cursor => new int[] { (int)(Center.X * 1000), (int)(Center.Y * 1000) };
+        public int[] Cursor => new int[] { (int)Center.X, (int)Center.Y};
         public Color Color { get; set; } = Color.Blue;
         public PointF[] LinePoints => new PointF[]
         {
-            new PointF(Center.X - Radius, Center.Y - Radius),
-            new PointF(Center.X + Radius, Center.Y + Radius),
+            new PointF(Center.X, Center.Y - Radius),
+            new PointF(Center.X, Center.Y + Radius),
 
-            new PointF(Center.X + Radius, Center.Y - Radius),
-            new PointF(Center.X - Radius, Center.Y + Radius)
+            new PointF(Center.X + Radius, Center.Y),
+            new PointF(Center.X - Radius, Center.Y)
         };
 
         public CameraPointer(PointF center = default, int radius = 10)
@@ -154,8 +154,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 while (!_stopMoving)
                 {
                     Pointer.Move(v);
-                    _serialController.Write(100, 100, Pointer.Cursor, 2);
-                    await Task.Delay(2);
+                    _serialController.Write(5, 9, Pointer.Cursor, 2);
+                    await Task.Delay(1);
                 }
             });
         }
