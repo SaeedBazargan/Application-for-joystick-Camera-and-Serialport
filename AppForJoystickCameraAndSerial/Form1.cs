@@ -43,6 +43,7 @@ namespace AppForJoystickCameraAndSerial
         private readonly JoysticksController joysticksController;
         private readonly CamerasController camerasController;
         private readonly SerialController serialportController;
+        private readonly ConfigForm Configuration;
 
         public Form1()
         {
@@ -50,8 +51,9 @@ namespace AppForJoystickCameraAndSerial
 
             cancellationTokenSource = new CancellationTokenSource();
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, CameraExceptionCallBack);
-            serialportController = new SerialController(cancellationTokenSource.Token, Com_ComboBox, Com_ComboBox2, Baud_ComboBox, Baud_ComboBox2, DataBits_ComboBox, DataBits_ComboBox2, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button);
+            serialportController = new SerialController(cancellationTokenSource.Token, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial2Status_pictureBox, OpenPort_Button);
             joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController);
+            Configuration = new ConfigForm();
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -63,6 +65,17 @@ namespace AppForJoystickCameraAndSerial
         private void Form1_Load(object sender, EventArgs e)
         {
             joysticksController.drawIntoImage();
+        }
+
+        private void ConfigButton_Click(object sender, EventArgs e)
+        {
+            if (SelectSerial1_CheckBox.Checked)
+                Configuration.TransferringData(0);
+            if (SelectSerial2_CheckBox.Checked)
+                Configuration.TransferringData(1);
+
+            Form LoginconfigForm = new LoginConfig_Form();
+            LoginconfigForm.Show(this);
         }
 
         private void SetSetting_Button_Click(object sender, EventArgs e)
@@ -121,12 +134,6 @@ namespace AppForJoystickCameraAndSerial
             }
             else
                 MessageBox.Show("You can't record! First select one of the serials please", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        private void ConfigButton_Click(object sender, EventArgs e)
-        {
-            Form LoginconfigForm = new LoginConfig_Form();
-            LoginconfigForm.Show(this);
         }
 
         private void Camera1CheckBox_CheckStateChanged(object sender, EventArgs e)

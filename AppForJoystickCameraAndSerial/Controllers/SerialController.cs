@@ -14,8 +14,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int Baudrate, DataBit;
         string PortNumber;
 
-        private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
-        private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
         private readonly TextBox _SerialMonitoring_TextBox;
         private readonly PictureBox _Serial1Status, _Serial2Status;
         private readonly Button _openPortBtn;
@@ -29,13 +27,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
         byte[] DataBuffer_Rx = new byte[MaxDataBuffer_Rx_Size];
         public string RecordingDirectory { get; set; }
 
-        public SerialController(CancellationToken cancellationToken, ComboBox _ComComboBox, ComboBox _ComComboBox2, ComboBox _BaudComboBox, ComboBox _BaudComboBox2, ComboBox _DataBitsComboBox, ComboBox _DataBitsComboBox2, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn)
+        public SerialController(CancellationToken cancellationToken, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn)
         {
             _SerialPort = new SerialPort[2];
 
-            _Com_ComboBox = _ComComboBox; _Com_ComboBox2 = _ComComboBox2;
-            _Baud_ComboBox = _BaudComboBox; _Baud_ComboBox2 = _BaudComboBox2;
-            _DataBits_ComboBox = _DataBitsComboBox; _DataBits_ComboBox2 = _DataBitsComboBox2;
             _SerialMonitoring_TextBox = _SerialMonitoringTextBox;
             _Serial1Status = serial1Status; _Serial2Status = serial2Status;
             _openPortBtn = openPortBtn;
@@ -45,6 +40,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning = new bool[2];
             recording = new bool[2];
         }
+        public SerialController()
+        { }
         public void Start(int SerialIndex)
         {
             if (0 <= SerialIndex || SerialIndex <= 2)
@@ -76,42 +73,27 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             RecordingDirectory = Directory;
         }
-
+        public void SetConfiguration_Port(string Com, int Baud, int data)
+        {
+            PortNumber = Com;
+            Baudrate = Baud;
+            DataBit = data;
+            Console.WriteLine("AAAA " + PortNumber);
+            Console.WriteLine("BBBB " + Baudrate);
+            Console.WriteLine("CCCC " + DataBit);
+        }
         public void SetSetting_Port(int SerialIndex)
         {
-            byte setOk = 1;
             if (SerialIndex == 0)
             {
-                if (_Com_ComboBox.SelectedItem != null)
-                    PortNumber = _Com_ComboBox.SelectedItem.ToString();
-                if (_Baud_ComboBox.SelectedItem != null)
-                    Baudrate = int.Parse(_Baud_ComboBox.SelectedItem.ToString());
-                if (_DataBits_ComboBox.SelectedItem != null)
-                    DataBit = int.Parse(_DataBits_ComboBox.SelectedItem.ToString());
-                else
-                {
-                    setOk = 0;
-                    MessageBox.Show("Please fill in the fields.", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                _SerialPort[0] = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
+                Console.WriteLine("AAAA " + PortNumber);
+                Console.WriteLine("BBBB " + Baudrate);
+                Console.WriteLine("CCCC " + DataBit);
+
+                //_SerialPort[0] = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
             }
             if (SerialIndex == 1)
-            {
-                if (_Com_ComboBox2.SelectedItem != null)
-                    PortNumber = _Com_ComboBox2.SelectedItem.ToString();
-                if (_Baud_ComboBox2.SelectedItem != null)
-                    Baudrate = int.Parse(_Baud_ComboBox2.SelectedItem.ToString());
-                if (_DataBits_ComboBox2.SelectedItem != null)
-                    DataBit = int.Parse(_DataBits_ComboBox2.SelectedItem.ToString());
-                else
-                {
-                    setOk = 0;
-                    MessageBox.Show("Please fill in the fields.", "Faild to Connect", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
                 _SerialPort[1] = new SerialPort(PortNumber, Baudrate, ParityBit, DataBit, StopBit);
-            }
-            if(setOk == 1)
-                MessageBox.Show("Serial settings saved!");
         }
         private void StartSerial(int index)
         {

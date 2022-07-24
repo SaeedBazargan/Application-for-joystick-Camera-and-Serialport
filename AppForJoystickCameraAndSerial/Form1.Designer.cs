@@ -74,20 +74,11 @@
             this.LrfRange_TextBox = new System.Windows.Forms.TextBox();
             this.LrfRange_Label = new System.Windows.Forms.Label();
             this.LrfStatus_Label = new System.Windows.Forms.Label();
-            this.DataBits_ComboBox = new System.Windows.Forms.ComboBox();
-            this.DataBits_Label = new System.Windows.Forms.Label();
-            this.Baud_ComboBox = new System.Windows.Forms.ComboBox();
-            this.Baudrate_Label = new System.Windows.Forms.Label();
-            this.Com_ComboBox = new System.Windows.Forms.ComboBox();
-            this.PortNumber_Label = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.SerialLogDirectory_TextBox = new System.Windows.Forms.TextBox();
             this.SelectSerial2_CheckBox = new System.Windows.Forms.CheckBox();
             this.SerialLogBrowse_Button = new System.Windows.Forms.Button();
             this.SelectSerial1_CheckBox = new System.Windows.Forms.CheckBox();
-            this.DataBits_ComboBox2 = new System.Windows.Forms.ComboBox();
-            this.Baud_ComboBox2 = new System.Windows.Forms.ComboBox();
-            this.Com_ComboBox2 = new System.Windows.Forms.ComboBox();
             this.RecordSerial_2CheckBox = new System.Windows.Forms.CheckBox();
             this.RecordSerial_1CheckBox = new System.Windows.Forms.CheckBox();
             this.ClosePort_Button = new System.Windows.Forms.Button();
@@ -121,6 +112,7 @@
             this.Joystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.Mouse_CheckBox = new System.Windows.Forms.CheckBox();
             this.CancleRadio = new System.Windows.Forms.RadioButton();
             this.HomingRadio = new System.Windows.Forms.RadioButton();
             this.PositionRadio = new System.Windows.Forms.RadioButton();
@@ -132,7 +124,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.Mouse_CheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -645,135 +636,30 @@
             this.LrfStatus_Label.TabIndex = 43;
             this.LrfStatus_Label.Text = "Status";
             // 
-            // DataBits_ComboBox
-            // 
-            this.DataBits_ComboBox.FormattingEnabled = true;
-            this.DataBits_ComboBox.Items.AddRange(new object[] {
-            "7",
-            "8"});
-            this.DataBits_ComboBox.Location = new System.Drawing.Point(85, 118);
-            this.DataBits_ComboBox.Name = "DataBits_ComboBox";
-            this.DataBits_ComboBox.Size = new System.Drawing.Size(121, 25);
-            this.DataBits_ComboBox.TabIndex = 34;
-            // 
-            // DataBits_Label
-            // 
-            this.DataBits_Label.AutoSize = true;
-            this.DataBits_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.DataBits_Label.ForeColor = System.Drawing.Color.White;
-            this.DataBits_Label.Location = new System.Drawing.Point(6, 121);
-            this.DataBits_Label.Name = "DataBits_Label";
-            this.DataBits_Label.Size = new System.Drawing.Size(67, 19);
-            this.DataBits_Label.TabIndex = 33;
-            this.DataBits_Label.Text = "Data bits:";
-            // 
-            // Baud_ComboBox
-            // 
-            this.Baud_ComboBox.FormattingEnabled = true;
-            this.Baud_ComboBox.Items.AddRange(new object[] {
-            "300",
-            "600",
-            "1200",
-            "1800",
-            "2400",
-            "7200",
-            "9600",
-            "14400",
-            "19200",
-            "57600",
-            "115200",
-            "230400",
-            "460800",
-            "921600"});
-            this.Baud_ComboBox.Location = new System.Drawing.Point(85, 84);
-            this.Baud_ComboBox.Name = "Baud_ComboBox";
-            this.Baud_ComboBox.Size = new System.Drawing.Size(121, 25);
-            this.Baud_ComboBox.TabIndex = 32;
-            // 
-            // Baudrate_Label
-            // 
-            this.Baudrate_Label.AutoSize = true;
-            this.Baudrate_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Baudrate_Label.ForeColor = System.Drawing.Color.White;
-            this.Baudrate_Label.Location = new System.Drawing.Point(6, 87);
-            this.Baudrate_Label.Name = "Baudrate_Label";
-            this.Baudrate_Label.Size = new System.Drawing.Size(70, 19);
-            this.Baudrate_Label.TabIndex = 31;
-            this.Baudrate_Label.Text = "BaudRate:";
-            // 
-            // Com_ComboBox
-            // 
-            this.Com_ComboBox.FormattingEnabled = true;
-            this.Com_ComboBox.Items.AddRange(new object[] {
-            "COM1",
-            "COM2",
-            "COM3",
-            "COM4",
-            "COM5",
-            "COM6",
-            "COM7",
-            "COM8",
-            "COM9",
-            "COM10",
-            "COM11",
-            "COM12",
-            "COM13",
-            "COM14",
-            "COM15",
-            "COM16",
-            "COM17",
-            "COM18",
-            "COM19",
-            "COM20"});
-            this.Com_ComboBox.Location = new System.Drawing.Point(85, 50);
-            this.Com_ComboBox.Name = "Com_ComboBox";
-            this.Com_ComboBox.Size = new System.Drawing.Size(121, 25);
-            this.Com_ComboBox.TabIndex = 30;
-            // 
-            // PortNumber_Label
-            // 
-            this.PortNumber_Label.AutoSize = true;
-            this.PortNumber_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.PortNumber_Label.ForeColor = System.Drawing.Color.White;
-            this.PortNumber_Label.Location = new System.Drawing.Point(6, 53);
-            this.PortNumber_Label.Name = "PortNumber_Label";
-            this.PortNumber_Label.Size = new System.Drawing.Size(45, 19);
-            this.PortNumber_Label.TabIndex = 29;
-            this.PortNumber_Label.Text = "COM:";
-            // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.SerialLogDirectory_TextBox);
             this.groupBox9.Controls.Add(this.SelectSerial2_CheckBox);
             this.groupBox9.Controls.Add(this.SerialLogBrowse_Button);
             this.groupBox9.Controls.Add(this.SelectSerial1_CheckBox);
-            this.groupBox9.Controls.Add(this.DataBits_ComboBox2);
-            this.groupBox9.Controls.Add(this.Baud_ComboBox2);
-            this.groupBox9.Controls.Add(this.Com_ComboBox2);
             this.groupBox9.Controls.Add(this.RecordSerial_2CheckBox);
             this.groupBox9.Controls.Add(this.RecordSerial_1CheckBox);
             this.groupBox9.Controls.Add(this.ClosePort_Button);
             this.groupBox9.Controls.Add(this.SetSetting_Button);
             this.groupBox9.Controls.Add(this.OpenPort_Button);
             this.groupBox9.Controls.Add(this.SerialMonitoring_TextBox);
-            this.groupBox9.Controls.Add(this.PortNumber_Label);
-            this.groupBox9.Controls.Add(this.DataBits_ComboBox);
-            this.groupBox9.Controls.Add(this.Com_ComboBox);
-            this.groupBox9.Controls.Add(this.DataBits_Label);
-            this.groupBox9.Controls.Add(this.Baudrate_Label);
-            this.groupBox9.Controls.Add(this.Baud_ComboBox);
             this.groupBox9.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox9.ForeColor = System.Drawing.Color.White;
             this.groupBox9.Location = new System.Drawing.Point(12, 173);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(335, 339);
+            this.groupBox9.Size = new System.Drawing.Size(335, 239);
             this.groupBox9.TabIndex = 35;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Serial Configuration";
             // 
             // SerialLogDirectory_TextBox
             // 
-            this.SerialLogDirectory_TextBox.Location = new System.Drawing.Point(102, 279);
+            this.SerialLogDirectory_TextBox.Location = new System.Drawing.Point(109, 180);
             this.SerialLogDirectory_TextBox.Name = "SerialLogDirectory_TextBox";
             this.SerialLogDirectory_TextBox.Size = new System.Drawing.Size(217, 25);
             this.SerialLogDirectory_TextBox.TabIndex = 44;
@@ -782,7 +668,7 @@
             // 
             this.SelectSerial2_CheckBox.AutoSize = true;
             this.SelectSerial2_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.SelectSerial2_CheckBox.Location = new System.Drawing.Point(232, 21);
+            this.SelectSerial2_CheckBox.Location = new System.Drawing.Point(121, 23);
             this.SelectSerial2_CheckBox.Name = "SelectSerial2_CheckBox";
             this.SelectSerial2_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.SelectSerial2_CheckBox.Size = new System.Drawing.Size(72, 23);
@@ -795,7 +681,7 @@
             this.SerialLogBrowse_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SerialLogBrowse_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.SerialLogBrowse_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.SerialLogBrowse_Button.Location = new System.Drawing.Point(3, 280);
+            this.SerialLogBrowse_Button.Location = new System.Drawing.Point(3, 180);
             this.SerialLogBrowse_Button.Name = "SerialLogBrowse_Button";
             this.SerialLogBrowse_Button.Size = new System.Drawing.Size(75, 23);
             this.SerialLogBrowse_Button.TabIndex = 45;
@@ -807,7 +693,7 @@
             // 
             this.SelectSerial1_CheckBox.AutoSize = true;
             this.SelectSerial1_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.SelectSerial1_CheckBox.Location = new System.Drawing.Point(109, 21);
+            this.SelectSerial1_CheckBox.Location = new System.Drawing.Point(3, 23);
             this.SelectSerial1_CheckBox.Name = "SelectSerial1_CheckBox";
             this.SelectSerial1_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.SelectSerial1_CheckBox.Size = new System.Drawing.Size(72, 23);
@@ -815,74 +701,11 @@
             this.SelectSerial1_CheckBox.Text = "Serial 1";
             this.SelectSerial1_CheckBox.UseVisualStyleBackColor = false;
             // 
-            // DataBits_ComboBox2
-            // 
-            this.DataBits_ComboBox2.FormattingEnabled = true;
-            this.DataBits_ComboBox2.Items.AddRange(new object[] {
-            "7",
-            "8"});
-            this.DataBits_ComboBox2.Location = new System.Drawing.Point(208, 118);
-            this.DataBits_ComboBox2.Name = "DataBits_ComboBox2";
-            this.DataBits_ComboBox2.Size = new System.Drawing.Size(121, 25);
-            this.DataBits_ComboBox2.TabIndex = 40;
-            // 
-            // Baud_ComboBox2
-            // 
-            this.Baud_ComboBox2.FormattingEnabled = true;
-            this.Baud_ComboBox2.Items.AddRange(new object[] {
-            "300",
-            "600",
-            "1200",
-            "1800",
-            "2400",
-            "7200",
-            "9600",
-            "14400",
-            "19200",
-            "57600",
-            "115200",
-            "230400",
-            "460800",
-            "921600"});
-            this.Baud_ComboBox2.Location = new System.Drawing.Point(208, 84);
-            this.Baud_ComboBox2.Name = "Baud_ComboBox2";
-            this.Baud_ComboBox2.Size = new System.Drawing.Size(121, 25);
-            this.Baud_ComboBox2.TabIndex = 40;
-            // 
-            // Com_ComboBox2
-            // 
-            this.Com_ComboBox2.FormattingEnabled = true;
-            this.Com_ComboBox2.Items.AddRange(new object[] {
-            "COM1",
-            "COM2",
-            "COM3",
-            "COM4",
-            "COM5",
-            "COM6",
-            "COM7",
-            "COM8",
-            "COM9",
-            "COM10",
-            "COM11",
-            "COM12",
-            "COM13",
-            "COM14",
-            "COM15",
-            "COM16",
-            "COM17",
-            "COM18",
-            "COM19",
-            "COM20"});
-            this.Com_ComboBox2.Location = new System.Drawing.Point(208, 50);
-            this.Com_ComboBox2.Name = "Com_ComboBox2";
-            this.Com_ComboBox2.Size = new System.Drawing.Size(121, 25);
-            this.Com_ComboBox2.TabIndex = 39;
-            // 
             // RecordSerial_2CheckBox
             // 
             this.RecordSerial_2CheckBox.AutoSize = true;
             this.RecordSerial_2CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.RecordSerial_2CheckBox.Location = new System.Drawing.Point(122, 250);
+            this.RecordSerial_2CheckBox.Location = new System.Drawing.Point(121, 52);
             this.RecordSerial_2CheckBox.Name = "RecordSerial_2CheckBox";
             this.RecordSerial_2CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RecordSerial_2CheckBox.Size = new System.Drawing.Size(114, 23);
@@ -895,7 +718,7 @@
             // 
             this.RecordSerial_1CheckBox.AutoSize = true;
             this.RecordSerial_1CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.RecordSerial_1CheckBox.Location = new System.Drawing.Point(4, 250);
+            this.RecordSerial_1CheckBox.Location = new System.Drawing.Point(3, 52);
             this.RecordSerial_1CheckBox.Name = "RecordSerial_1CheckBox";
             this.RecordSerial_1CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RecordSerial_1CheckBox.Size = new System.Drawing.Size(114, 23);
@@ -909,7 +732,7 @@
             this.ClosePort_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ClosePort_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ClosePort_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ClosePort_Button.Location = new System.Drawing.Point(254, 310);
+            this.ClosePort_Button.Location = new System.Drawing.Point(251, 210);
             this.ClosePort_Button.Name = "ClosePort_Button";
             this.ClosePort_Button.Size = new System.Drawing.Size(75, 23);
             this.ClosePort_Button.TabIndex = 38;
@@ -922,7 +745,7 @@
             this.SetSetting_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SetSetting_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.SetSetting_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.SetSetting_Button.Location = new System.Drawing.Point(3, 310);
+            this.SetSetting_Button.Location = new System.Drawing.Point(3, 210);
             this.SetSetting_Button.Name = "SetSetting_Button";
             this.SetSetting_Button.Size = new System.Drawing.Size(75, 23);
             this.SetSetting_Button.TabIndex = 37;
@@ -935,7 +758,7 @@
             this.OpenPort_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.OpenPort_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.OpenPort_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.OpenPort_Button.Location = new System.Drawing.Point(126, 310);
+            this.OpenPort_Button.Location = new System.Drawing.Point(126, 210);
             this.OpenPort_Button.Name = "OpenPort_Button";
             this.OpenPort_Button.Size = new System.Drawing.Size(75, 23);
             this.OpenPort_Button.TabIndex = 36;
@@ -945,7 +768,7 @@
             // 
             // SerialMonitoring_TextBox
             // 
-            this.SerialMonitoring_TextBox.Location = new System.Drawing.Point(6, 151);
+            this.SerialMonitoring_TextBox.Location = new System.Drawing.Point(3, 81);
             this.SerialMonitoring_TextBox.Multiline = true;
             this.SerialMonitoring_TextBox.Name = "SerialMonitoring_TextBox";
             this.SerialMonitoring_TextBox.Size = new System.Drawing.Size(323, 93);
@@ -1361,6 +1184,24 @@
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Joystick Configuration";
             // 
+            // Mouse_CheckBox
+            // 
+            this.Mouse_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Mouse_CheckBox.AutoSize = true;
+            this.Mouse_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Mouse_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Mouse_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Mouse_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Mouse_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Mouse_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Mouse_CheckBox.Location = new System.Drawing.Point(285, 44);
+            this.Mouse_CheckBox.Name = "Mouse_CheckBox";
+            this.Mouse_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Mouse_CheckBox.Size = new System.Drawing.Size(70, 23);
+            this.Mouse_CheckBox.TabIndex = 46;
+            this.Mouse_CheckBox.Text = "Mouse";
+            this.Mouse_CheckBox.UseVisualStyleBackColor = false;
+            // 
             // CancleRadio
             // 
             this.CancleRadio.AutoSize = true;
@@ -1474,24 +1315,6 @@
             this.textBox1.Size = new System.Drawing.Size(100, 25);
             this.textBox1.TabIndex = 42;
             // 
-            // Mouse_CheckBox
-            // 
-            this.Mouse_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Mouse_CheckBox.AutoSize = true;
-            this.Mouse_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.Mouse_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.Mouse_CheckBox.FlatAppearance.BorderSize = 3;
-            this.Mouse_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
-            this.Mouse_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Mouse_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Mouse_CheckBox.Location = new System.Drawing.Point(285, 44);
-            this.Mouse_CheckBox.Name = "Mouse_CheckBox";
-            this.Mouse_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.Mouse_CheckBox.Size = new System.Drawing.Size(70, 23);
-            this.Mouse_CheckBox.TabIndex = 46;
-            this.Mouse_CheckBox.Text = "Mouse";
-            this.Mouse_CheckBox.UseVisualStyleBackColor = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1589,12 +1412,6 @@
         private TextBox LrfRange_TextBox;
         private Label LrfRange_Label;
         private Label LrfStatus_Label;
-        private ComboBox DataBits_ComboBox;
-        private Label DataBits_Label;
-        private ComboBox Baud_ComboBox;
-        private Label Baudrate_Label;
-        private ComboBox Com_ComboBox;
-        private Label PortNumber_Label;
         private GroupBox groupBox9;
         private TextBox SerialMonitoring_TextBox;
         private Button OpenPort_Button;
@@ -1617,9 +1434,6 @@
         private CheckBox RecordSerial_2CheckBox;
         private CheckBox SelectSerial2_CheckBox;
         private CheckBox SelectSerial1_CheckBox;
-        private ComboBox DataBits_ComboBox2;
-        private ComboBox Baud_ComboBox2;
-        private ComboBox Com_ComboBox2;
         private GroupBox groupBox13;
         private GroupBox groupBox12;
         private Button TeleButton;
