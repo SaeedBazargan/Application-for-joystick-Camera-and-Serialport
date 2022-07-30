@@ -34,8 +34,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public void Move(System.Numerics.Vector2 v)
         {
             var center = new PointF(Center.X + v.X, Center.Y - v.Y);
-            if (center.X > 0 && center.X < ContainerSize.Width && center.Y > 0 && center.Y < ContainerSize.Height)
-                Center = new PointF(Center.X + v.X, Center.Y - v.Y);
+            Center = new PointF(Math.Max(0, v.X * ContainerSize.Width), Math.Max(0, -v.Y * ContainerSize.Height));
+            if (Center.X == 0 && Center.Y == 0)
+                Center = new PointF(320, 240);
         }
     }
 
@@ -48,7 +49,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly PictureBox _JoystickStatus;
         private readonly PictureBox _mainCameraPicture;
         private readonly RadioButton _searchRadioButton;
-        private Task _movePointerTask;
         private bool _stopMoving = true;
         private readonly SerialController _serialController;
 
@@ -125,39 +125,17 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (_searchRadioButton.Checked)
             {
                 ChangeTextBox(_infoTxtBox, $"Right Thumbstick : {e.Value.LengthSquared()}");
-                if (e.Value.LengthSquared() < 1e-1)
-                {
-                    _stopMoving = true;
-                    return;
-                }
-                _stopMoving = false;
-                if (_movePointerTask == null || _movePointerTask.IsCompleted)
-                    _movePointerTask = CreatePointerMovingTask(e.Value);
-                else
-                {
-                    _stopMoving = true;
-                    _movePointerTask.Wait();
-                    _movePointerTask = CreatePointerMovingTask(e.Value);
-                }
+                Pointer.Move(e.Value);
+                Console.WriteLine("XXX = " + Pointer.Cursor[0]);
+                Console.WriteLine("YYY = " + Pointer.Cursor[1]);
+
+                //_serialController.Write(5, 9, Pointer.Cursor, 2);
             }
         }
 
         private void XboxLeftThumbstick_ValueChanged(object sender, ValueChangeArgs<System.Numerics.Vector2> e)
         {
             ChangeTextBox(_infoTxtBox, $"Left Thumbstick : {e.Value}");
-        }
-
-        private Task CreatePointerMovingTask(System.Numerics.Vector2 v)
-        {
-            return Task.Factory.StartNew(async () =>
-            {
-                while (!_stopMoving)
-                {
-                    Pointer.Move(v);
-                    _serialController.Write(5, 9, Pointer.Cursor, 2);
-                    await Task.Delay(1);
-                }
-            });
         }
 
         public void drawIntoImage()
