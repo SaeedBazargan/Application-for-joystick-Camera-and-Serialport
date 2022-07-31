@@ -136,14 +136,14 @@
                 Template[9] = (byte)((Tx_Data[0] >> 8) & 0xFF);
                 Template[10] = (byte)((Tx_Data[0] >> 16) & 0xFF);
                 Template[11] = (byte)((Tx_Data[0] >> 24) & 0xFF);
-                Console.WriteLine("AAAAA = " + ((Template[11] << 24) + (Template[10] << 16) + (Template[9] << 8) + Template[8]));
+                //Console.WriteLine("AAAAA = " + ((Template[11] << 24) + (Template[10] << 16) + (Template[9] << 8) + Template[8]));
 
                 Template[12] = (byte)((Tx_Data[1]) & 0xFF);
                 Template[13] = (byte)((Tx_Data[1] >> 8) & 0xFF);
                 Template[14] = (byte)((Tx_Data[1] >> 16) & 0xFF);
                 Template[15] = (byte)((Tx_Data[1] >> 24) & 0xFF);
 
-                Console.WriteLine("BBBBB = " + ((Template[15] << 24) + (Template[14] << 16) + (Template[13] << 8) + Template[12]));
+                //Console.WriteLine("BBBBB = " + ((Template[15] << 24) + (Template[14] << 16) + (Template[13] << 8) + Template[12]));
                 //Console.WriteLine("CCCCC = " + ((buffer[0] << 24) + (buffer[1] << 16) + (buffer[2] << 8) + buffer[3]));
             }
             //else

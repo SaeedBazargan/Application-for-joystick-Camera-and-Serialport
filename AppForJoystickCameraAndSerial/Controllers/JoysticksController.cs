@@ -29,14 +29,27 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             ContainerSize = size;
             Center = new PointF(size.Width / 2, size.Height / 2);
+            //Center = new PointF(0, 0);
         }
 
         public void Move(System.Numerics.Vector2 v)
         {
             var center = new PointF(Center.X + v.X, Center.Y - v.Y);
-            Center = new PointF(Math.Max(0, v.X * ContainerSize.Width), Math.Max(0, -v.Y * ContainerSize.Height));
-            if (Center.X == 0 && Center.Y == 0)
-                Center = new PointF(320, 240);
+            Center = new PointF(((ContainerSize.Width / 2) * v.X) + (ContainerSize.Width / 2), ((ContainerSize.Height / 2) * -v.Y) + (ContainerSize.Height / 2));
+            //Console.WriteLine("XXX = " + Center.X);
+            //Console.WriteLine("YYY = " + Center.Y);
+
+            //if (Center.X == 0 && Center.Y == 0)
+            //{
+            //    Center = new PointF(ContainerSize.Width / 2, ContainerSize.Height / 2);
+            //}
+            //if (v.LengthSquared() > 1)
+            //{
+            //    v.X = 640;
+            //    v.Y = 480;
+            //}
+            if (v.LengthSquared() < 0.085)
+                Center = new PointF(ContainerSize.Width / 2, ContainerSize.Height / 2);
         }
     }
 
@@ -49,7 +62,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly PictureBox _JoystickStatus;
         private readonly PictureBox _mainCameraPicture;
         private readonly RadioButton _searchRadioButton;
-        private bool _stopMoving = true;
         private readonly SerialController _serialController;
 
         public JoysticksController(TextBox infoTxtBox, Label label, PictureBox JoystickStatus, PictureBox mainCameraPicture, RadioButton searchRadio, SerialController serialController)
@@ -129,13 +141,13 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 Console.WriteLine("XXX = " + Pointer.Cursor[0]);
                 Console.WriteLine("YYY = " + Pointer.Cursor[1]);
 
-                //_serialController.Write(5, 9, Pointer.Cursor, 2);
+                _serialController.Write(5, 9, Pointer.Cursor, 2);
             }
         }
 
         private void XboxLeftThumbstick_ValueChanged(object sender, ValueChangeArgs<System.Numerics.Vector2> e)
         {
-            ChangeTextBox(_infoTxtBox, $"Left Thumbstick : {e.Value}");
+            ChangeTextBox(_infoTxtBox, $"Left Thumbstick : {e.Value.LengthSquared()}");
         }
 
         public void drawIntoImage()

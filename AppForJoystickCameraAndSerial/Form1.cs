@@ -37,13 +37,10 @@ namespace AppForJoystickCameraAndSerial
         int[] OFF = new int[1] { 0 };
         bool Enable_Flag = false;
 
-        int[] buffer = new int[4];
-
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly JoysticksController joysticksController;
         private readonly CamerasController camerasController;
         private readonly SerialController serialportController;
-        private readonly ConfigForm Configuration;
 
         public Form1()
         {
@@ -51,9 +48,8 @@ namespace AppForJoystickCameraAndSerial
 
             cancellationTokenSource = new CancellationTokenSource();
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, CameraExceptionCallBack);
-            serialportController = new SerialController(cancellationTokenSource.Token, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial2Status_pictureBox, OpenPort_Button);
+            serialportController = new SerialController(cancellationTokenSource.Token, Com_ComboBox, Com_ComboBox2, Baud_ComboBox, Baud_ComboBox2, DataBits_ComboBox, DataBits_ComboBox2, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button);
             joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController);
-            Configuration = new ConfigForm();
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -69,11 +65,6 @@ namespace AppForJoystickCameraAndSerial
 
         private void ConfigButton_Click(object sender, EventArgs e)
         {
-            if (SelectSerial1_CheckBox.Checked)
-                Configuration.TransferringData(0);
-            if (SelectSerial2_CheckBox.Checked)
-                Configuration.TransferringData(1);
-
             Form LoginconfigForm = new LoginConfig_Form();
             LoginconfigForm.Show(this);
         }
