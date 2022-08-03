@@ -41,6 +41,9 @@ namespace AppForJoystickCameraAndSerial
         private readonly JoysticksController joysticksController;
         private readonly CamerasController camerasController;
         private readonly SerialController serialportController;
+        private readonly MouseController mouseController;
+
+        private Point MouseDownLocation;
 
         public Form1()
         {
@@ -50,7 +53,12 @@ namespace AppForJoystickCameraAndSerial
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, CameraExceptionCallBack);
             serialportController = new SerialController(cancellationTokenSource.Token, Com_ComboBox, Com_ComboBox2, Baud_ComboBox, Baud_ComboBox2, DataBits_ComboBox, DataBits_ComboBox2, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button);
             joysticksController = new JoysticksController(JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController);
+            mouseController = new MouseController(MouseStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController);
+
+            this.DoubleBuffered = true;
         }
+
+        Rectangle rec = new Rectangle(0, 0, 0, 0);
 
         private void Exit_Btn_Click(object sender, EventArgs e)
         {
@@ -184,12 +192,30 @@ namespace AppForJoystickCameraAndSerial
                 MessageBox.Show("You can't record! First select one of the cameras please", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        private void MainCameraPictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.FillRectangle(Brushes.DarkBlue, rec);
+        }
+
+        private void MainCameraPictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            rec = new Rectangle(e.X, e.Y, 0, 0);
+            Invalidate();
+        }
+
+        private void MainCameraPictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            rec.Width = e.X - rec.X;
+            rec.Height = e.Y - rec.Y;
+            Invalidate();
+        }
 
         private void Joystick_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
                 joysticksController.Start();
         }
+
         private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)

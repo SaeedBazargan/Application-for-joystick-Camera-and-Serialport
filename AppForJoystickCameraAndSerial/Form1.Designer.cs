@@ -40,6 +40,8 @@
             this.Serial2_Lable = new System.Windows.Forms.Label();
             this.Joystick_Label = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.MouseStatus_pictureBox = new System.Windows.Forms.PictureBox();
+            this.Mouse_Label = new System.Windows.Forms.Label();
             this.JoystickStatus_pictureBox = new System.Windows.Forms.PictureBox();
             this.Camera1Status_pictureBox = new System.Windows.Forms.PictureBox();
             this.Serial2Status_pictureBox = new System.Windows.Forms.PictureBox();
@@ -118,6 +120,7 @@
             this.Joystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.Mouse_CheckBox = new System.Windows.Forms.CheckBox();
             this.CancleRadio = new System.Windows.Forms.RadioButton();
             this.HomingRadio = new System.Windows.Forms.RadioButton();
             this.PositionRadio = new System.Windows.Forms.RadioButton();
@@ -132,6 +135,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MouseStatus_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.JoystickStatus_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Camera1Status_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Serial2Status_pictureBox)).BeginInit();
@@ -164,11 +168,11 @@
             // Camera1_Label
             // 
             this.Camera1_Label.AutoSize = true;
-            this.Camera1_Label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Camera1_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Camera1_Label.ForeColor = System.Drawing.Color.White;
-            this.Camera1_Label.Location = new System.Drawing.Point(6, 21);
+            this.Camera1_Label.Location = new System.Drawing.Point(6, 23);
             this.Camera1_Label.Name = "Camera1_Label";
-            this.Camera1_Label.Size = new System.Drawing.Size(77, 21);
+            this.Camera1_Label.Size = new System.Drawing.Size(68, 19);
             this.Camera1_Label.TabIndex = 1;
             this.Camera1_Label.Text = "Camera 1";
             // 
@@ -176,12 +180,15 @@
             // 
             this.MainCameraPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MainCameraPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MainCameraPictureBox.Image")));
-            this.MainCameraPictureBox.Location = new System.Drawing.Point(463, 7);
+            this.MainCameraPictureBox.Location = new System.Drawing.Point(487, 7);
             this.MainCameraPictureBox.Name = "MainCameraPictureBox";
             this.MainCameraPictureBox.Size = new System.Drawing.Size(640, 480);
             this.MainCameraPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.MainCameraPictureBox.TabIndex = 2;
             this.MainCameraPictureBox.TabStop = false;
+            this.MainCameraPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.MainCameraPictureBox_Paint);
+            this.MainCameraPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainCameraPictureBox_MouseDown);
+            this.MainCameraPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainCameraPictureBox_MouseMove);
             // 
             // Camera1CheckBox
             // 
@@ -228,49 +235,51 @@
             // Camera2_Label
             // 
             this.Camera2_Label.AutoSize = true;
-            this.Camera2_Label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Camera2_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Camera2_Label.ForeColor = System.Drawing.Color.White;
-            this.Camera2_Label.Location = new System.Drawing.Point(6, 48);
+            this.Camera2_Label.Location = new System.Drawing.Point(6, 47);
             this.Camera2_Label.Name = "Camera2_Label";
-            this.Camera2_Label.Size = new System.Drawing.Size(77, 21);
+            this.Camera2_Label.Size = new System.Drawing.Size(68, 19);
             this.Camera2_Label.TabIndex = 17;
             this.Camera2_Label.Text = "Camera 2";
             // 
             // Serial1_Lable
             // 
             this.Serial1_Lable.AutoSize = true;
-            this.Serial1_Lable.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Serial1_Lable.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Serial1_Lable.ForeColor = System.Drawing.Color.White;
-            this.Serial1_Lable.Location = new System.Drawing.Point(6, 75);
+            this.Serial1_Lable.Location = new System.Drawing.Point(6, 71);
             this.Serial1_Lable.Name = "Serial1_Lable";
-            this.Serial1_Lable.Size = new System.Drawing.Size(94, 21);
+            this.Serial1_Lable.Size = new System.Drawing.Size(82, 19);
             this.Serial1_Lable.TabIndex = 18;
             this.Serial1_Lable.Text = "Serial Port 1";
             // 
             // Serial2_Lable
             // 
             this.Serial2_Lable.AutoSize = true;
-            this.Serial2_Lable.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Serial2_Lable.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Serial2_Lable.ForeColor = System.Drawing.Color.White;
-            this.Serial2_Lable.Location = new System.Drawing.Point(6, 101);
+            this.Serial2_Lable.Location = new System.Drawing.Point(6, 95);
             this.Serial2_Lable.Name = "Serial2_Lable";
-            this.Serial2_Lable.Size = new System.Drawing.Size(94, 21);
+            this.Serial2_Lable.Size = new System.Drawing.Size(82, 19);
             this.Serial2_Lable.TabIndex = 19;
             this.Serial2_Lable.Text = "Serial Port 2";
             // 
             // Joystick_Label
             // 
             this.Joystick_Label.AutoSize = true;
-            this.Joystick_Label.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Joystick_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Joystick_Label.ForeColor = System.Drawing.Color.White;
-            this.Joystick_Label.Location = new System.Drawing.Point(6, 126);
+            this.Joystick_Label.Location = new System.Drawing.Point(6, 120);
             this.Joystick_Label.Name = "Joystick_Label";
-            this.Joystick_Label.Size = new System.Drawing.Size(64, 21);
+            this.Joystick_Label.Size = new System.Drawing.Size(56, 19);
             this.Joystick_Label.TabIndex = 20;
             this.Joystick_Label.Text = "Joystick";
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.MouseStatus_pictureBox);
+            this.groupBox3.Controls.Add(this.Mouse_Label);
             this.groupBox3.Controls.Add(this.JoystickStatus_pictureBox);
             this.groupBox3.Controls.Add(this.Camera1Status_pictureBox);
             this.groupBox3.Controls.Add(this.Serial2Status_pictureBox);
@@ -283,17 +292,38 @@
             this.groupBox3.Controls.Add(this.Serial2_Lable);
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(12, 12);
+            this.groupBox3.Location = new System.Drawing.Point(12, 7);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(335, 155);
+            this.groupBox3.Size = new System.Drawing.Size(335, 171);
             this.groupBox3.TabIndex = 25;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Port Status";
             // 
+            // MouseStatus_pictureBox
+            // 
+            this.MouseStatus_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
+            this.MouseStatus_pictureBox.Location = new System.Drawing.Point(305, 142);
+            this.MouseStatus_pictureBox.Name = "MouseStatus_pictureBox";
+            this.MouseStatus_pictureBox.Size = new System.Drawing.Size(21, 21);
+            this.MouseStatus_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.MouseStatus_pictureBox.TabIndex = 44;
+            this.MouseStatus_pictureBox.TabStop = false;
+            // 
+            // Mouse_Label
+            // 
+            this.Mouse_Label.AutoSize = true;
+            this.Mouse_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Mouse_Label.ForeColor = System.Drawing.Color.White;
+            this.Mouse_Label.Location = new System.Drawing.Point(6, 143);
+            this.Mouse_Label.Name = "Mouse_Label";
+            this.Mouse_Label.Size = new System.Drawing.Size(51, 19);
+            this.Mouse_Label.TabIndex = 43;
+            this.Mouse_Label.Text = "Mouse";
+            // 
             // JoystickStatus_pictureBox
             // 
             this.JoystickStatus_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.JoystickStatus_pictureBox.Location = new System.Drawing.Point(305, 122);
+            this.JoystickStatus_pictureBox.Location = new System.Drawing.Point(305, 117);
             this.JoystickStatus_pictureBox.Name = "JoystickStatus_pictureBox";
             this.JoystickStatus_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.JoystickStatus_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -303,7 +333,7 @@
             // Camera1Status_pictureBox
             // 
             this.Camera1Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Camera1Status_pictureBox.Location = new System.Drawing.Point(305, 22);
+            this.Camera1Status_pictureBox.Location = new System.Drawing.Point(305, 17);
             this.Camera1Status_pictureBox.Name = "Camera1Status_pictureBox";
             this.Camera1Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Camera1Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -313,7 +343,7 @@
             // Serial2Status_pictureBox
             // 
             this.Serial2Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Serial2Status_pictureBox.Location = new System.Drawing.Point(305, 97);
+            this.Serial2Status_pictureBox.Location = new System.Drawing.Point(305, 92);
             this.Serial2Status_pictureBox.Name = "Serial2Status_pictureBox";
             this.Serial2Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Serial2Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -323,7 +353,7 @@
             // Serial1Status_pictureBox
             // 
             this.Serial1Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Serial1Status_pictureBox.Location = new System.Drawing.Point(305, 72);
+            this.Serial1Status_pictureBox.Location = new System.Drawing.Point(305, 67);
             this.Serial1Status_pictureBox.Name = "Serial1Status_pictureBox";
             this.Serial1Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Serial1Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -333,7 +363,7 @@
             // Camera2Status_pictureBox
             // 
             this.Camera2Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Camera2Status_pictureBox.Location = new System.Drawing.Point(305, 47);
+            this.Camera2Status_pictureBox.Location = new System.Drawing.Point(305, 42);
             this.Camera2Status_pictureBox.Name = "Camera2Status_pictureBox";
             this.Camera2Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Camera2Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -346,7 +376,7 @@
             this.groupBox2.Controls.Add(this.JoystickInfoTxtBox);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(1133, 673);
+            this.groupBox2.Location = new System.Drawing.Point(1157, 653);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(181, 70);
             this.groupBox2.TabIndex = 26;
@@ -362,7 +392,7 @@
             this.groupBox4.Controls.Add(this.groupBox7);
             this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox4.ForeColor = System.Drawing.Color.White;
-            this.groupBox4.Location = new System.Drawing.Point(1109, 12);
+            this.groupBox4.Location = new System.Drawing.Point(1133, 12);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(205, 518);
             this.groupBox4.TabIndex = 27;
@@ -760,7 +790,7 @@
             this.groupBox9.Controls.Add(this.Baud_ComboBox);
             this.groupBox9.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox9.ForeColor = System.Drawing.Color.White;
-            this.groupBox9.Location = new System.Drawing.Point(12, 173);
+            this.groupBox9.Location = new System.Drawing.Point(12, 178);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(335, 339);
             this.groupBox9.TabIndex = 35;
@@ -954,7 +984,7 @@
             this.groupBox1.Controls.Add(this.Exit_Btn);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(1133, 597);
+            this.groupBox1.Location = new System.Drawing.Point(1157, 577);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(181, 70);
             this.groupBox1.TabIndex = 36;
@@ -986,7 +1016,7 @@
             this.groupBox10.Controls.Add(this.Camera1CheckBox);
             this.groupBox10.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox10.ForeColor = System.Drawing.Color.White;
-            this.groupBox10.Location = new System.Drawing.Point(12, 571);
+            this.groupBox10.Location = new System.Drawing.Point(12, 551);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(335, 176);
             this.groupBox10.TabIndex = 37;
@@ -1136,7 +1166,7 @@
             this.groupBox11.Controls.Add(this.MinorPictureBox);
             this.groupBox11.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox11.ForeColor = System.Drawing.Color.White;
-            this.groupBox11.Location = new System.Drawing.Point(353, 657);
+            this.groupBox11.Location = new System.Drawing.Point(353, 637);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(368, 90);
             this.groupBox11.TabIndex = 38;
@@ -1279,6 +1309,7 @@
             // groupBox14
             // 
             this.groupBox14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox14.Controls.Add(this.Mouse_CheckBox);
             this.groupBox14.Controls.Add(this.CancleRadio);
             this.groupBox14.Controls.Add(this.HomingRadio);
             this.groupBox14.Controls.Add(this.PositionRadio);
@@ -1293,12 +1324,30 @@
             this.groupBox14.Controls.Add(this.Joystick_CheckBox);
             this.groupBox14.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox14.ForeColor = System.Drawing.Color.White;
-            this.groupBox14.Location = new System.Drawing.Point(727, 630);
+            this.groupBox14.Location = new System.Drawing.Point(727, 610);
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.Size = new System.Drawing.Size(368, 117);
             this.groupBox14.TabIndex = 39;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Joystick Configuration";
+            // 
+            // Mouse_CheckBox
+            // 
+            this.Mouse_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Mouse_CheckBox.AutoSize = true;
+            this.Mouse_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.Mouse_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.Mouse_CheckBox.FlatAppearance.BorderSize = 3;
+            this.Mouse_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.Mouse_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Mouse_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.Mouse_CheckBox.Location = new System.Drawing.Point(285, 44);
+            this.Mouse_CheckBox.Name = "Mouse_CheckBox";
+            this.Mouse_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Mouse_CheckBox.Size = new System.Drawing.Size(70, 23);
+            this.Mouse_CheckBox.TabIndex = 52;
+            this.Mouse_CheckBox.Text = "Mouse";
+            this.Mouse_CheckBox.UseVisualStyleBackColor = false;
             // 
             // CancleRadio
             // 
@@ -1418,7 +1467,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1326, 749);
+            this.ClientSize = new System.Drawing.Size(1350, 729);
             this.Controls.Add(this.groupBox14);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
@@ -1436,6 +1485,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MouseStatus_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.JoystickStatus_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Camera1Status_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Serial2Status_pictureBox)).EndInit();
@@ -1569,5 +1619,8 @@
         private RadioButton PositionRadio;
         private RadioButton SearchRadio;
         private RadioButton TrackRadio;
+        private PictureBox MouseStatus_pictureBox;
+        private Label Mouse_Label;
+        private CheckBox Mouse_CheckBox;
     }
 }
