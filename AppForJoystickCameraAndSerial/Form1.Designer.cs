@@ -186,9 +186,6 @@
             this.MainCameraPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.MainCameraPictureBox.TabIndex = 2;
             this.MainCameraPictureBox.TabStop = false;
-            this.MainCameraPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.MainCameraPictureBox_Paint);
-            this.MainCameraPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainCameraPictureBox_MouseDown);
-            this.MainCameraPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainCameraPictureBox_MouseMove);
             // 
             // Camera1CheckBox
             // 
@@ -1348,6 +1345,7 @@
             this.Mouse_CheckBox.TabIndex = 52;
             this.Mouse_CheckBox.Text = "Mouse";
             this.Mouse_CheckBox.UseVisualStyleBackColor = false;
+            this.Mouse_CheckBox.CheckStateChanged += new System.EventHandler(this.Mouse_CheckBox_CheckStateChanged);
             // 
             // CancleRadio
             // 

@@ -29,28 +29,18 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             ContainerSize = size;
             Center = new PointF(size.Width / 2, size.Height / 2);
-            //Center = new PointF(0, 0);
         }
 
         public void Move(System.Numerics.Vector2 v)
         {
+            Console.WriteLine("xxxx = " + v.X);
+            Console.WriteLine("yyyy = " + v.Y);
+
             var center = new PointF(Center.X + v.X, Center.Y - v.Y);
             Center = new PointF(((ContainerSize.Width / 2) * v.X) + (ContainerSize.Width / 2), ((ContainerSize.Height / 2) * -v.Y) + (ContainerSize.Height / 2));
-            Console.WriteLine("XXX = " + Center.X);
-            Console.WriteLine("YYY = " + Center.Y);
 
-            //if (Center.X == 0 && Center.Y == 0)
-            //{
+            //if (v.LengthSquared() < 0.05)
             //    Center = new PointF(ContainerSize.Width / 2, ContainerSize.Height / 2);
-            //}
-            //if (v.LengthSquared() > 1)
-            //{
-            //    v.X = 640;
-            //    v.Y = 480;
-            //}
-
-            if (v.LengthSquared() < 0.05)
-                Center = new PointF(ContainerSize.Width / 2, ContainerSize.Height / 2);
         }
     }
 
@@ -135,15 +125,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         private void XboxRightThumbstick_ValueChanged(object sender, ValueChangeArgs<System.Numerics.Vector2> e)
         {
-            //if (_searchRadioButton.Checked)
-            //{
             ChangeTextBox(_infoTxtBox, $"Right Thumbstick : {e.Value.LengthSquared()}");
-            //    Pointer.Move(e.Value);
-            //    Console.WriteLine("XXX = " + Pointer.Cursor[0]);
-            //    Console.WriteLine("YYY = " + Pointer.Cursor[1]);
-
-            //    _serialController.Write(5, 9, Pointer.Cursor, 2);
-            //}
         }
 
         private void XboxLeftThumbstick_ValueChanged(object sender, ValueChangeArgs<System.Numerics.Vector2> e)
@@ -152,12 +134,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 ChangeTextBox(_infoTxtBox, $"Left Thumbstick : {e.Value.LengthSquared()}");
                 Pointer.Move(e.Value);
-                Console.WriteLine("XXX = " + Pointer.Cursor[0]);
-                Console.WriteLine("YYY = " + Pointer.Cursor[1]);
+                //Console.WriteLine("XXX = " + Pointer.Cursor[0]);
+                //Console.WriteLine("YYY = " + Pointer.Cursor[1]);
 
                 _serialController.Write(5, 9, Pointer.Cursor, 2);
             }
-
         }
 
         public void drawIntoImage()

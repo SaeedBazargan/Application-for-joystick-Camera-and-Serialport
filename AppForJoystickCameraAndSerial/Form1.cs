@@ -192,22 +192,28 @@ namespace AppForJoystickCameraAndSerial
                 MessageBox.Show("You can't record! First select one of the cameras please", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void MainCameraPictureBox_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.FillRectangle(Brushes.DarkBlue, rec);
-        }
+        //private void MainCameraPictureBox_Paint(object sender, PaintEventArgs e)
+        //{
+        //    e.Graphics.FillRectangle(Brushes.DarkBlue, rec);
+        //}
 
-        private void MainCameraPictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            rec = new Rectangle(e.X, e.Y, 0, 0);
-            Invalidate();
-        }
+        //private void MainCameraPictureBox_MouseDown(object sender, MouseEventArgs e)
+        //{
+        //    rec = new Rectangle(e.X, e.Y, 0, 0);
+        //    Invalidate();
+        //}
 
-        private void MainCameraPictureBox_MouseMove(object sender, MouseEventArgs e)
+        //private void MainCameraPictureBox_MouseMove(object sender, MouseEventArgs e)
+        //{
+
+        //}
+
+        private void Mouse_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
-            rec.Width = e.X - rec.X;
-            rec.Height = e.Y - rec.Y;
-            Invalidate();
+            if (((CheckBox)sender).Checked)
+                mouseController.Start(true);
+            else
+                mouseController.Start(false);
         }
 
         private void Joystick_CheckBox_CheckStateChanged(object sender, EventArgs e)
