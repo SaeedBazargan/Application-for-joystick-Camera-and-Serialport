@@ -3,50 +3,8 @@ using AppForJoystickCameraAndSerial.Controllers;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
-    public class CameraPointer
-    {
-        public PointF Center { get; set; }
-        public Size ContainerSize { get; set; }
-        public int Radius { get; set; }
-        public int[] Cursor => new int[] { (int)Center.X, (int)Center.Y};
-        public Color Color { get; set; } = Color.Blue;
-        public PointF[] LinePoints => new PointF[]
-        {
-            new PointF(Center.X, Center.Y - Radius),
-            new PointF(Center.X, Center.Y + Radius),
-
-            new PointF(Center.X + Radius, Center.Y),
-            new PointF(Center.X - Radius, Center.Y)
-        };
-
-        public CameraPointer(PointF center = default, int radius = 10)
-        {
-            Center = center;
-            Radius = radius;
-        }
-
-        public void SetContainerSize(Size size)
-        {
-            ContainerSize = size;
-            Center = new PointF(size.Width / 2, size.Height / 2);
-        }
-
-        public void Move(System.Numerics.Vector2 v)
-        {
-            Console.WriteLine("xxxx = " + v.X);
-            Console.WriteLine("yyyy = " + v.Y);
-
-            var center = new PointF(Center.X + v.X, Center.Y - v.Y);
-            Center = new PointF(((ContainerSize.Width / 2) * v.X) + (ContainerSize.Width / 2), ((ContainerSize.Height / 2) * -v.Y) + (ContainerSize.Height / 2));
-
-            //if (v.LengthSquared() < 0.05)
-            //    Center = new PointF(ContainerSize.Width / 2, ContainerSize.Height / 2);
-        }
-    }
-
     public class JoysticksController : ControllerBase
     {
-        public static readonly CameraPointer Pointer = new CameraPointer();
         private readonly TextBox _infoTxtBox;
         private readonly XBoxController xboxController;
         private readonly Label _JoystickLabel;
@@ -63,7 +21,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _JoystickStatus = JoystickStatus;
             _mainCameraPicture = mainCameraPicture;
             _searchRadioButton = searchRadio;
-            Pointer.SetContainerSize(_mainCameraPicture.Size);
+            Pointer.JoyPointer.SetContainerSize(_mainCameraPicture.Size);
             _serialController = serialController;
         }
 
@@ -133,11 +91,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (_searchRadioButton.Checked)
             {
                 ChangeTextBox(_infoTxtBox, $"Left Thumbstick : {e.Value.LengthSquared()}");
-                Pointer.Move(e.Value);
+                Pointer.JoyPointer.MoveJoystick(e.Value);
                 //Console.WriteLine("XXX = " + Pointer.Cursor[0]);
                 //Console.WriteLine("YYY = " + Pointer.Cursor[1]);
 
-                _serialController.Write(5, 9, Pointer.Cursor, 2);
+                _serialController.Write(5, 9, Pointer.JoyPointer.Cursor, 2);
             }
         }
 

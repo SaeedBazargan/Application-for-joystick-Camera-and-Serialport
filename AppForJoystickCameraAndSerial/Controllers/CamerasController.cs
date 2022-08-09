@@ -100,9 +100,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private void DrawJoyStickPointer(Bitmap image)
         {
             Graphics g = Graphics.FromImage(image);
-            var points = JoysticksController.Pointer.LinePoints;
-            g.DrawLine(new Pen(JoysticksController.Pointer.Color, 3f), points[0], points[1]);
-            g.DrawLine(new Pen(JoysticksController.Pointer.Color, 3f), points[2], points[3]);
+            var points = Pointer.JoyPointer.LinePoints;
+            g.DrawLine(new Pen(Pointer.JoyPointer.Color, 3f), points[0], points[1]);
+            g.DrawLine(new Pen(Pointer.JoyPointer.Color, 3f), points[2], points[3]);
         }
 
         private void CameraTaskDone(Task task, bool isMain)
