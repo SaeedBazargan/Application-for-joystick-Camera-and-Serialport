@@ -132,6 +132,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.UsbJoystick_CheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -222,7 +223,7 @@
             // 
             this.MinorPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MinorPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MinorPictureBox.Image")));
-            this.MinorPictureBox.Location = new System.Drawing.Point(41, -150);
+            this.MinorPictureBox.Location = new System.Drawing.Point(498, 17);
             this.MinorPictureBox.Name = "MinorPictureBox";
             this.MinorPictureBox.Size = new System.Drawing.Size(320, 240);
             this.MinorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1160,7 +1161,6 @@
             this.groupBox11.Controls.Add(this.Motor2_CheckBox);
             this.groupBox11.Controls.Add(this.Motor1_CheckBox);
             this.groupBox11.Controls.Add(this.AllMotorsCheckBox);
-            this.groupBox11.Controls.Add(this.MinorPictureBox);
             this.groupBox11.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox11.ForeColor = System.Drawing.Color.White;
             this.groupBox11.Location = new System.Drawing.Point(353, 637);
@@ -1294,7 +1294,7 @@
             this.Joystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Joystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Joystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Joystick_CheckBox.Location = new System.Drawing.Point(285, 15);
+            this.Joystick_CheckBox.Location = new System.Drawing.Point(284, 14);
             this.Joystick_CheckBox.Name = "Joystick_CheckBox";
             this.Joystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Joystick_CheckBox.Size = new System.Drawing.Size(75, 23);
@@ -1306,6 +1306,7 @@
             // groupBox14
             // 
             this.groupBox14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox14.Controls.Add(this.UsbJoystick_CheckBox);
             this.groupBox14.Controls.Add(this.Mouse_CheckBox);
             this.groupBox14.Controls.Add(this.CancleRadio);
             this.groupBox14.Controls.Add(this.HomingRadio);
@@ -1338,7 +1339,7 @@
             this.Mouse_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Mouse_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Mouse_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Mouse_CheckBox.Location = new System.Drawing.Point(285, 44);
+            this.Mouse_CheckBox.Location = new System.Drawing.Point(289, 44);
             this.Mouse_CheckBox.Name = "Mouse_CheckBox";
             this.Mouse_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Mouse_CheckBox.Size = new System.Drawing.Size(70, 23);
@@ -1460,6 +1461,25 @@
             this.textBox1.Size = new System.Drawing.Size(100, 25);
             this.textBox1.TabIndex = 42;
             // 
+            // UsbJoystick_CheckBox
+            // 
+            this.UsbJoystick_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.UsbJoystick_CheckBox.AutoSize = true;
+            this.UsbJoystick_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.UsbJoystick_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.UsbJoystick_CheckBox.FlatAppearance.BorderSize = 3;
+            this.UsbJoystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.UsbJoystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.UsbJoystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.UsbJoystick_CheckBox.Location = new System.Drawing.Point(253, 73);
+            this.UsbJoystick_CheckBox.Name = "UsbJoystick_CheckBox";
+            this.UsbJoystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.UsbJoystick_CheckBox.Size = new System.Drawing.Size(106, 23);
+            this.UsbJoystick_CheckBox.TabIndex = 53;
+            this.UsbJoystick_CheckBox.Text = "USB_Joystick";
+            this.UsbJoystick_CheckBox.UseVisualStyleBackColor = false;
+            this.UsbJoystick_CheckBox.CheckStateChanged += new System.EventHandler(this.UsbJoystick_CheckBox_CheckStateChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1472,6 +1492,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.MinorPictureBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.MainCameraPictureBox);
@@ -1620,5 +1641,6 @@
         private PictureBox MouseStatus_pictureBox;
         private Label Mouse_Label;
         private CheckBox Mouse_CheckBox;
+        private CheckBox UsbJoystick_CheckBox;
     }
 }
