@@ -49,6 +49,13 @@
             var center = new PointF(v.X, v.Y);
             Center = new PointF(v.X, v.Y);
         }
+        public void MoveUSBJoystick(System.Numerics.Vector2 v)
+        {
+            //Console.WriteLine("xxxx = " + v.X);
+            //Console.WriteLine("yyyy = " + v.Y);
 
+            var center = new PointF(v.X, v.Y);
+            Center = new PointF(v.X, v.Y);
+        }
     }
 }

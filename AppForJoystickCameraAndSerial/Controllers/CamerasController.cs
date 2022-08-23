@@ -65,11 +65,17 @@ namespace AppForJoystickCameraAndSerial.Controllers
             VideoWriter writer = null;
             var frame = new Mat();
             Bitmap image;
-
             capture.Open(index);
+
             if (!capture.IsOpened())
                 throw new Exception($"Cannot open camera {index}");
             ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+
+            if (index == 0)
+                HidePictureBox(_minorPictureBox);
+            if (index == 1)
+                HidePictureBox(_mainPictureBox);
+
             while (isRunning[index])
             {
                 capture.Read(frame);
@@ -112,12 +118,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 if (isMain)
                 {
                     ChangePictureBox(_Camera1Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                    ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.my_pic_1);
+                    ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.Premium_Photo___Macro_falling_coffee_bean_on_gray_background);
                 }
                 else
                 {
                     ChangePictureBox(_Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                    ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.my_pic_2);
+                    ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.Premium_Photo___Macro_falling_coffee_bean_on_gray_background);
                 }
             }
             else

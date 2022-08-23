@@ -40,9 +40,9 @@
             this.Serial2_Lable = new System.Windows.Forms.Label();
             this.Joystick_Label = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.MouseStatus_pictureBox = new System.Windows.Forms.PictureBox();
-            this.Mouse_Label = new System.Windows.Forms.Label();
-            this.JoystickStatus_pictureBox = new System.Windows.Forms.PictureBox();
+            this.USBJoystickStatus_pictureBox = new System.Windows.Forms.PictureBox();
+            this.UsbJoystick_Label = new System.Windows.Forms.Label();
+            this.XboxJoystickStatus_pictureBox = new System.Windows.Forms.PictureBox();
             this.Camera1Status_pictureBox = new System.Windows.Forms.PictureBox();
             this.Serial2Status_pictureBox = new System.Windows.Forms.PictureBox();
             this.Serial1Status_pictureBox = new System.Windows.Forms.PictureBox();
@@ -120,6 +120,7 @@
             this.Joystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.UsbJoystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.Mouse_CheckBox = new System.Windows.Forms.CheckBox();
             this.CancleRadio = new System.Windows.Forms.RadioButton();
             this.HomingRadio = new System.Windows.Forms.RadioButton();
@@ -132,12 +133,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.UsbJoystick_CheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainCameraPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MouseStatus_pictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.JoystickStatus_pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.USBJoystickStatus_pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.XboxJoystickStatus_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Camera1Status_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Serial2Status_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Serial1Status_pictureBox)).BeginInit();
@@ -270,15 +270,15 @@
             this.Joystick_Label.ForeColor = System.Drawing.Color.White;
             this.Joystick_Label.Location = new System.Drawing.Point(6, 120);
             this.Joystick_Label.Name = "Joystick_Label";
-            this.Joystick_Label.Size = new System.Drawing.Size(56, 19);
+            this.Joystick_Label.Size = new System.Drawing.Size(90, 19);
             this.Joystick_Label.TabIndex = 20;
-            this.Joystick_Label.Text = "Joystick";
+            this.Joystick_Label.Text = "Xbox Joystick";
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.MouseStatus_pictureBox);
-            this.groupBox3.Controls.Add(this.Mouse_Label);
-            this.groupBox3.Controls.Add(this.JoystickStatus_pictureBox);
+            this.groupBox3.Controls.Add(this.USBJoystickStatus_pictureBox);
+            this.groupBox3.Controls.Add(this.UsbJoystick_Label);
+            this.groupBox3.Controls.Add(this.XboxJoystickStatus_pictureBox);
             this.groupBox3.Controls.Add(this.Camera1Status_pictureBox);
             this.groupBox3.Controls.Add(this.Serial2Status_pictureBox);
             this.groupBox3.Controls.Add(this.Camera1_Label);
@@ -297,36 +297,36 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Port Status";
             // 
-            // MouseStatus_pictureBox
+            // USBJoystickStatus_pictureBox
             // 
-            this.MouseStatus_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.MouseStatus_pictureBox.Location = new System.Drawing.Point(305, 142);
-            this.MouseStatus_pictureBox.Name = "MouseStatus_pictureBox";
-            this.MouseStatus_pictureBox.Size = new System.Drawing.Size(21, 21);
-            this.MouseStatus_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.MouseStatus_pictureBox.TabIndex = 44;
-            this.MouseStatus_pictureBox.TabStop = false;
+            this.USBJoystickStatus_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
+            this.USBJoystickStatus_pictureBox.Location = new System.Drawing.Point(305, 142);
+            this.USBJoystickStatus_pictureBox.Name = "USBJoystickStatus_pictureBox";
+            this.USBJoystickStatus_pictureBox.Size = new System.Drawing.Size(21, 21);
+            this.USBJoystickStatus_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.USBJoystickStatus_pictureBox.TabIndex = 44;
+            this.USBJoystickStatus_pictureBox.TabStop = false;
             // 
-            // Mouse_Label
+            // UsbJoystick_Label
             // 
-            this.Mouse_Label.AutoSize = true;
-            this.Mouse_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Mouse_Label.ForeColor = System.Drawing.Color.White;
-            this.Mouse_Label.Location = new System.Drawing.Point(6, 143);
-            this.Mouse_Label.Name = "Mouse_Label";
-            this.Mouse_Label.Size = new System.Drawing.Size(51, 19);
-            this.Mouse_Label.TabIndex = 43;
-            this.Mouse_Label.Text = "Mouse";
+            this.UsbJoystick_Label.AutoSize = true;
+            this.UsbJoystick_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.UsbJoystick_Label.ForeColor = System.Drawing.Color.White;
+            this.UsbJoystick_Label.Location = new System.Drawing.Point(6, 143);
+            this.UsbJoystick_Label.Name = "UsbJoystick_Label";
+            this.UsbJoystick_Label.Size = new System.Drawing.Size(85, 19);
+            this.UsbJoystick_Label.TabIndex = 43;
+            this.UsbJoystick_Label.Text = "USB Joystick";
             // 
-            // JoystickStatus_pictureBox
+            // XboxJoystickStatus_pictureBox
             // 
-            this.JoystickStatus_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.JoystickStatus_pictureBox.Location = new System.Drawing.Point(305, 117);
-            this.JoystickStatus_pictureBox.Name = "JoystickStatus_pictureBox";
-            this.JoystickStatus_pictureBox.Size = new System.Drawing.Size(21, 21);
-            this.JoystickStatus_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.JoystickStatus_pictureBox.TabIndex = 42;
-            this.JoystickStatus_pictureBox.TabStop = false;
+            this.XboxJoystickStatus_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
+            this.XboxJoystickStatus_pictureBox.Location = new System.Drawing.Point(305, 117);
+            this.XboxJoystickStatus_pictureBox.Name = "XboxJoystickStatus_pictureBox";
+            this.XboxJoystickStatus_pictureBox.Size = new System.Drawing.Size(21, 21);
+            this.XboxJoystickStatus_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.XboxJoystickStatus_pictureBox.TabIndex = 42;
+            this.XboxJoystickStatus_pictureBox.TabStop = false;
             // 
             // Camera1Status_pictureBox
             // 
@@ -1329,6 +1329,25 @@
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Joystick Configuration";
             // 
+            // UsbJoystick_CheckBox
+            // 
+            this.UsbJoystick_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.UsbJoystick_CheckBox.AutoSize = true;
+            this.UsbJoystick_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.UsbJoystick_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.UsbJoystick_CheckBox.FlatAppearance.BorderSize = 3;
+            this.UsbJoystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.UsbJoystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.UsbJoystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.UsbJoystick_CheckBox.Location = new System.Drawing.Point(253, 73);
+            this.UsbJoystick_CheckBox.Name = "UsbJoystick_CheckBox";
+            this.UsbJoystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.UsbJoystick_CheckBox.Size = new System.Drawing.Size(106, 23);
+            this.UsbJoystick_CheckBox.TabIndex = 53;
+            this.UsbJoystick_CheckBox.Text = "USB_Joystick";
+            this.UsbJoystick_CheckBox.UseVisualStyleBackColor = false;
+            this.UsbJoystick_CheckBox.CheckStateChanged += new System.EventHandler(this.UsbJoystick_CheckBox_CheckStateChanged);
+            // 
             // Mouse_CheckBox
             // 
             this.Mouse_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1461,25 +1480,6 @@
             this.textBox1.Size = new System.Drawing.Size(100, 25);
             this.textBox1.TabIndex = 42;
             // 
-            // UsbJoystick_CheckBox
-            // 
-            this.UsbJoystick_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.UsbJoystick_CheckBox.AutoSize = true;
-            this.UsbJoystick_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.UsbJoystick_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.UsbJoystick_CheckBox.FlatAppearance.BorderSize = 3;
-            this.UsbJoystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
-            this.UsbJoystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.UsbJoystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.UsbJoystick_CheckBox.Location = new System.Drawing.Point(253, 73);
-            this.UsbJoystick_CheckBox.Name = "UsbJoystick_CheckBox";
-            this.UsbJoystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.UsbJoystick_CheckBox.Size = new System.Drawing.Size(106, 23);
-            this.UsbJoystick_CheckBox.TabIndex = 53;
-            this.UsbJoystick_CheckBox.Text = "USB_Joystick";
-            this.UsbJoystick_CheckBox.UseVisualStyleBackColor = false;
-            this.UsbJoystick_CheckBox.CheckStateChanged += new System.EventHandler(this.UsbJoystick_CheckBox_CheckStateChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1504,8 +1504,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.MinorPictureBox)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MouseStatus_pictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.JoystickStatus_pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.USBJoystickStatus_pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.XboxJoystickStatus_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Camera1Status_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Serial2Status_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Serial1Status_pictureBox)).EndInit();
@@ -1592,7 +1592,7 @@
         private Button ConfigButton;
         private GroupBox groupBox10;
         private CheckBox Camera2CheckBox;
-        private PictureBox JoystickStatus_pictureBox;
+        private PictureBox XboxJoystickStatus_pictureBox;
         private PictureBox Camera1Status_pictureBox;
         private PictureBox Serial2Status_pictureBox;
         private PictureBox Serial1Status_pictureBox;
@@ -1638,8 +1638,8 @@
         private RadioButton PositionRadio;
         private RadioButton SearchRadio;
         private RadioButton TrackRadio;
-        private PictureBox MouseStatus_pictureBox;
-        private Label Mouse_Label;
+        private PictureBox USBJoystickStatus_pictureBox;
+        private Label UsbJoystick_Label;
         private CheckBox Mouse_CheckBox;
         private CheckBox UsbJoystick_CheckBox;
     }

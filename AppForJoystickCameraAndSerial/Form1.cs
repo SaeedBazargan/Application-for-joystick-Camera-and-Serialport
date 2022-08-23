@@ -58,62 +58,8 @@ namespace AppForJoystickCameraAndSerial
             cancellationTokenSource = new CancellationTokenSource();
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, CameraExceptionCallBack);
             serialportController = new SerialController(cancellationTokenSource.Token, Com_ComboBox, Com_ComboBox2, Baud_ComboBox, Baud_ComboBox2, DataBits_ComboBox, DataBits_ComboBox2, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button);
-            joysticksController = new JoysticksController(cancellationTokenSource.Token,  JoystickInfoTxtBox, Joystick_Label, JoystickStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController, CameraExceptionCallBack);
-            mouseController = new MouseController(MouseStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController);
-
-            /// <summary>
-            /// 
-            /// </summary>
-
-            //// Initialize DirectInput
-            //var directInput = new DirectInput();
-            //// Find a Joystick Guid
-            //var joystickGuid = Guid.Empty;
-            //foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad,
-            //            DeviceEnumerationFlags.AllDevices))
-            //    joystickGuid = deviceInstance.InstanceGuid;
-            //// If Gamepad not found, look for a Joystick
-            //if (joystickGuid == Guid.Empty)
-            //    foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick,
-            //            DeviceEnumerationFlags.AllDevices))
-            //        joystickGuid = deviceInstance.InstanceGuid;
-
-            //// If Joystick not found, throws an error
-            //if (joystickGuid == Guid.Empty)
-            //{
-            //    Console.WriteLine("No joystick/Gamepad found.");
-            //    Console.ReadKey();
-            //    Environment.Exit(1);
-            //}
-
-            //// Instantiate the joystick
-            //var joystick = new Joystick(directInput, joystickGuid);
-
-            //Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
-
-            //// Query all suported ForceFeedback effects
-            //var allEffects = joystick.GetEffects();
-            //foreach (var effectInfo in allEffects)
-            //    Console.WriteLine("Effect available {0}", effectInfo.Name);
-
-            //// Set BufferSize in order to use buffered data.
-            //joystick.Properties.BufferSize = 128;
-
-            //// Acquire the joystick
-            //joystick.Acquire();
-
-            //// Poll events from joystick
-            //while (true)
-            //{
-            //    joystick.Poll();
-            //    var datas = joystick.GetBufferedData();
-
-            //    foreach (var state in datas)
-            //        Console.WriteLine("datas = " + datas + " ==== " + state);
-            //}
-            /// <summary>
-            /// 
-            /// </summary>
+            joysticksController = new JoysticksController(cancellationTokenSource.Token,  JoystickInfoTxtBox, Joystick_Label, XboxJoystickStatus_pictureBox, USBJoystickStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController, CameraExceptionCallBack);
+            mouseController = new MouseController(MainCameraPictureBox, SearchRadio, serialportController);
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -248,22 +194,6 @@ namespace AppForJoystickCameraAndSerial
                 MessageBox.Show("You can't record! First select one of the cameras please", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        //private void MainCameraPictureBox_Paint(object sender, PaintEventArgs e)
-        //{
-        //    e.Graphics.FillRectangle(Brushes.DarkBlue, rec);
-        //}
-
-        //private void MainCameraPictureBox_MouseDown(object sender, MouseEventArgs e)
-        //{
-        //    rec = new Rectangle(e.X, e.Y, 0, 0);
-        //    Invalidate();
-        //}
-
-        //private void MainCameraPictureBox_MouseMove(object sender, MouseEventArgs e)
-        //{
-
-        //}
-
         private void Mouse_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
@@ -276,12 +206,16 @@ namespace AppForJoystickCameraAndSerial
         {
             if (((CheckBox)sender).Checked)
                 joysticksController.Start((byte)Joystick.Xbox);
+            else
+                joysticksController.Stop((byte)Joystick.Xbox);
         }
 
         private void UsbJoystick_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
                 joysticksController.Start((byte)Joystick.USB);
+            else
+                joysticksController.Stop((byte)Joystick.USB);
         }
 
         private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)

@@ -29,5 +29,13 @@
                 label.ForeColor = color;
             });
         }
+
+        protected static void HidePictureBox(PictureBox box)
+        {
+            box.BeginInvoke((MethodInvoker)delegate ()
+            {
+                box.Hide();
+            });
+        }
     }
 }

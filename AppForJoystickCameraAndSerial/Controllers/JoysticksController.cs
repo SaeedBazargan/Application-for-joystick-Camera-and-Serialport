@@ -2,6 +2,7 @@
 using AppForJoystickCameraAndSerial.Controllers;
 using SharpDX.DirectInput;
 using System.Text;
+using System.Numerics;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
@@ -10,7 +11,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly TextBox _infoTxtBox;
         private readonly XBoxController xboxController;
         private readonly Label _JoystickLabel;
-        private readonly PictureBox _JoystickStatus;
+        private readonly PictureBox _xboxJoystickStatus;
+        private readonly PictureBox _usbJoystickStatus;
         private readonly PictureBox _mainCameraPicture;
         private readonly RadioButton _searchRadioButton;
         private readonly SerialController _serialController;
@@ -18,20 +20,23 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly Task[] USB_JoystickTasks;
         private readonly bool[] isRunning;
         private readonly Action<string> _exceptionCallback;
-        //private static Joystick _joystick;
+        Vector2 _positionUSB;
+        private readonly Point[] _positionBuffer;
 
         private static int _currentThrottle;
         private static int _currentYawTrim;
         private const double Ratio = 2000.0 / ushort.MaxValue;
         private const short Speed = 20;
+        private int bufferPointer;
 
-        public JoysticksController(CancellationToken cancellationToken, TextBox infoTxtBox, Label label, PictureBox JoystickStatus, PictureBox mainCameraPicture, RadioButton searchRadio, SerialController serialController, Action<string> exceptionCallback)
+        public JoysticksController(CancellationToken cancellationToken, TextBox infoTxtBox, Label label, PictureBox XboxJoystickStatus, PictureBox USBJoystickStatus, PictureBox mainCameraPicture, RadioButton searchRadio, SerialController serialController, Action<string> exceptionCallback)
         {
             _infoTxtBox = infoTxtBox;
             _cancellationToken = cancellationToken;
             xboxController = new XBoxController();
             _JoystickLabel = label;
-            _JoystickStatus = JoystickStatus;
+            _xboxJoystickStatus = XboxJoystickStatus;
+            _usbJoystickStatus = USBJoystickStatus;
             _mainCameraPicture = mainCameraPicture;
             _searchRadioButton = searchRadio;
             _serialController = serialController;
@@ -39,12 +44,21 @@ namespace AppForJoystickCameraAndSerial.Controllers
             USB_JoystickTasks = new Task[2];
             _exceptionCallback = exceptionCallback;
             Pointer.JoyPointer.SetContainerSize(_mainCameraPicture.Size);
+            _positionUSB = new Vector2(320, 240);
+            _positionBuffer = new Point[50000];
+            bufferPointer = 0;
         }
 
         public void Start(byte joystickIndex)
         {
-            if (0 <= joystickIndex || joystickIndex <= 2)
+            if (joystickIndex == 0)
             {
+                ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                xboxInit();
+            }
+            else if (1 <= joystickIndex || joystickIndex <= 2)
+            {
+                ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
                 isRunning[joystickIndex] = true;
                 USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), _cancellationToken).ContinueWith((t) => JoystickTaskDone(t, joystickIndex));
             }
@@ -59,76 +73,89 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         private void StartJoystick(int index)
         {
-            while (isRunning[index])
+            var directInput = new DirectInput();
+            var joystickGuid = Guid.Empty;
+            foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
+                joystickGuid = deviceInstance.InstanceGuid;
+
+            if (joystickGuid == Guid.Empty)
+                foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
+                    joystickGuid = deviceInstance.InstanceGuid;
+            if (joystickGuid == Guid.Empty)
+                Console.WriteLine("No joystick/Gamepad found.");
+
+            var _joystick = new Joystick(directInput, joystickGuid);
+            Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
+            _joystick.Acquire();
+            //_currentThrottle = 0;
+            //_currentYawTrim = 0;
+            while (isRunning[index] && !_cancellationToken.IsCancellationRequested)
             {
-                if (index == 0)
-                {
-                    ChangePictureBox(_JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                    xboxInit();
-                }
                 if (index == 1)
                 {
-                    // Initialize DirectInput
-                    var directInput = new DirectInput();
-                    // Find a Joystick Guid
-                    var joystickGuid = Guid.Empty;
-                    foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
-                        joystickGuid = deviceInstance.InstanceGuid;
-                    // If Gamepad not found, look for a Joystick
-                    if (joystickGuid == Guid.Empty)
-                        foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
-                            joystickGuid = deviceInstance.InstanceGuid;
-
-                    // If Joystick not found, throws an error
-                    if (joystickGuid == Guid.Empty)
-                        Console.WriteLine("No joystick/Gamepad found.");
-
-                    // Instantiate the joystick
-                    var _joystick = new Joystick(directInput, joystickGuid);
-                    Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
-
-                    _joystick.Acquire();
-                    //_currentThrottle = 0;
-                    //_currentYawTrim = 0;
-                    while (!_cancellationToken.IsCancellationRequested)
-                    {
-                        var state = _joystick.GetCurrentState();
-                        Console.WriteLine("{0}", GetButtonsPressed(state.Buttons));
-                        //_currentThrottle = (1000 - GetAnalogStickValue(state.Sliders[0])) / 2;
-                        //var yawtrimChange = GetYawTrimChange(state.Buttons);
-                        //_currentYawTrim += yawtrimChange;
-                        //SetConsoleDisplay(state);
-                        //Thread.Sleep(Speed);
-                    }
+                    var state = _joystick.GetCurrentState();
+                    //Console.WriteLine("{0}", GetButtonsPressed(state.Buttons));
+                    _currentThrottle = (1000 - GetAnalogStickValue(state.Sliders[0])) / 2;
+                    var yawtrimChange = GetYawTrimChange(state.Buttons);
+                    _currentYawTrim += yawtrimChange;
+                    SetConsoleDisplay(state);
+                    //Thread.Sleep(Speed);
                 }
                 if (index == 2)
                 { }
             }
         }
 
-        private static void SetConsoleDisplay(JoystickState state)
+        private void SetConsoleDisplay(JoystickState state)
         {
-            Console.WriteLine("Helicopter Controls");
-            Console.WriteLine("--------------------");
-            Console.WriteLine("Throttle:\t{0}   ", _currentThrottle);
-            //Console.WriteLine("Yaw:\t\t{0}    ", -1 * (GetAnalogStickValue(state.X) + _currentYawTrim)); //For n64 controller
-            Console.WriteLine("Yaw:\t\t{0}    ", GetAnalogStickValue(state.RotationZ) + _currentYawTrim);
-            Console.WriteLine("Pitch:\t\t{0}   ", GetAnalogStickValue(state.Y));
-            Console.WriteLine();
-            Console.WriteLine("YawTrim:\t{0}   ", _currentYawTrim);
-            Console.WriteLine();
-            Console.WriteLine("POV:{0} deg      ", state.PointOfViewControllers[0] / 100);
-            Console.WriteLine();
-            Console.WriteLine("Buttons");
-            Console.WriteLine("--------------------");
-            Console.WriteLine("{0}", BoolArrayToString(state.Buttons));
-            Console.WriteLine("{0}", GetButtonsPressed(state.Buttons));
-            Console.WriteLine("X:\t\t{0}    ", GetAnalogStickValue(state.X));
-            Console.WriteLine("Y:\t\t{0}    ", GetAnalogStickValue(state.Y));
-            Console.WriteLine("Z:\t\t{0}    ", GetAnalogStickValue(state.RotationZ));
-            Console.WriteLine("Slider:\t\t{0}    ", (1000 - GetAnalogStickValue(state.Sliders[0])) / 2);
+            //Console.WriteLine("Helicopter Controls");
+            //Console.WriteLine("--------------------");
+            //Console.WriteLine("Throttle:\t{0}   ", _currentThrottle);
+            ////////Console.WriteLine("Yaw:\t\t{0}    ", -1 * (GetAnalogStickValue(state.X) + _currentYawTrim)); //For n64 controller
+            //Console.WriteLine("Yaw:\t\t{0}    ", GetAnalogStickValue(state.RotationZ) + _currentYawTrim);
+            //Console.WriteLine("Pitch:\t\t{0}   ", GetAnalogStickValue(state.Y));
+            //Console.WriteLine();
+            //Console.WriteLine("YawTrim:\t{0}   ", _currentYawTrim);
+            //Console.WriteLine();
+            //Console.WriteLine("POV:{0} deg      ", state.PointOfViewControllers[0] / 100);
+            //Console.WriteLine();
+            //Console.WriteLine("Buttons");
+            //Console.WriteLine("--------------------");
+            //Console.WriteLine("{0}", BoolArrayToString(state.Buttons));
+            //Console.WriteLine("{0}", GetButtonsPressed(state.Buttons));
+            //Console.WriteLine("X:\t\t{0}    ", GetAnalogStickValue(state.X));
+            //Console.WriteLine("Y:\t\t{0}    ", GetAnalogStickValue(state.Y));
+            //Console.WriteLine("W:\t\t{0}    ", GetAnalogStickValue(state.RotationZ));
+            //Console.WriteLine("Slider:\t\t{0}    ", (1000 - GetAnalogStickValue(state.Sliders[0])) / 2);
+            //Console.SetCursorPosition(0, 0);
 
-            Console.SetCursorPosition(0, 0);
+            /*
+             999 * x = 320 => x = 0.3203
+             999 * x = 240 => x = 0.2402
+             */
+
+            //Console.WriteLine("ZZZZZ = " + state.Z);
+
+            _positionBuffer[bufferPointer++] = new Point((int)(((state.Z) * Ratio) * 0.3203), (int)(((state.RotationZ) * Ratio) * 0.2402));
+            if (bufferPointer == _positionBuffer.Length)
+            {
+                int x = 0, y = 0;
+                for (int i = 0; i < bufferPointer; i++)
+                {
+                    x += _positionBuffer[i].X;
+                    y += _positionBuffer[i].Y;
+                }
+
+                _positionUSB.X = x / bufferPointer;
+                _positionUSB.Y = y / bufferPointer;
+                //Console.WriteLine("XXXXX = " + _positionUSB.X);
+                //Console.WriteLine("YYYYY = " + _positionUSB.Y);
+                ////ChangeTextBox(_infoTxtBox, "[" + _positionUSB.X + ", " + _positionUSB.Y + "]");
+                ////Console.WriteLine("XXXX = " + _positionUSB.X);
+                ////Console.WriteLine("YYYY = " + _positionUSB.Y);
+                Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
+                bufferPointer = 0;
+            }
         }
 
         private static int GetAnalogStickValue(int state)
@@ -201,28 +228,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
             }
             return "Unknown";
         }
-
-
-
-
-
-
-
-
-
-
-
         private void JoystickTaskDone(Task task, byte joyIndex)
         {
             if (task.IsCompletedSuccessfully)
             {
                 if (joyIndex == 0)
-                    ChangePictureBox(_JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
+                    ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
                 if (joyIndex == 1)
-                    ChangePictureBox(_JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                else
-                { }
-                    //ChangePictureBox(_Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
+                    ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
             }
             else
             {
@@ -230,6 +243,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _exceptionCallback.Invoke(task.Exception.Message);
             }
         }
+
         private void xboxInit()
         {
             //Connection
@@ -273,12 +287,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (e.Value)
             {
                 ChangeTextBox(_infoTxtBox, "Connected");
-                ChangePictureBox(_JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
             }
             else
             {
                 ChangeTextBox(_infoTxtBox, "Not Connected");
-                ChangePictureBox(_JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
+                ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
             }
         }
 
@@ -293,6 +307,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 ChangeTextBox(_infoTxtBox, $"Left Thumbstick : {e.Value.LengthSquared()}");
                 Pointer.JoyPointer.MoveJoystick(e.Value);
+                ChangeTextBox(_infoTxtBox, "[" + "{0}" + ", " + "{1}" + "]" + e.Value.X + e.Value.Y);
                 //Console.WriteLine("XXX = " + Pointer.Cursor[0]);
                 //Console.WriteLine("YYY = " + Pointer.Cursor[1]);
 
