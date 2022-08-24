@@ -8,6 +8,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
 {
     public class JoysticksController : ControllerBase
     {
+        private Joystick _joystick;
+        private readonly DirectInput directInput;
         private readonly TextBox _infoTxtBox;
         private readonly XBoxController xboxController;
         private readonly Label _JoystickLabel;
@@ -17,11 +19,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly RadioButton _searchRadioButton;
         private readonly SerialController _serialController;
         private readonly CancellationToken _cancellationToken;
+        private Guid joystickGuid;
         private readonly Task[] USB_JoystickTasks;
         private readonly bool[] isRunning;
         private readonly Action<string> _exceptionCallback;
-        Vector2 _positionUSB;
         private readonly Point[] _positionBuffer;
+        Vector2 _positionUSB;
 
         private static int _currentThrottle;
         private static int _currentYawTrim;
@@ -31,6 +34,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         public JoysticksController(CancellationToken cancellationToken, TextBox infoTxtBox, Label label, PictureBox XboxJoystickStatus, PictureBox USBJoystickStatus, PictureBox mainCameraPicture, RadioButton searchRadio, SerialController serialController, Action<string> exceptionCallback)
         {
+            directInput = new DirectInput();
             _infoTxtBox = infoTxtBox;
             _cancellationToken = cancellationToken;
             xboxController = new XBoxController();
@@ -40,8 +44,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _mainCameraPicture = mainCameraPicture;
             _searchRadioButton = searchRadio;
             _serialController = serialController;
-            isRunning = new bool[2];
-            USB_JoystickTasks = new Task[2];
+            joystickGuid = Guid.Empty;
+            isRunning = new bool[3];
+            USB_JoystickTasks = new Task[3];
             _exceptionCallback = exceptionCallback;
             Pointer.JoyPointer.SetContainerSize(_mainCameraPicture.Size);
             _positionUSB = new Vector2(320, 240);
@@ -58,9 +63,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             }
             else if (1 <= joystickIndex || joystickIndex <= 2)
             {
-                ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                isRunning[joystickIndex] = true;
-                USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), _cancellationToken).ContinueWith((t) => JoystickTaskDone(t, joystickIndex));
+                if(USBJoystick_init())
+                {
+                    ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                    isRunning[joystickIndex] = true;
+                    USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), _cancellationToken).ContinueWith((t) => JoystickTaskDone(t, joystickIndex));
+                }
             }
             else
                 throw new ArgumentOutOfRangeException();
@@ -71,10 +79,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning[joystickIndex] = false;
         }
 
-        private void StartJoystick(int index)
+        private bool USBJoystick_init()
         {
-            var directInput = new DirectInput();
-            var joystickGuid = Guid.Empty;
             foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
                 joystickGuid = deviceInstance.InstanceGuid;
 
@@ -82,13 +88,19 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
                     joystickGuid = deviceInstance.InstanceGuid;
             if (joystickGuid == Guid.Empty)
+            {
                 Console.WriteLine("No joystick/Gamepad found.");
+                return false;
+            }
 
-            var _joystick = new Joystick(directInput, joystickGuid);
+            _joystick = new Joystick(directInput, joystickGuid);
             Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
             _joystick.Acquire();
-            //_currentThrottle = 0;
-            //_currentYawTrim = 0;
+            return true;
+        }
+
+        private void StartJoystick(int index)
+        {
             while (isRunning[index] && !_cancellationToken.IsCancellationRequested)
             {
                 if (index == 1)
@@ -98,44 +110,26 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     _currentThrottle = (1000 - GetAnalogStickValue(state.Sliders[0])) / 2;
                     var yawtrimChange = GetYawTrimChange(state.Buttons);
                     _currentYawTrim += yawtrimChange;
-                    SetConsoleDisplay(state);
-                    //Thread.Sleep(Speed);
+                    USBJoystick_State(state);
                 }
                 if (index == 2)
-                { }
+                {
+                    var state = _joystick.GetCurrentState();
+                    //Console.WriteLine("{0}", GetButtonsPressed(state.Buttons));
+                    _currentThrottle = (1000 - GetAnalogStickValue(state.Sliders[0])) / 2;
+                    var yawtrimChange = GetYawTrimChange(state.Buttons);
+                    _currentYawTrim += yawtrimChange;
+                    ATK3Joystick_State(state);
+                }
             }
         }
 
-        private void SetConsoleDisplay(JoystickState state)
+        private void USBJoystick_State(JoystickState state)
         {
-            //Console.WriteLine("Helicopter Controls");
-            //Console.WriteLine("--------------------");
-            //Console.WriteLine("Throttle:\t{0}   ", _currentThrottle);
-            ////////Console.WriteLine("Yaw:\t\t{0}    ", -1 * (GetAnalogStickValue(state.X) + _currentYawTrim)); //For n64 controller
-            //Console.WriteLine("Yaw:\t\t{0}    ", GetAnalogStickValue(state.RotationZ) + _currentYawTrim);
-            //Console.WriteLine("Pitch:\t\t{0}   ", GetAnalogStickValue(state.Y));
-            //Console.WriteLine();
-            //Console.WriteLine("YawTrim:\t{0}   ", _currentYawTrim);
-            //Console.WriteLine();
-            //Console.WriteLine("POV:{0} deg      ", state.PointOfViewControllers[0] / 100);
-            //Console.WriteLine();
-            //Console.WriteLine("Buttons");
-            //Console.WriteLine("--------------------");
-            //Console.WriteLine("{0}", BoolArrayToString(state.Buttons));
-            //Console.WriteLine("{0}", GetButtonsPressed(state.Buttons));
-            //Console.WriteLine("X:\t\t{0}    ", GetAnalogStickValue(state.X));
-            //Console.WriteLine("Y:\t\t{0}    ", GetAnalogStickValue(state.Y));
-            //Console.WriteLine("W:\t\t{0}    ", GetAnalogStickValue(state.RotationZ));
-            //Console.WriteLine("Slider:\t\t{0}    ", (1000 - GetAnalogStickValue(state.Sliders[0])) / 2);
-            //Console.SetCursorPosition(0, 0);
-
             /*
              999 * x = 320 => x = 0.3203
              999 * x = 240 => x = 0.2402
              */
-
-            //Console.WriteLine("ZZZZZ = " + state.Z);
-
             _positionBuffer[bufferPointer++] = new Point((int)(((state.Z) * Ratio) * 0.3203), (int)(((state.RotationZ) * Ratio) * 0.2402));
             if (bufferPointer == _positionBuffer.Length)
             {
@@ -150,9 +144,31 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _positionUSB.Y = y / bufferPointer;
                 //Console.WriteLine("XXXXX = " + _positionUSB.X);
                 //Console.WriteLine("YYYYY = " + _positionUSB.Y);
-                ////ChangeTextBox(_infoTxtBox, "[" + _positionUSB.X + ", " + _positionUSB.Y + "]");
-                ////Console.WriteLine("XXXX = " + _positionUSB.X);
-                ////Console.WriteLine("YYYY = " + _positionUSB.Y);
+                Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
+                bufferPointer = 0;
+            }
+        }
+
+        private void ATK3Joystick_State(JoystickState state)
+        {
+            /*
+             999 * x = 320 => x = 0.3203
+             999 * x = 240 => x = 0.2402
+             */
+            _positionBuffer[bufferPointer++] = new Point((int)(((state.X) * Ratio) * 0.3203), (int)(((state.Y) * Ratio) * 0.2402));
+            if (bufferPointer == _positionBuffer.Length)
+            {
+                int x = 0, y = 0;
+                for (int i = 0; i < bufferPointer; i++)
+                {
+                    x += _positionBuffer[i].X;
+                    y += _positionBuffer[i].Y;
+                }
+
+                _positionUSB.X = x / bufferPointer;
+                _positionUSB.Y = y / bufferPointer;
+                //Console.WriteLine("XXXXX = " + _positionUSB.X);
+                //Console.WriteLine("YYYYY = " + _positionUSB.Y);
                 Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
                 bufferPointer = 0;
             }
@@ -163,37 +179,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             return (int)(state * Ratio - 1000);
         }
 
-        private static string GetButtonsPressed(bool[] array)
-        {
-            var s = new StringBuilder();
-            for (int i = 0; i < 10; i++)
-            {
-                if (array[i])
-                {
-                    if (s.Length > 0) s.Append("+");
-                    s.Append(GetButtonName(i));
-                }
-            }
-            return s.ToString().PadRight(80, ' ');
-        }
-
-        private static string BoolArrayToString(ICollection<bool> array)
-        {
-            var s = new StringBuilder(array.Count);
-            foreach (var b in array.Take(10))
-            {
-                s.Append(b ? '1' : '0');
-            }
-            return s.ToString();
-        }
-
-        private static int GetThrottleChange(IList<bool> buttons)
-        {
-            if (buttons[0]) return _currentThrottle >= 1000 ? 0 : 1 * Speed;
-            if (buttons[2]) return _currentThrottle <= 0 ? 0 : -1 * Speed;
-            return 0;
-        }
-
         private static int GetYawTrimChange(bool[] buttons)
         {
             if (buttons[4]) return _currentYawTrim >= 200 ? 0 : (int)(.1 * Speed);
@@ -201,33 +186,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             return 0;
         }
 
-        private static string GetButtonName(int index)
-        {
-            switch (index)
-            {
-                case 0:
-                    return "Up";
-                case 1:
-                    return "Right";
-                case 2:
-                    return "Down";
-                case 3:
-                    return "Left";
-                case 4:
-                    return "L";
-                case 5:
-                    return "R";
-                case 6:
-                    return "A";
-                case 7:
-                    return "Z";
-                case 8:
-                    return "B";
-                case 9:
-                    return "Start";
-            }
-            return "Unknown";
-        }
         private void JoystickTaskDone(Task task, byte joyIndex)
         {
             if (task.IsCompletedSuccessfully)

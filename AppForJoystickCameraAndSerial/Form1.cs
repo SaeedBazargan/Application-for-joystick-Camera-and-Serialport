@@ -218,6 +218,14 @@ namespace AppForJoystickCameraAndSerial
                 joysticksController.Stop((byte)Joystick.USB);
         }
 
+        private void ATK3_Joystick_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+                joysticksController.Start((byte)Joystick.Attack);
+            else
+                joysticksController.Stop((byte)Joystick.Attack);
+        }
+
         private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)

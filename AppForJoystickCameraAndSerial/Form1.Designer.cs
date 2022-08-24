@@ -120,6 +120,7 @@
             this.Joystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.ATK3_Joystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.UsbJoystick_CheckBox = new System.Windows.Forms.CheckBox();
             this.Mouse_CheckBox = new System.Windows.Forms.CheckBox();
             this.CancleRadio = new System.Windows.Forms.RadioButton();
@@ -171,7 +172,7 @@
             this.Camera1_Label.AutoSize = true;
             this.Camera1_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Camera1_Label.ForeColor = System.Drawing.Color.White;
-            this.Camera1_Label.Location = new System.Drawing.Point(6, 23);
+            this.Camera1_Label.Location = new System.Drawing.Point(4, 17);
             this.Camera1_Label.Name = "Camera1_Label";
             this.Camera1_Label.Size = new System.Drawing.Size(68, 19);
             this.Camera1_Label.TabIndex = 1;
@@ -235,7 +236,7 @@
             this.Camera2_Label.AutoSize = true;
             this.Camera2_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Camera2_Label.ForeColor = System.Drawing.Color.White;
-            this.Camera2_Label.Location = new System.Drawing.Point(6, 47);
+            this.Camera2_Label.Location = new System.Drawing.Point(6, 42);
             this.Camera2_Label.Name = "Camera2_Label";
             this.Camera2_Label.Size = new System.Drawing.Size(68, 19);
             this.Camera2_Label.TabIndex = 17;
@@ -246,7 +247,7 @@
             this.Serial1_Lable.AutoSize = true;
             this.Serial1_Lable.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Serial1_Lable.ForeColor = System.Drawing.Color.White;
-            this.Serial1_Lable.Location = new System.Drawing.Point(6, 71);
+            this.Serial1_Lable.Location = new System.Drawing.Point(6, 67);
             this.Serial1_Lable.Name = "Serial1_Lable";
             this.Serial1_Lable.Size = new System.Drawing.Size(82, 19);
             this.Serial1_Lable.TabIndex = 18;
@@ -257,7 +258,7 @@
             this.Serial2_Lable.AutoSize = true;
             this.Serial2_Lable.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Serial2_Lable.ForeColor = System.Drawing.Color.White;
-            this.Serial2_Lable.Location = new System.Drawing.Point(6, 95);
+            this.Serial2_Lable.Location = new System.Drawing.Point(6, 92);
             this.Serial2_Lable.Name = "Serial2_Lable";
             this.Serial2_Lable.Size = new System.Drawing.Size(82, 19);
             this.Serial2_Lable.TabIndex = 19;
@@ -268,7 +269,7 @@
             this.Joystick_Label.AutoSize = true;
             this.Joystick_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Joystick_Label.ForeColor = System.Drawing.Color.White;
-            this.Joystick_Label.Location = new System.Drawing.Point(6, 120);
+            this.Joystick_Label.Location = new System.Drawing.Point(6, 117);
             this.Joystick_Label.Name = "Joystick_Label";
             this.Joystick_Label.Size = new System.Drawing.Size(90, 19);
             this.Joystick_Label.TabIndex = 20;
@@ -300,7 +301,7 @@
             // USBJoystickStatus_pictureBox
             // 
             this.USBJoystickStatus_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.USBJoystickStatus_pictureBox.Location = new System.Drawing.Point(305, 142);
+            this.USBJoystickStatus_pictureBox.Location = new System.Drawing.Point(118, 142);
             this.USBJoystickStatus_pictureBox.Name = "USBJoystickStatus_pictureBox";
             this.USBJoystickStatus_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.USBJoystickStatus_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -312,7 +313,7 @@
             this.UsbJoystick_Label.AutoSize = true;
             this.UsbJoystick_Label.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.UsbJoystick_Label.ForeColor = System.Drawing.Color.White;
-            this.UsbJoystick_Label.Location = new System.Drawing.Point(6, 143);
+            this.UsbJoystick_Label.Location = new System.Drawing.Point(6, 142);
             this.UsbJoystick_Label.Name = "UsbJoystick_Label";
             this.UsbJoystick_Label.Size = new System.Drawing.Size(85, 19);
             this.UsbJoystick_Label.TabIndex = 43;
@@ -321,7 +322,7 @@
             // XboxJoystickStatus_pictureBox
             // 
             this.XboxJoystickStatus_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.XboxJoystickStatus_pictureBox.Location = new System.Drawing.Point(305, 117);
+            this.XboxJoystickStatus_pictureBox.Location = new System.Drawing.Point(118, 117);
             this.XboxJoystickStatus_pictureBox.Name = "XboxJoystickStatus_pictureBox";
             this.XboxJoystickStatus_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.XboxJoystickStatus_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -331,7 +332,7 @@
             // Camera1Status_pictureBox
             // 
             this.Camera1Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Camera1Status_pictureBox.Location = new System.Drawing.Point(305, 17);
+            this.Camera1Status_pictureBox.Location = new System.Drawing.Point(118, 17);
             this.Camera1Status_pictureBox.Name = "Camera1Status_pictureBox";
             this.Camera1Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Camera1Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -341,7 +342,7 @@
             // Serial2Status_pictureBox
             // 
             this.Serial2Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Serial2Status_pictureBox.Location = new System.Drawing.Point(305, 92);
+            this.Serial2Status_pictureBox.Location = new System.Drawing.Point(118, 92);
             this.Serial2Status_pictureBox.Name = "Serial2Status_pictureBox";
             this.Serial2Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Serial2Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -351,7 +352,7 @@
             // Serial1Status_pictureBox
             // 
             this.Serial1Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Serial1Status_pictureBox.Location = new System.Drawing.Point(305, 67);
+            this.Serial1Status_pictureBox.Location = new System.Drawing.Point(118, 67);
             this.Serial1Status_pictureBox.Name = "Serial1Status_pictureBox";
             this.Serial1Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Serial1Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -361,7 +362,7 @@
             // Camera2Status_pictureBox
             // 
             this.Camera2Status_pictureBox.Image = global::AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle;
-            this.Camera2Status_pictureBox.Location = new System.Drawing.Point(305, 42);
+            this.Camera2Status_pictureBox.Location = new System.Drawing.Point(118, 42);
             this.Camera2Status_pictureBox.Name = "Camera2Status_pictureBox";
             this.Camera2Status_pictureBox.Size = new System.Drawing.Size(21, 21);
             this.Camera2Status_pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1294,7 +1295,7 @@
             this.Joystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Joystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Joystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Joystick_CheckBox.Location = new System.Drawing.Point(284, 14);
+            this.Joystick_CheckBox.Location = new System.Drawing.Point(284, 16);
             this.Joystick_CheckBox.Name = "Joystick_CheckBox";
             this.Joystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Joystick_CheckBox.Size = new System.Drawing.Size(75, 23);
@@ -1306,6 +1307,7 @@
             // groupBox14
             // 
             this.groupBox14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox14.Controls.Add(this.ATK3_Joystick_CheckBox);
             this.groupBox14.Controls.Add(this.UsbJoystick_CheckBox);
             this.groupBox14.Controls.Add(this.Mouse_CheckBox);
             this.groupBox14.Controls.Add(this.CancleRadio);
@@ -1322,12 +1324,31 @@
             this.groupBox14.Controls.Add(this.Joystick_CheckBox);
             this.groupBox14.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox14.ForeColor = System.Drawing.Color.White;
-            this.groupBox14.Location = new System.Drawing.Point(727, 610);
+            this.groupBox14.Location = new System.Drawing.Point(727, 592);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(368, 117);
+            this.groupBox14.Size = new System.Drawing.Size(368, 135);
             this.groupBox14.TabIndex = 39;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Joystick Configuration";
+            // 
+            // ATK3_Joystick_CheckBox
+            // 
+            this.ATK3_Joystick_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ATK3_Joystick_CheckBox.AutoSize = true;
+            this.ATK3_Joystick_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.ATK3_Joystick_CheckBox.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.ATK3_Joystick_CheckBox.FlatAppearance.BorderSize = 3;
+            this.ATK3_Joystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
+            this.ATK3_Joystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ATK3_Joystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
+            this.ATK3_Joystick_CheckBox.Location = new System.Drawing.Point(247, 104);
+            this.ATK3_Joystick_CheckBox.Name = "ATK3_Joystick_CheckBox";
+            this.ATK3_Joystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ATK3_Joystick_CheckBox.Size = new System.Drawing.Size(112, 23);
+            this.ATK3_Joystick_CheckBox.TabIndex = 54;
+            this.ATK3_Joystick_CheckBox.Text = "ATK3_Joystick";
+            this.ATK3_Joystick_CheckBox.UseVisualStyleBackColor = false;
+            this.ATK3_Joystick_CheckBox.CheckStateChanged += new System.EventHandler(this.ATK3_Joystick_CheckBox_CheckStateChanged);
             // 
             // UsbJoystick_CheckBox
             // 
@@ -1339,7 +1360,7 @@
             this.UsbJoystick_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.UsbJoystick_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.UsbJoystick_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.UsbJoystick_CheckBox.Location = new System.Drawing.Point(253, 73);
+            this.UsbJoystick_CheckBox.Location = new System.Drawing.Point(253, 75);
             this.UsbJoystick_CheckBox.Name = "UsbJoystick_CheckBox";
             this.UsbJoystick_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.UsbJoystick_CheckBox.Size = new System.Drawing.Size(106, 23);
@@ -1358,7 +1379,7 @@
             this.Mouse_CheckBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
             this.Mouse_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Mouse_CheckBox.ForeColor = System.Drawing.Color.Transparent;
-            this.Mouse_CheckBox.Location = new System.Drawing.Point(289, 44);
+            this.Mouse_CheckBox.Location = new System.Drawing.Point(289, 46);
             this.Mouse_CheckBox.Name = "Mouse_CheckBox";
             this.Mouse_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Mouse_CheckBox.Size = new System.Drawing.Size(70, 23);
@@ -1371,7 +1392,7 @@
             // 
             this.CancleRadio.AutoSize = true;
             this.CancleRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.CancleRadio.Location = new System.Drawing.Point(173, 92);
+            this.CancleRadio.Location = new System.Drawing.Point(173, 102);
             this.CancleRadio.Name = "CancleRadio";
             this.CancleRadio.Size = new System.Drawing.Size(61, 19);
             this.CancleRadio.TabIndex = 51;
@@ -1384,7 +1405,7 @@
             // 
             this.HomingRadio.AutoSize = true;
             this.HomingRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.HomingRadio.Location = new System.Drawing.Point(173, 72);
+            this.HomingRadio.Location = new System.Drawing.Point(173, 82);
             this.HomingRadio.Name = "HomingRadio";
             this.HomingRadio.Size = new System.Drawing.Size(58, 19);
             this.HomingRadio.TabIndex = 50;
@@ -1397,7 +1418,7 @@
             // 
             this.PositionRadio.AutoSize = true;
             this.PositionRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.PositionRadio.Location = new System.Drawing.Point(173, 52);
+            this.PositionRadio.Location = new System.Drawing.Point(173, 62);
             this.PositionRadio.Name = "PositionRadio";
             this.PositionRadio.Size = new System.Drawing.Size(68, 19);
             this.PositionRadio.TabIndex = 49;
@@ -1410,7 +1431,7 @@
             // 
             this.SearchRadio.AutoSize = true;
             this.SearchRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SearchRadio.Location = new System.Drawing.Point(173, 32);
+            this.SearchRadio.Location = new System.Drawing.Point(173, 42);
             this.SearchRadio.Name = "SearchRadio";
             this.SearchRadio.Size = new System.Drawing.Size(60, 19);
             this.SearchRadio.TabIndex = 48;
@@ -1423,7 +1444,7 @@
             // 
             this.TrackRadio.AutoSize = true;
             this.TrackRadio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TrackRadio.Location = new System.Drawing.Point(173, 12);
+            this.TrackRadio.Location = new System.Drawing.Point(173, 22);
             this.TrackRadio.Name = "TrackRadio";
             this.TrackRadio.Size = new System.Drawing.Size(52, 19);
             this.TrackRadio.TabIndex = 47;
@@ -1434,7 +1455,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(53, 85);
+            this.textBox3.Location = new System.Drawing.Point(53, 95);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 25);
             this.textBox3.TabIndex = 46;
@@ -1442,7 +1463,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 57);
+            this.label3.Location = new System.Drawing.Point(6, 66);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 19);
             this.label3.TabIndex = 45;
@@ -1451,7 +1472,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 26);
+            this.label2.Location = new System.Drawing.Point(6, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 19);
             this.label2.TabIndex = 44;
@@ -1460,7 +1481,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 88);
+            this.label1.Location = new System.Drawing.Point(6, 97);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 19);
             this.label1.TabIndex = 40;
@@ -1468,14 +1489,14 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(53, 54);
+            this.textBox2.Location = new System.Drawing.Point(53, 64);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 25);
             this.textBox2.TabIndex = 43;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(53, 23);
+            this.textBox1.Location = new System.Drawing.Point(53, 33);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 25);
             this.textBox1.TabIndex = 42;
@@ -1642,5 +1663,6 @@
         private Label UsbJoystick_Label;
         private CheckBox Mouse_CheckBox;
         private CheckBox UsbJoystick_CheckBox;
+        private CheckBox ATK3_Joystick_CheckBox;
     }
 }
