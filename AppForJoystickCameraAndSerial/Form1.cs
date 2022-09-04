@@ -1,5 +1,4 @@
 using AppForJoystickCameraAndSerial.Controllers;
-using SharpDX.DirectInput;
 
 namespace AppForJoystickCameraAndSerial
 {
@@ -43,6 +42,7 @@ namespace AppForJoystickCameraAndSerial
         }
         int[] ON = new int[1] { 1 };
         int[] OFF = new int[1] { 0 };
+        int[] Search_zeroPos = new int[2] { 320, 240 };
         bool Enable_Flag = false;
 
         private readonly CancellationTokenSource cancellationTokenSource;
@@ -57,8 +57,8 @@ namespace AppForJoystickCameraAndSerial
 
             cancellationTokenSource = new CancellationTokenSource();
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, CameraExceptionCallBack);
-            serialportController = new SerialController(cancellationTokenSource.Token, Com_ComboBox, Com_ComboBox2, Baud_ComboBox, Baud_ComboBox2, DataBits_ComboBox, DataBits_ComboBox2, SerialMonitoring_TextBox, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button);
-            joysticksController = new JoysticksController(cancellationTokenSource.Token,  JoystickInfoTxtBox, Joystick_Label, XboxJoystickStatus_pictureBox, USBJoystickStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController, CameraExceptionCallBack);
+            serialportController = new SerialController(cancellationTokenSource.Token, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button);
+            joysticksController = new JoysticksController(cancellationTokenSource.Token, JoystickInfoTxtBox, Joystick_Label, XboxJoystickStatus_pictureBox, USBJoystickStatus_pictureBox, MainCameraPictureBox, SearchRadio, serialportController, CameraExceptionCallBack);
             mouseController = new MouseController(MainCameraPictureBox, SearchRadio, serialportController);
         }
 
@@ -75,8 +75,14 @@ namespace AppForJoystickCameraAndSerial
 
         private void ConfigButton_Click(object sender, EventArgs e)
         {
-            Form LoginconfigForm = new LoginConfig_Form();
-            LoginconfigForm.Show(this);
+            LoginConfig_Form LoginconfigForm = new LoginConfig_Form();
+            LoginconfigForm.ShowDialog(this);
+            if (LoginconfigForm.LoggedIn)
+            {
+                ConfigForm ConfigForm = new ConfigForm(serialportController.Settings);
+                ConfigForm.ShowDialog(this);
+                serialportController.Settings = ConfigForm.Settings;
+            }
         }
 
         private void SetSetting_Button_Click(object sender, EventArgs e)
@@ -318,7 +324,7 @@ namespace AppForJoystickCameraAndSerial
 
         private void SearchRadio_CheckedChanged(object sender, EventArgs e)
         {
-            serialportController.Write((byte)WriteTableCodes.Search, (byte)WriteAddresses.TableControl, ON, 1);
+            serialportController.Write((byte)WriteTableCodes.Search, (byte)WriteAddresses.TableControl, Search_zeroPos, 2);
         }
 
         private void PositionRadio_CheckedChanged(object sender, EventArgs e)

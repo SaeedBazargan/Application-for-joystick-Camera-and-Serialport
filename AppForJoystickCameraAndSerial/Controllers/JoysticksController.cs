@@ -155,22 +155,26 @@ namespace AppForJoystickCameraAndSerial.Controllers
              999 * x = 320 => x = 0.3203
              999 * x = 240 => x = 0.2402
              */
-            _positionBuffer[bufferPointer++] = new Point((int)(((state.X) * Ratio) * 0.3203), (int)(((state.Y) * Ratio) * 0.2402));
-            if (bufferPointer == _positionBuffer.Length)
+            if (_searchRadioButton.Checked)
             {
-                int x = 0, y = 0;
-                for (int i = 0; i < bufferPointer; i++)
+                _positionBuffer[bufferPointer++] = new Point((int)(((state.X) * Ratio) * 0.3203), (int)(((state.Y) * Ratio) * 0.2402));
+                if (bufferPointer == _positionBuffer.Length)
                 {
-                    x += _positionBuffer[i].X;
-                    y += _positionBuffer[i].Y;
-                }
+                    int x = 0, y = 0;
+                    for (int i = 0; i < bufferPointer; i++)
+                    {
+                        x += _positionBuffer[i].X;
+                        y += _positionBuffer[i].Y;
+                    }
 
-                _positionUSB.X = x / bufferPointer;
-                _positionUSB.Y = y / bufferPointer;
-                //Console.WriteLine("XXXXX = " + _positionUSB.X);
-                //Console.WriteLine("YYYYY = " + _positionUSB.Y);
-                Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
-                bufferPointer = 0;
+                    _positionUSB.X = x / bufferPointer;
+                    _positionUSB.Y = y / bufferPointer;
+                    //Console.WriteLine("XXXXX = " + _positionUSB.X);
+                    //Console.WriteLine("YYYYY = " + _positionUSB.Y);
+                    Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
+                    bufferPointer = 0;
+                    _serialController.Write(5, 9, Pointer.JoyPointer.Cursor, 2);
+                }
             }
         }
 
@@ -265,7 +269,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 ChangeTextBox(_infoTxtBox, $"Left Thumbstick : {e.Value.LengthSquared()}");
                 Pointer.JoyPointer.MoveJoystick(e.Value);
-                ChangeTextBox(_infoTxtBox, "[" + "{0}" + ", " + "{1}" + "]" + e.Value.X + e.Value.Y);
+                //ChangeTextBox(_infoTxtBox, "[" + "{0}" + ", " + "{1}" + "]" + e.Value.X + e.Value.Y);
                 //Console.WriteLine("XXX = " + Pointer.Cursor[0]);
                 //Console.WriteLine("YYY = " + Pointer.Cursor[1]);
 

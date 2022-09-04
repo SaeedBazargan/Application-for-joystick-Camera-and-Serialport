@@ -1,4 +1,5 @@
-﻿using System.IO.Ports;
+﻿using AppForJoystickCameraAndSerial.Models;
+using System.IO.Ports;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
@@ -7,6 +8,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         SerialPacketHandler Handler = new SerialPacketHandler();
 
         public SerialPort[] _SerialPort { get; private set; }
+        public SerialPortSetting[] Settings { get; set; }
         public bool Open { get; private set; } = false;
         public bool Disposed { get; private set; } = false;
         const Parity ParityBit = Parity.None;
@@ -29,14 +31,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
         byte[] DataBuffer_Rx = new byte[MaxDataBuffer_Rx_Size];
         public string RecordingDirectory { get; set; }
 
-        public SerialController(CancellationToken cancellationToken, ComboBox _ComComboBox, ComboBox _ComComboBox2, ComboBox _BaudComboBox, ComboBox _BaudComboBox2, ComboBox _DataBitsComboBox, ComboBox _DataBitsComboBox2, TextBox _SerialMonitoringTextBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn)
+        public SerialController(CancellationToken cancellationToken, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn)
         {
             _SerialPort = new SerialPort[2];
+            Settings = new SerialPortSetting[2]
+            {
+                new SerialPortSetting{},
+                new SerialPortSetting{}
+            };
 
-            _Com_ComboBox = _ComComboBox; _Com_ComboBox2 = _ComComboBox2;
-            _Baud_ComboBox = _BaudComboBox; _Baud_ComboBox2 = _BaudComboBox2;
-            _DataBits_ComboBox = _DataBitsComboBox; _DataBits_ComboBox2 = _DataBitsComboBox2;
-            _SerialMonitoring_TextBox = _SerialMonitoringTextBox;
             _Serial1Status = serial1Status; _Serial2Status = serial2Status;
             _openPortBtn = openPortBtn;
 
@@ -116,6 +119,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private void StartSerial(int index)
         {
             Open = true;
+            var setting = Settings[index];
+            _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
             _SerialPort[index].Open();
             _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
             {
@@ -151,10 +156,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             //    Console.WriteLine(Data[i]);
             //}
 
-            //if (Open)
-            //    _SerialPort[0].Write(Data, 0, 55);
-            //else
-            //    MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (Open)
+                _SerialPort[0].Write(Data, 0, 55);
+            else
+                MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
