@@ -11,7 +11,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         public MouseController(PictureBox mainCameraPicture, RadioButton searchRadio, SerialController serialController)
         {
-            //xboxController = new XBoxController();
             _mainCameraPicture = mainCameraPicture;
             _searchRadioButton = searchRadio;
             _serialController = serialController;
@@ -28,6 +27,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     _position.X = e.X;
                     _position.Y = e.Y;
                     Pointer.JoyPointer.MoveMouse(_position);
+                    _serialController.Write(5, 9, Pointer.JoyPointer.Cursor, 2);
                 };
             }
         }

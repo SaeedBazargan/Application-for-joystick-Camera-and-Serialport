@@ -16,6 +16,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int Baudrate, DataBit;
         string PortNumber;
 
+
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
         private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
         private readonly TextBox _SerialMonitoring_TextBox;
@@ -26,6 +27,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly Task[] serialPortTasks;
         private readonly bool[] isRunning;
         private readonly bool[] recording;
+        public bool SerialBusy;
 
         const byte MaxDataBuffer_Rx_Size = 55;
         byte[] DataBuffer_Rx = new byte[MaxDataBuffer_Rx_Size];
@@ -47,6 +49,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             serialPortTasks = new Task[2];
             isRunning = new bool[2];
             recording = new bool[2];
+            SerialBusy = false;
         }
         public void Start(int SerialIndex)
         {
@@ -131,6 +134,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
             while (isRunning[index])
             {
+                SerialBusy = true;
                 for (int i = 0; i < 55; i++)
                 {
                     DataBuffer_Rx[i] = (byte)_SerialPort[index].ReadByte();
@@ -144,17 +148,20 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (task.IsCompletedSuccessfully)
                 ChangePictureBox(isMain == true ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
             else
+            {
                 isRunning[Convert.ToInt32(isMain)] = false;
+                SerialBusy = false;
+            }
         }
         public void Write(byte Code, byte Address, Int32[] Value, byte Length)
         {
             byte[] Data = new byte[55];
             Handler.WriteMessage_Generator(Code, Address, Value, Length, Data);
-            //for (byte i = 0; i < 55; i++)
-            //{
-            //    Console.Write(i + ":      ");
-            //    Console.WriteLine(Data[i]);
-            //}
+            for (byte i = 0; i < 55; i++)
+            {
+                Console.Write(i + ":      ");
+                Console.WriteLine(Data[i]);
+            }
 
             if (Open)
                 _SerialPort[0].Write(Data, 0, 55);

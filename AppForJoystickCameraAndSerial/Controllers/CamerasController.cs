@@ -11,20 +11,22 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly Task[] cameraCaptureTasks;
         private readonly bool[] isRunning;
         private readonly bool[] recording;
+        private readonly CheckBox _rotateImages;
         private readonly Action<string> _exceptionCallback;
 
         public string RecordingDirectory { get; set; }
 
-        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, Action<string> exceptionCallback)
+        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, CheckBox rotate, Action<string> exceptionCallback)
         {
-            _cancellationToken = cancellationToken;
             _mainPictureBox = main;
             _minorPictureBox = minor;
             _Camera1Status = camera1Status;
             _Camera2Status = camera2Status;
+            _cancellationToken = cancellationToken;
+            cameraCaptureTasks = new Task[2];
             isRunning = new bool[2];
             recording = new bool[2];
-            cameraCaptureTasks = new Task[2];
+            _rotateImages = rotate;
             _exceptionCallback = exceptionCallback;
         }
 
@@ -71,17 +73,16 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 throw new Exception($"Cannot open camera {index}");
             ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
 
-            if (index == 0)
-                HidePictureBox(_minorPictureBox);
-            if (index == 1)
-                HidePictureBox(_mainPictureBox);
-
             while (isRunning[index])
             {
                 capture.Read(frame);
                 image = BitmapConverter.ToBitmap(frame);
                 DrawJoyStickPointer(image);
-                ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
+                if (_rotateImages.Checked)
+                    ChangePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox, image);
+                else
+                    ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
+                    //HidePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox);
                 if (recording[index])
                 {
                     if (writer == null)
