@@ -80,21 +80,21 @@
             Data_10 = (LUT[42] << 24) + (LUT[43] << 16) + (LUT[44] << 8) + (LUT[45]);
             Data_11 = (LUT[46] << 24) + (LUT[47] << 16) + (LUT[48] << 8) + (LUT[49]);
 
-            //Console.WriteLine("111:::" + SpliCounter);
-            //Console.WriteLine("222:::" + Address);
-            //Console.WriteLine("333:::" + Code);
-            //Console.WriteLine("444:::" + Data_1);
-            //Console.WriteLine("555:::" + Data_2);
-            //Console.WriteLine("666:::" + Data_3);
-            //Console.WriteLine("777:::" + Data_4);
-            //Console.WriteLine("888:::" + Data_5);
-            //Console.WriteLine("999:::" + Data_6);
-            //Console.WriteLine("1010:::" + Data_7);
-            //Console.WriteLine("1111:::" + Data_8);
-            //Console.WriteLine("1212:::" + Data_9);
-            //Console.WriteLine("1313:::" + Data_10);
-            //Console.WriteLine("1414:::" + Data_11);
-            //Console.WriteLine("HHHHEEEEELLLLLLOOOOOOOOO");
+            Console.WriteLine("111:::" + Counter);
+            Console.WriteLine("222:::" + Address);
+            Console.WriteLine("333:::" + Code);
+            Console.WriteLine("444:::" + Data_1);
+            Console.WriteLine("555:::" + Data_2);
+            Console.WriteLine("666:::" + Data_3);
+            Console.WriteLine("777:::" + Data_4);
+            Console.WriteLine("888:::" + Data_5);
+            Console.WriteLine("999:::" + Data_6);
+            Console.WriteLine("1010:::" + Data_7);
+            Console.WriteLine("1111:::" + Data_8);
+            Console.WriteLine("1212:::" + Data_9);
+            Console.WriteLine("1313:::" + Data_10);
+            Console.WriteLine("1414:::" + Data_11);
+            Console.WriteLine("HHHHEEEEELLLLLLOOOOOOOOO");
         }
         public bool CheckCRC(byte[] LutData, byte[] rxData)
         {

@@ -16,7 +16,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int Baudrate, DataBit;
         string PortNumber;
 
-
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
         private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
         private readonly TextBox _SerialMonitoring_TextBox;
@@ -27,7 +26,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly Task[] serialPortTasks;
         private readonly bool[] isRunning;
         private readonly bool[] recording;
-        public bool SerialBusy;
+        
 
         const byte MaxDataBuffer_Rx_Size = 55;
         byte[] DataBuffer_Rx = new byte[MaxDataBuffer_Rx_Size];
@@ -38,8 +37,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _SerialPort = new SerialPort[2];
             Settings = new SerialPortSetting[2]
             {
-                new SerialPortSetting{},
-                new SerialPortSetting{}
+                new SerialPortSetting{PortNumber = "COM3",Baudrate = 9600, DataBit = 8},
+                new SerialPortSetting{PortNumber = "COM7",Baudrate = 115200, DataBit = 8}
             };
 
             _Serial1Status = serial1Status; _Serial2Status = serial2Status;
@@ -49,7 +48,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             serialPortTasks = new Task[2];
             isRunning = new bool[2];
             recording = new bool[2];
-            SerialBusy = false;
         }
         public void Start(int SerialIndex)
         {
@@ -134,11 +132,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
             while (isRunning[index])
             {
-                SerialBusy = true;
                 for (int i = 0; i < 55; i++)
                 {
                     DataBuffer_Rx[i] = (byte)_SerialPort[index].ReadByte();
-                    ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
+                    //ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
                 }
                 Handler.Master_CheckPacket(DataBuffer_Rx, RecordingDirectory, recording[index], index);
             }
@@ -150,7 +147,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             else
             {
                 isRunning[Convert.ToInt32(isMain)] = false;
-                SerialBusy = false;
             }
         }
         public void Write(byte Code, byte Address, Int32[] Value, byte Length)
