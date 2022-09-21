@@ -30,6 +30,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         const byte MaxDataBuffer_Rx_Size = 55;
         byte[] DataBuffer_Rx = new byte[MaxDataBuffer_Rx_Size];
+        int serialportIndex = 0;
+
         public string RecordingDirectory { get; set; }
 
         public SerialController(CancellationToken cancellationToken, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn)
@@ -120,6 +122,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private void StartSerial(int index)
         {
             Open = true;
+            serialportIndex = index;
             var setting = Settings[index];
             _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
             _SerialPort[index].Open();
@@ -159,8 +162,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 Console.WriteLine(Data[i]);
             }
 
-            if (Open)
+            if (Open && serialportIndex == 0)
                 _SerialPort[0].Write(Data, 0, 55);
+            else if (Open && serialportIndex == 1)
+                _SerialPort[1].Write(Data, 0, 55);
             else
                 MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

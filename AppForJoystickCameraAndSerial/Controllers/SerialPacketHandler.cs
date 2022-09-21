@@ -30,7 +30,7 @@
             if (CurrentState == 3 && CheckCRC(LookUpTable, Rx_Data))
             {
                 if (Record)
-                { 
+                {
                     string recordingDir = RecordDir + index.ToString() + '/';
                     if (!Directory.Exists(recordingDir))
                         Directory.CreateDirectory(recordingDir);

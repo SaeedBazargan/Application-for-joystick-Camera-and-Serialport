@@ -47,8 +47,6 @@
             this.groupBox21 = new System.Windows.Forms.GroupBox();
             this.SingleMode_RadioButton = new System.Windows.Forms.RadioButton();
             this.AutoModeCo2_RadioButton = new System.Windows.Forms.RadioButton();
-            this.label12 = new System.Windows.Forms.Label();
-            this.EnergyCo2_TextBox = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.FreqCo2_TextBox = new System.Windows.Forms.TextBox();
             this.SingleShootCo2_Button = new System.Windows.Forms.Button();
@@ -58,10 +56,6 @@
             this.SettingLrf_CheckBox = new System.Windows.Forms.CheckBox();
             this.ActiveLrf_Button = new System.Windows.Forms.Button();
             this.DeactiveLrf_Button = new System.Windows.Forms.Button();
-            this.DownRangeLrf_TextBox = new System.Windows.Forms.TextBox();
-            this.UpRangeLrf_TextBox = new System.Windows.Forms.TextBox();
-            this.FreqLrf_TextBox = new System.Windows.Forms.TextBox();
-            this.TimeLrf_TextBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -69,6 +63,10 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.TimeLrf_Numeric = new System.Windows.Forms.NumericUpDown();
+            this.FreqLrf_Numeric = new System.Windows.Forms.NumericUpDown();
+            this.UpRangeLrf_Numeric = new System.Windows.Forms.NumericUpDown();
+            this.DownRangeLrf_Numeric = new System.Windows.Forms.NumericUpDown();
             this.RelayOnScan_NdYagCheckBox = new System.Windows.Forms.CheckBox();
             this.HomingScan_NYagCheckBox = new System.Windows.Forms.CheckBox();
             this.NdYagReady_Button = new System.Windows.Forms.Button();
@@ -88,12 +86,12 @@
             this.NegPolarity_RadioButton = new System.Windows.Forms.RadioButton();
             this.PosPolarity_RadioButton = new System.Windows.Forms.RadioButton();
             this.MinorPictureBox = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.PositionX_TextBox = new System.Windows.Forms.TextBox();
+            this.PositionY_TextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.PositionZ_TextBox = new System.Windows.Forms.TextBox();
             this.TrackRadio = new System.Windows.Forms.RadioButton();
             this.SearchRadio = new System.Windows.Forms.RadioButton();
             this.PositionRadio = new System.Windows.Forms.RadioButton();
@@ -190,6 +188,10 @@
             this.groupBox21.SuspendLayout();
             this.groupBox20.SuspendLayout();
             this.groupBox19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TimeLrf_Numeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FreqLrf_Numeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UpRangeLrf_Numeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DownRangeLrf_Numeric)).BeginInit();
             this.groupBox18.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.groupBox16.SuspendLayout();
@@ -260,6 +262,8 @@
             this.FireNdYag_Button.TabIndex = 56;
             this.FireNdYag_Button.Text = "&Fire NdYag";
             this.FireNdYag_Button.UseVisualStyleBackColor = true;
+            this.FireNdYag_Button.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FireNdYag_Button_MouseDown);
+            this.FireNdYag_Button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FireNdYag_Button_MouseUp);
             // 
             // FireCo2_Button
             // 
@@ -273,6 +277,8 @@
             this.FireCo2_Button.TabIndex = 57;
             this.FireCo2_Button.Text = "&Fire Co2";
             this.FireCo2_Button.UseVisualStyleBackColor = true;
+            this.FireCo2_Button.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FireCo2_Button_MouseDown);
+            this.FireCo2_Button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FireCo2_Button_MouseUp);
             // 
             // groupBox23
             // 
@@ -404,7 +410,7 @@
             this.groupBox21.Controls.Add(this.SingleMode_RadioButton);
             this.groupBox21.Controls.Add(this.AutoModeCo2_RadioButton);
             this.groupBox21.ForeColor = System.Drawing.Color.BlanchedAlmond;
-            this.groupBox21.Location = new System.Drawing.Point(121, 15);
+            this.groupBox21.Location = new System.Drawing.Point(6, 53);
             this.groupBox21.Name = "groupBox21";
             this.groupBox21.Size = new System.Drawing.Size(79, 79);
             this.groupBox21.TabIndex = 50;
@@ -435,30 +441,12 @@
             this.AutoModeCo2_RadioButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.AutoModeCo2_RadioButton.UseVisualStyleBackColor = true;
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(6, 53);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(43, 15);
-            this.label12.TabIndex = 52;
-            this.label12.Text = "Energy";
-            // 
-            // EnergyCo2_TextBox
-            // 
-            this.EnergyCo2_TextBox.Location = new System.Drawing.Point(6, 71);
-            this.EnergyCo2_TextBox.Name = "EnergyCo2_TextBox";
-            this.EnergyCo2_TextBox.Size = new System.Drawing.Size(109, 23);
-            this.EnergyCo2_TextBox.TabIndex = 51;
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(6, 100);
+            this.label13.Location = new System.Drawing.Point(7, 141);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(62, 15);
             this.label13.TabIndex = 54;
@@ -466,10 +454,12 @@
             // 
             // FreqCo2_TextBox
             // 
-            this.FreqCo2_TextBox.Location = new System.Drawing.Point(6, 118);
+            this.FreqCo2_TextBox.Location = new System.Drawing.Point(75, 138);
             this.FreqCo2_TextBox.Name = "FreqCo2_TextBox";
-            this.FreqCo2_TextBox.Size = new System.Drawing.Size(109, 23);
+            this.FreqCo2_TextBox.Size = new System.Drawing.Size(126, 23);
             this.FreqCo2_TextBox.TabIndex = 53;
+            this.FreqCo2_TextBox.Text = "1";
+            this.FreqCo2_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // SingleShootCo2_Button
             // 
@@ -477,7 +467,7 @@
             this.SingleShootCo2_Button.AutoSize = true;
             this.SingleShootCo2_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.SingleShootCo2_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.SingleShootCo2_Button.Location = new System.Drawing.Point(6, 169);
+            this.SingleShootCo2_Button.Location = new System.Drawing.Point(118, 167);
             this.SingleShootCo2_Button.Name = "SingleShootCo2_Button";
             this.SingleShootCo2_Button.Size = new System.Drawing.Size(83, 25);
             this.SingleShootCo2_Button.TabIndex = 55;
@@ -491,8 +481,6 @@
             this.groupBox20.Controls.Add(this.SingleShootCo2_Button);
             this.groupBox20.Controls.Add(this.FreqCo2_TextBox);
             this.groupBox20.Controls.Add(this.label13);
-            this.groupBox20.Controls.Add(this.EnergyCo2_TextBox);
-            this.groupBox20.Controls.Add(this.label12);
             this.groupBox20.Controls.Add(this.groupBox21);
             this.groupBox20.Controls.Add(this.RelayOnScanCo2_CheckBox);
             this.groupBox20.Controls.Add(this.button2);
@@ -580,42 +568,6 @@
             this.DeactiveLrf_Button.UseVisualStyleBackColor = true;
             this.DeactiveLrf_Button.Click += new System.EventHandler(this.DeactiveLrf_Button_Click);
             // 
-            // DownRangeLrf_TextBox
-            // 
-            this.DownRangeLrf_TextBox.Location = new System.Drawing.Point(87, 81);
-            this.DownRangeLrf_TextBox.Name = "DownRangeLrf_TextBox";
-            this.DownRangeLrf_TextBox.Size = new System.Drawing.Size(97, 23);
-            this.DownRangeLrf_TextBox.TabIndex = 51;
-            this.DownRangeLrf_TextBox.Text = "4";
-            this.DownRangeLrf_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // UpRangeLrf_TextBox
-            // 
-            this.UpRangeLrf_TextBox.Location = new System.Drawing.Point(87, 110);
-            this.UpRangeLrf_TextBox.Name = "UpRangeLrf_TextBox";
-            this.UpRangeLrf_TextBox.Size = new System.Drawing.Size(97, 23);
-            this.UpRangeLrf_TextBox.TabIndex = 52;
-            this.UpRangeLrf_TextBox.Text = "10";
-            this.UpRangeLrf_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // FreqLrf_TextBox
-            // 
-            this.FreqLrf_TextBox.Location = new System.Drawing.Point(87, 139);
-            this.FreqLrf_TextBox.Name = "FreqLrf_TextBox";
-            this.FreqLrf_TextBox.Size = new System.Drawing.Size(97, 23);
-            this.FreqLrf_TextBox.TabIndex = 53;
-            this.FreqLrf_TextBox.Text = "1";
-            this.FreqLrf_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TimeLrf_TextBox
-            // 
-            this.TimeLrf_TextBox.Location = new System.Drawing.Point(87, 168);
-            this.TimeLrf_TextBox.Name = "TimeLrf_TextBox";
-            this.TimeLrf_TextBox.Size = new System.Drawing.Size(97, 23);
-            this.TimeLrf_TextBox.TabIndex = 54;
-            this.TimeLrf_TextBox.Text = "10";
-            this.TimeLrf_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -685,16 +637,16 @@
             // groupBox19
             // 
             this.groupBox19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox19.Controls.Add(this.TimeLrf_Numeric);
+            this.groupBox19.Controls.Add(this.FreqLrf_Numeric);
+            this.groupBox19.Controls.Add(this.UpRangeLrf_Numeric);
+            this.groupBox19.Controls.Add(this.DownRangeLrf_Numeric);
             this.groupBox19.Controls.Add(this.label11);
             this.groupBox19.Controls.Add(this.label10);
             this.groupBox19.Controls.Add(this.label9);
             this.groupBox19.Controls.Add(this.label8);
             this.groupBox19.Controls.Add(this.label7);
             this.groupBox19.Controls.Add(this.label6);
-            this.groupBox19.Controls.Add(this.TimeLrf_TextBox);
-            this.groupBox19.Controls.Add(this.FreqLrf_TextBox);
-            this.groupBox19.Controls.Add(this.UpRangeLrf_TextBox);
-            this.groupBox19.Controls.Add(this.DownRangeLrf_TextBox);
             this.groupBox19.Controls.Add(this.DeactiveLrf_Button);
             this.groupBox19.Controls.Add(this.ActiveLrf_Button);
             this.groupBox19.Controls.Add(this.SettingLrf_CheckBox);
@@ -707,6 +659,78 @@
             this.groupBox19.TabIndex = 50;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Range Finder";
+            // 
+            // TimeLrf_Numeric
+            // 
+            this.TimeLrf_Numeric.Location = new System.Drawing.Point(87, 168);
+            this.TimeLrf_Numeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.TimeLrf_Numeric.Name = "TimeLrf_Numeric";
+            this.TimeLrf_Numeric.Size = new System.Drawing.Size(97, 23);
+            this.TimeLrf_Numeric.TabIndex = 63;
+            this.TimeLrf_Numeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TimeLrf_Numeric.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // FreqLrf_Numeric
+            // 
+            this.FreqLrf_Numeric.Location = new System.Drawing.Point(87, 139);
+            this.FreqLrf_Numeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.FreqLrf_Numeric.Name = "FreqLrf_Numeric";
+            this.FreqLrf_Numeric.Size = new System.Drawing.Size(97, 23);
+            this.FreqLrf_Numeric.TabIndex = 62;
+            this.FreqLrf_Numeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.FreqLrf_Numeric.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // UpRangeLrf_Numeric
+            // 
+            this.UpRangeLrf_Numeric.Location = new System.Drawing.Point(87, 110);
+            this.UpRangeLrf_Numeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UpRangeLrf_Numeric.Name = "UpRangeLrf_Numeric";
+            this.UpRangeLrf_Numeric.Size = new System.Drawing.Size(97, 23);
+            this.UpRangeLrf_Numeric.TabIndex = 61;
+            this.UpRangeLrf_Numeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.UpRangeLrf_Numeric.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // DownRangeLrf_Numeric
+            // 
+            this.DownRangeLrf_Numeric.Location = new System.Drawing.Point(87, 81);
+            this.DownRangeLrf_Numeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.DownRangeLrf_Numeric.Name = "DownRangeLrf_Numeric";
+            this.DownRangeLrf_Numeric.Size = new System.Drawing.Size(97, 23);
+            this.DownRangeLrf_Numeric.TabIndex = 57;
+            this.DownRangeLrf_Numeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.DownRangeLrf_Numeric.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
             // 
             // RelayOnScan_NdYagCheckBox
             // 
@@ -741,7 +765,7 @@
             this.NdYagReady_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.NdYagReady_Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.NdYagReady_Button.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.NdYagReady_Button.Location = new System.Drawing.Point(6, 171);
+            this.NdYagReady_Button.Location = new System.Drawing.Point(6, 117);
             this.NdYagReady_Button.Name = "NdYagReady_Button";
             this.NdYagReady_Button.Size = new System.Drawing.Size(75, 23);
             this.NdYagReady_Button.TabIndex = 46;
@@ -754,7 +778,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(4, 114);
+            this.label5.Location = new System.Drawing.Point(6, 150);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(62, 15);
             this.label5.TabIndex = 47;
@@ -762,10 +786,12 @@
             // 
             // NdYagFreq_TextBox
             // 
-            this.NdYagFreq_TextBox.Location = new System.Drawing.Point(7, 133);
+            this.NdYagFreq_TextBox.Location = new System.Drawing.Point(6, 169);
             this.NdYagFreq_TextBox.Name = "NdYagFreq_TextBox";
             this.NdYagFreq_TextBox.Size = new System.Drawing.Size(120, 23);
             this.NdYagFreq_TextBox.TabIndex = 46;
+            this.NdYagFreq_TextBox.Text = "1";
+            this.NdYagFreq_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // EnableNdYagScaner_CheckBox
             // 
@@ -787,8 +813,8 @@
             this.groupBox18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox18.Controls.Add(this.EnableNdYagScaner_CheckBox);
             this.groupBox18.Controls.Add(this.NdYagFreq_TextBox);
-            this.groupBox18.Controls.Add(this.label5);
             this.groupBox18.Controls.Add(this.NdYagReady_Button);
+            this.groupBox18.Controls.Add(this.label5);
             this.groupBox18.Controls.Add(this.HomingScan_NYagCheckBox);
             this.groupBox18.Controls.Add(this.RelayOnScan_NdYagCheckBox);
             this.groupBox18.ForeColor = System.Drawing.Color.BlanchedAlmond;
@@ -908,7 +934,6 @@
             this.groupBox16.Controls.Add(this.PP_3dTrack_CheckBox);
             this.groupBox16.Controls.Add(this.PP_AutoWide_CheckBox);
             this.groupBox16.Controls.Add(this.PP_RelayOnBoard_CheckBox);
-            this.groupBox16.Controls.Add(this.MinorPictureBox);
             this.groupBox16.ForeColor = System.Drawing.Color.BlanchedAlmond;
             this.groupBox16.Location = new System.Drawing.Point(258, 239);
             this.groupBox16.Name = "groupBox16";
@@ -959,26 +984,32 @@
             // 
             this.MinorPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MinorPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MinorPictureBox.Image")));
-            this.MinorPictureBox.Location = new System.Drawing.Point(80, 151);
+            this.MinorPictureBox.Location = new System.Drawing.Point(497, 17);
             this.MinorPictureBox.Name = "MinorPictureBox";
-            this.MinorPictureBox.Size = new System.Drawing.Size(47, 43);
+            this.MinorPictureBox.Size = new System.Drawing.Size(292, 242);
             this.MinorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.MinorPictureBox.TabIndex = 16;
             this.MinorPictureBox.TabStop = false;
             // 
-            // textBox1
+            // PositionX_TextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(136, 86);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 25);
-            this.textBox1.TabIndex = 42;
+            this.PositionX_TextBox.Location = new System.Drawing.Point(136, 86);
+            this.PositionX_TextBox.Name = "PositionX_TextBox";
+            this.PositionX_TextBox.Size = new System.Drawing.Size(100, 25);
+            this.PositionX_TextBox.TabIndex = 42;
+            this.PositionX_TextBox.Text = "0";
+            this.PositionX_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.PositionX_TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PositionX_TextBox_KeyDown);
             // 
-            // textBox2
+            // PositionY_TextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(136, 117);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 25);
-            this.textBox2.TabIndex = 43;
+            this.PositionY_TextBox.Location = new System.Drawing.Point(136, 117);
+            this.PositionY_TextBox.Name = "PositionY_TextBox";
+            this.PositionY_TextBox.Size = new System.Drawing.Size(100, 25);
+            this.PositionY_TextBox.TabIndex = 43;
+            this.PositionY_TextBox.Text = "0";
+            this.PositionY_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.PositionY_TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PositionY_TextBox_KeyDown);
             // 
             // label1
             // 
@@ -1007,12 +1038,15 @@
             this.label3.TabIndex = 45;
             this.label3.Text = "PosY:";
             // 
-            // textBox3
+            // PositionZ_TextBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(136, 148);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 25);
-            this.textBox3.TabIndex = 46;
+            this.PositionZ_TextBox.Location = new System.Drawing.Point(136, 148);
+            this.PositionZ_TextBox.Name = "PositionZ_TextBox";
+            this.PositionZ_TextBox.Size = new System.Drawing.Size(100, 25);
+            this.PositionZ_TextBox.TabIndex = 46;
+            this.PositionZ_TextBox.Text = "0";
+            this.PositionZ_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.PositionZ_TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PositionZ_TextBox_KeyDown);
             // 
             // TrackRadio
             // 
@@ -1148,12 +1182,12 @@
             this.groupBox14.Controls.Add(this.PositionRadio);
             this.groupBox14.Controls.Add(this.SearchRadio);
             this.groupBox14.Controls.Add(this.TrackRadio);
-            this.groupBox14.Controls.Add(this.textBox3);
+            this.groupBox14.Controls.Add(this.PositionZ_TextBox);
             this.groupBox14.Controls.Add(this.label3);
             this.groupBox14.Controls.Add(this.label2);
             this.groupBox14.Controls.Add(this.label1);
-            this.groupBox14.Controls.Add(this.textBox2);
-            this.groupBox14.Controls.Add(this.textBox1);
+            this.groupBox14.Controls.Add(this.PositionY_TextBox);
+            this.groupBox14.Controls.Add(this.PositionX_TextBox);
             this.groupBox14.Controls.Add(this.Joystick_CheckBox);
             this.groupBox14.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox14.ForeColor = System.Drawing.Color.White;
@@ -2078,7 +2112,7 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.groupBox3.Controls.Add(this.ATK3JoystickStatus_pictureBox);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.USBJoystickStatus_pictureBox);
@@ -2180,6 +2214,7 @@
             this.Controls.Add(this.groupBox18);
             this.Controls.Add(this.groupBox16);
             this.Controls.Add(this.groupBox14);
+            this.Controls.Add(this.MinorPictureBox);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox1);
@@ -2202,6 +2237,10 @@
             this.groupBox20.PerformLayout();
             this.groupBox19.ResumeLayout(false);
             this.groupBox19.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TimeLrf_Numeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FreqLrf_Numeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UpRangeLrf_Numeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DownRangeLrf_Numeric)).EndInit();
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
             this.groupBox17.ResumeLayout(false);
@@ -2264,8 +2303,6 @@
         private GroupBox groupBox21;
         private RadioButton SingleMode_RadioButton;
         private RadioButton AutoModeCo2_RadioButton;
-        private Label label12;
-        private TextBox EnergyCo2_TextBox;
         private Label label13;
         private TextBox FreqCo2_TextBox;
         private Button SingleShootCo2_Button;
@@ -2275,10 +2312,6 @@
         private CheckBox SettingLrf_CheckBox;
         private Button ActiveLrf_Button;
         private Button DeactiveLrf_Button;
-        private TextBox DownRangeLrf_TextBox;
-        private TextBox UpRangeLrf_TextBox;
-        private TextBox FreqLrf_TextBox;
-        private TextBox TimeLrf_TextBox;
         private Label label6;
         private Label label7;
         private Label label8;
@@ -2305,12 +2338,12 @@
         private RadioButton NegPolarity_RadioButton;
         private RadioButton PosPolarity_RadioButton;
         private PictureBox MinorPictureBox;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox PositionX_TextBox;
+        private TextBox PositionY_TextBox;
         private Label label1;
         private Label label2;
         private Label label3;
-        private TextBox textBox3;
+        private TextBox PositionZ_TextBox;
         private RadioButton TrackRadio;
         private RadioButton SearchRadio;
         private RadioButton PositionRadio;
@@ -2402,5 +2435,9 @@
         private PictureBox MainCameraPictureBox;
         private CheckBox TurnIrCamera_CheckBox;
         private CheckBox TurnTvCamera_CheckBox;
+        private NumericUpDown TimeLrf_Numeric;
+        private NumericUpDown FreqLrf_Numeric;
+        private NumericUpDown UpRangeLrf_Numeric;
+        private NumericUpDown DownRangeLrf_Numeric;
     }
 }
