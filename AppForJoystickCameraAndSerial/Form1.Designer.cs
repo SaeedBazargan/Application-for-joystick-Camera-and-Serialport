@@ -48,9 +48,9 @@
             this.SingleMode_RadioButton = new System.Windows.Forms.RadioButton();
             this.AutoModeCo2_RadioButton = new System.Windows.Forms.RadioButton();
             this.label13 = new System.Windows.Forms.Label();
-            this.FreqCo2_TextBox = new System.Windows.Forms.TextBox();
             this.SingleShootCo2_Button = new System.Windows.Forms.Button();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.Co2Freq_Numeric = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
             this.RelayOnLrf_CheckBox = new System.Windows.Forms.CheckBox();
             this.SettingLrf_CheckBox = new System.Windows.Forms.CheckBox();
@@ -71,9 +71,9 @@
             this.HomingScan_NYagCheckBox = new System.Windows.Forms.CheckBox();
             this.NdYagReady_Button = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.NdYagFreq_TextBox = new System.Windows.Forms.TextBox();
             this.EnableNdYagScaner_CheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.NdYagFreq_Numeric = new System.Windows.Forms.NumericUpDown();
             this.PP_RelayOnBoard_CheckBox = new System.Windows.Forms.CheckBox();
             this.PP_AutoWide_CheckBox = new System.Windows.Forms.CheckBox();
             this.PP_3dTrack_CheckBox = new System.Windows.Forms.CheckBox();
@@ -187,12 +187,14 @@
             this.groupBox22.SuspendLayout();
             this.groupBox21.SuspendLayout();
             this.groupBox20.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Co2Freq_Numeric)).BeginInit();
             this.groupBox19.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TimeLrf_Numeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FreqLrf_Numeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpRangeLrf_Numeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DownRangeLrf_Numeric)).BeginInit();
             this.groupBox18.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NdYagFreq_Numeric)).BeginInit();
             this.groupBox17.SuspendLayout();
             this.groupBox16.SuspendLayout();
             this.groupBox15.SuspendLayout();
@@ -452,15 +454,6 @@
             this.label13.TabIndex = 54;
             this.label13.Text = "Frequency";
             // 
-            // FreqCo2_TextBox
-            // 
-            this.FreqCo2_TextBox.Location = new System.Drawing.Point(75, 138);
-            this.FreqCo2_TextBox.Name = "FreqCo2_TextBox";
-            this.FreqCo2_TextBox.Size = new System.Drawing.Size(126, 23);
-            this.FreqCo2_TextBox.TabIndex = 53;
-            this.FreqCo2_TextBox.Text = "1";
-            this.FreqCo2_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // SingleShootCo2_Button
             // 
             this.SingleShootCo2_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -478,8 +471,8 @@
             // groupBox20
             // 
             this.groupBox20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox20.Controls.Add(this.Co2Freq_Numeric);
             this.groupBox20.Controls.Add(this.SingleShootCo2_Button);
-            this.groupBox20.Controls.Add(this.FreqCo2_TextBox);
             this.groupBox20.Controls.Add(this.label13);
             this.groupBox20.Controls.Add(this.groupBox21);
             this.groupBox20.Controls.Add(this.RelayOnScanCo2_CheckBox);
@@ -491,6 +484,24 @@
             this.groupBox20.TabIndex = 50;
             this.groupBox20.TabStop = false;
             this.groupBox20.Text = "Co2";
+            // 
+            // Co2Freq_Numeric
+            // 
+            this.Co2Freq_Numeric.Location = new System.Drawing.Point(75, 138);
+            this.Co2Freq_Numeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.Co2Freq_Numeric.Name = "Co2Freq_Numeric";
+            this.Co2Freq_Numeric.Size = new System.Drawing.Size(126, 23);
+            this.Co2Freq_Numeric.TabIndex = 65;
+            this.Co2Freq_Numeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Co2Freq_Numeric.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // button1
             // 
@@ -784,15 +795,6 @@
             this.label5.TabIndex = 47;
             this.label5.Text = "Frequency";
             // 
-            // NdYagFreq_TextBox
-            // 
-            this.NdYagFreq_TextBox.Location = new System.Drawing.Point(6, 169);
-            this.NdYagFreq_TextBox.Name = "NdYagFreq_TextBox";
-            this.NdYagFreq_TextBox.Size = new System.Drawing.Size(120, 23);
-            this.NdYagFreq_TextBox.TabIndex = 46;
-            this.NdYagFreq_TextBox.Text = "1";
-            this.NdYagFreq_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // EnableNdYagScaner_CheckBox
             // 
             this.EnableNdYagScaner_CheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -811,8 +813,8 @@
             // groupBox18
             // 
             this.groupBox18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox18.Controls.Add(this.NdYagFreq_Numeric);
             this.groupBox18.Controls.Add(this.EnableNdYagScaner_CheckBox);
-            this.groupBox18.Controls.Add(this.NdYagFreq_TextBox);
             this.groupBox18.Controls.Add(this.NdYagReady_Button);
             this.groupBox18.Controls.Add(this.label5);
             this.groupBox18.Controls.Add(this.HomingScan_NYagCheckBox);
@@ -824,6 +826,24 @@
             this.groupBox18.TabIndex = 43;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "NdYag";
+            // 
+            // NdYagFreq_Numeric
+            // 
+            this.NdYagFreq_Numeric.Location = new System.Drawing.Point(6, 168);
+            this.NdYagFreq_Numeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NdYagFreq_Numeric.Name = "NdYagFreq_Numeric";
+            this.NdYagFreq_Numeric.Size = new System.Drawing.Size(120, 23);
+            this.NdYagFreq_Numeric.TabIndex = 64;
+            this.NdYagFreq_Numeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.NdYagFreq_Numeric.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // PP_RelayOnBoard_CheckBox
             // 
@@ -934,6 +954,7 @@
             this.groupBox16.Controls.Add(this.PP_3dTrack_CheckBox);
             this.groupBox16.Controls.Add(this.PP_AutoWide_CheckBox);
             this.groupBox16.Controls.Add(this.PP_RelayOnBoard_CheckBox);
+            this.groupBox16.Controls.Add(this.MinorPictureBox);
             this.groupBox16.ForeColor = System.Drawing.Color.BlanchedAlmond;
             this.groupBox16.Location = new System.Drawing.Point(258, 239);
             this.groupBox16.Name = "groupBox16";
@@ -984,9 +1005,9 @@
             // 
             this.MinorPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MinorPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MinorPictureBox.Image")));
-            this.MinorPictureBox.Location = new System.Drawing.Point(497, 17);
+            this.MinorPictureBox.Location = new System.Drawing.Point(83, 160);
             this.MinorPictureBox.Name = "MinorPictureBox";
-            this.MinorPictureBox.Size = new System.Drawing.Size(292, 242);
+            this.MinorPictureBox.Size = new System.Drawing.Size(38, 34);
             this.MinorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.MinorPictureBox.TabIndex = 16;
             this.MinorPictureBox.TabStop = false;
@@ -2214,7 +2235,6 @@
             this.Controls.Add(this.groupBox18);
             this.Controls.Add(this.groupBox16);
             this.Controls.Add(this.groupBox14);
-            this.Controls.Add(this.MinorPictureBox);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox1);
@@ -2225,7 +2245,6 @@
             this.Controls.Add(this.MainCameraPictureBox);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox23.ResumeLayout(false);
             this.groupBox23.PerformLayout();
@@ -2235,6 +2254,7 @@
             this.groupBox21.PerformLayout();
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Co2Freq_Numeric)).EndInit();
             this.groupBox19.ResumeLayout(false);
             this.groupBox19.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TimeLrf_Numeric)).EndInit();
@@ -2243,6 +2263,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.DownRangeLrf_Numeric)).EndInit();
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NdYagFreq_Numeric)).EndInit();
             this.groupBox17.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
@@ -2304,7 +2325,6 @@
         private RadioButton SingleMode_RadioButton;
         private RadioButton AutoModeCo2_RadioButton;
         private Label label13;
-        private TextBox FreqCo2_TextBox;
         private Button SingleShootCo2_Button;
         private GroupBox groupBox20;
         private Button button1;
@@ -2323,7 +2343,6 @@
         private CheckBox HomingScan_NYagCheckBox;
         private Button NdYagReady_Button;
         private Label label5;
-        private TextBox NdYagFreq_TextBox;
         private CheckBox EnableNdYagScaner_CheckBox;
         private GroupBox groupBox18;
         private CheckBox PP_RelayOnBoard_CheckBox;
@@ -2439,5 +2458,7 @@
         private NumericUpDown FreqLrf_Numeric;
         private NumericUpDown UpRangeLrf_Numeric;
         private NumericUpDown DownRangeLrf_Numeric;
+        private NumericUpDown Co2Freq_Numeric;
+        private NumericUpDown NdYagFreq_Numeric;
     }
 }

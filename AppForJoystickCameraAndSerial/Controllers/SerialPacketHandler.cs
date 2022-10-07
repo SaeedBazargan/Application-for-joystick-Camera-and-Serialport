@@ -7,7 +7,7 @@
         byte[] Data_CRC = new byte[52];
         byte CurrentState = 0;
 
-        public void Master_CheckPacket(byte[] Rx_Data, string RecordDir, bool Record, int index)
+        public void Master_CheckPacket(byte[] Rx_Data, string RecordDir, bool Record, int index, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
         {
             //for (byte i = 0; i < 55; i++)
             //{
@@ -39,7 +39,7 @@
                     for (int j = 0; j < 55; j++)
                         File.AppendAllText(recordingPath, "" + Rx_Data[j] + ',');
                 }
-                SplitLookupTable(LookUpTable);
+                SplitLookupTable(LookUpTable, fov_TextBox, azError_TextBox, eiError_TextBox, ax_TextBox, ay_TextBox, az_TextBox);
                 CurrentState = 0;
             }
             else
@@ -48,7 +48,7 @@
                 Array.Clear(Rx_Data, 0, Rx_Data.Length);
             }
         }
-        public void SplitLookupTable(byte[] LUT)
+        public void SplitLookupTable(byte[] LUT, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
         {
             Int32 Counter;
             byte Address;
@@ -65,37 +65,52 @@
             Int32 Data_10;
             Int32 Data_11;
 
-            Counter = (LUT[0] << 24) + (LUT[1] << 16) + (LUT[2] << 8) + (LUT[3]);
+            Counter = (LUT[3] << 24) + (LUT[2] << 16) + (LUT[1] << 8) + (LUT[0]);
             Address = LUT[4];
             Code = LUT[5];
-            Data_1 = (LUT[6] << 24) + (LUT[7] << 16) + (LUT[8] << 8) + (LUT[9]);
-            Data_2 = (LUT[10] << 24) + (LUT[11] << 16) + (LUT[12] << 8) + (LUT[13]);
-            Data_3 = (LUT[14] << 24) + (LUT[15] << 16) + (LUT[16] << 8) + (LUT[17]);
-            Data_4 = (LUT[18] << 24) + (LUT[19] << 16) + (LUT[20] << 8) + (LUT[21]);
-            Data_5 = (LUT[22] << 24) + (LUT[23] << 16) + (LUT[24] << 8) + (LUT[25]);
-            Data_6 = (LUT[26] << 24) + (LUT[27] << 16) + (LUT[28] << 8) + (LUT[29]);
-            Data_7 = (LUT[30] << 24) + (LUT[31] << 16) + (LUT[32] << 8) + (LUT[33]);
-            Data_8 = (LUT[34] << 24) + (LUT[35] << 16) + (LUT[36] << 8) + (LUT[37]);
-            Data_9 = (LUT[38] << 24) + (LUT[39] << 16) + (LUT[40] << 8) + (LUT[41]);
-            Data_10 = (LUT[42] << 24) + (LUT[43] << 16) + (LUT[44] << 8) + (LUT[45]);
-            Data_11 = (LUT[46] << 24) + (LUT[47] << 16) + (LUT[48] << 8) + (LUT[49]);
+            Data_1 = (LUT[9] << 24) + (LUT[8] << 16) + (LUT[7] << 8) + (LUT[6]);
+            Data_2 = (LUT[13] << 24) + (LUT[12] << 16) + (LUT[11] << 8) + (LUT[10]);
+            Data_3 = (LUT[17] << 24) + (LUT[16] << 16) + (LUT[15] << 8) + (LUT[14]);
+            Data_4 = (LUT[21] << 24) + (LUT[20] << 16) + (LUT[19] << 8) + (LUT[18]);
+            Data_5 = (LUT[25] << 24) + (LUT[24] << 16) + (LUT[23] << 8) + (LUT[22]);
+            Data_6 = (LUT[29] << 24) + (LUT[28] << 16) + (LUT[27] << 8) + (LUT[26]);
+            Data_7 = (LUT[33] << 24) + (LUT[32] << 16) + (LUT[31] << 8) + (LUT[30]);
+            Data_8 = (LUT[37] << 24) + (LUT[36] << 16) + (LUT[35] << 8) + (LUT[34]);
+            Data_9 = (LUT[41] << 24) + (LUT[40] << 16) + (LUT[39] << 8) + (LUT[38]);
+            Data_10 = (LUT[45] << 24) + (LUT[44] << 16) + (LUT[43] << 8) + (LUT[42]);
+            Data_11 = (LUT[49] << 24) + (LUT[48] << 16) + (LUT[47] << 8) + (LUT[46]);
 
-            Console.WriteLine("111:::" + Counter);
-            Console.WriteLine("222:::" + Address);
-            Console.WriteLine("333:::" + Code);
-            Console.WriteLine("444:::" + Data_1);
-            Console.WriteLine("555:::" + Data_2);
-            Console.WriteLine("666:::" + Data_3);
-            Console.WriteLine("777:::" + Data_4);
-            Console.WriteLine("888:::" + Data_5);
-            Console.WriteLine("999:::" + Data_6);
-            Console.WriteLine("1010:::" + Data_7);
-            Console.WriteLine("1111:::" + Data_8);
-            Console.WriteLine("1212:::" + Data_9);
-            Console.WriteLine("1313:::" + Data_10);
-            Console.WriteLine("1414:::" + Data_11);
-            Console.WriteLine("HHHHEEEEELLLLLLOOOOOOOOO");
+            ChangeTextBox(ax_TextBox, Data_1.ToString());
+            ChangeTextBox(ay_TextBox, Data_2.ToString());
+            ChangeTextBox(az_TextBox, Data_3.ToString());
+            ChangeTextBox(fov_TextBox, Data_4.ToString());
+            ChangeTextBox(azError_TextBox, Data_5.ToString());
+            ChangeTextBox(eiError_TextBox, Data_6.ToString());
+
+            //Console.WriteLine("111:::" + Counter);
+            //Console.WriteLine("222:::" + Address);
+            //Console.WriteLine("333:::" + Code);
+            //Console.WriteLine("444:::" + Data_1);
+            //Console.WriteLine("555:::" + Data_2);
+            //Console.WriteLine("666:::" + Data_3);
+            //Console.WriteLine("777:::" + Data_4);
+            //Console.WriteLine("888:::" + Data_5);
+            //Console.WriteLine("999:::" + Data_6);
+            //Console.WriteLine("1010:::" + Data_7);
+            //Console.WriteLine("1111:::" + Data_8);
+            //Console.WriteLine("1212:::" + Data_9);
+            //Console.WriteLine("1313:::" + Data_10);
+            //Console.WriteLine("1414:::" + Data_11);
+            //Console.WriteLine("HHHHEEEEELLLLLLOOOOOOOOO");
         }
+        void ChangeTextBox(TextBox textBox, string txt)
+        {
+            textBox.BeginInvoke((MethodInvoker)delegate ()
+            {
+                textBox.Text = txt;
+            });
+        }
+
         public bool CheckCRC(byte[] LutData, byte[] rxData)
         {
             int Len = LutData.Length;

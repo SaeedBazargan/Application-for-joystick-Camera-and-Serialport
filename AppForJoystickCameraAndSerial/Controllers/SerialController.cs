@@ -19,6 +19,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
         private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
         private readonly TextBox _SerialMonitoring_TextBox;
+        private readonly TextBox _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox;
         private readonly PictureBox _Serial1Status, _Serial2Status;
         private readonly Button _openPortBtn;
 
@@ -34,7 +35,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         public string RecordingDirectory { get; set; }
 
-        public SerialController(CancellationToken cancellationToken, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn)
+        public SerialController(CancellationToken cancellationToken, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn,
+            TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
         {
             _SerialPort = new SerialPort[2];
             Settings = new SerialPortSetting[2]
@@ -50,6 +52,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             serialPortTasks = new Task[2];
             isRunning = new bool[2];
             recording = new bool[2];
+            _Fov_TextBox = fov_TextBox;
+            _AzError_TextBox = azError_TextBox;
+            _EiError_TextBox = eiError_TextBox;
+            _Ax_TextBox = ax_TextBox;
+            _Ay_TextBox = ay_TextBox;
+            _Az_TextBox = az_TextBox;
         }
         public void Start(int SerialIndex)
         {
@@ -140,7 +148,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     DataBuffer_Rx[i] = (byte)_SerialPort[index].ReadByte();
                     //ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
                 }
-                Handler.Master_CheckPacket(DataBuffer_Rx, RecordingDirectory, recording[index], index);
+                Handler.Master_CheckPacket(DataBuffer_Rx, RecordingDirectory, recording[index], index, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox);
             }
         }
         private void SerialTaskDone(Task task, bool isMain)
@@ -156,11 +164,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             byte[] Data = new byte[55];
             Handler.WriteMessage_Generator(Code, Address, Value, Length, Data);
-            for (byte i = 0; i < 55; i++)
-            {
-                Console.Write(i + ":      ");
-                Console.WriteLine(Data[i]);
-            }
+            //for (byte i = 0; i < 55; i++)
+            //{
+            //    Console.Write(i + ":      ");
+            //    Console.WriteLine(Data[i]);
+            //}
 
             if (Open && serialportIndex == 0)
                 _SerialPort[0].Write(Data, 0, 55);

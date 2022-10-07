@@ -2,6 +2,7 @@
 using AppForJoystickCameraAndSerial.Controllers;
 using SharpDX.DirectInput;
 using System.Numerics;
+using System.Net.Security;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
@@ -239,7 +240,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
                     bufferPointer = 0;
 
-                    _serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
+                    //_serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
                 }
             }
 
@@ -264,39 +265,39 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 }
             }
 
-            //else if (_positionRadioButton.Checked)
-            //{
-            //    _positionBuffer[bufferPointer++] = new Point((int)(((state.X) * Ratio) * 0.3203), (int)(((state.Y) * Ratio) * 0.2402));
-            //    if (bufferPointer == _positionBuffer.Length)
-            //    {
-            //        int x = 0, y = 0;
-            //        for (int i = 0; i < bufferPointer; i++)
-            //        {
-            //            x += _positionBuffer[i].X;
-            //            y += _positionBuffer[i].Y;
-            //        }
+            else if (_cancleRadioButton.Checked)
+            {
+                _positionBuffer[bufferPointer++] = new Point((int)(((state.X) * Ratio) * 0.3203), (int)(((state.Y) * Ratio) * 0.2402));
+                if (bufferPointer == _positionBuffer.Length)
+                {
+                    int x = 0, y = 0;
+                    for (int i = 0; i < bufferPointer; i++)
+                    {
+                        x += _positionBuffer[i].X;
+                        y += _positionBuffer[i].Y;
+                    }
 
-            //        _positionUSB.X = x / bufferPointer;
-            //        _positionUSB.Y = y / bufferPointer;
-            //        Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
-            //        bufferPointer = 0;
+                    _positionUSB.X = x / bufferPointer;
+                    _positionUSB.Y = y / bufferPointer;
+                    Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
+                    bufferPointer = 0;
 
-            //        _serialController.Write((byte)Form1.WriteTableCodes.Position, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-            //    }
-            //}
+                    _serialController.Write((byte)Form1.WriteTableCodes.Cancle, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
+                }
+            }
         }
 
         private void GetButtonsPressed(bool[] buttonsIn)
         {
             if (second == 1 && buttonsIn[0])
             {
-                _serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Joystick_zeroPos, 2);
+                //_serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
                 _trackRadioButton.Checked = true;
                 second = 0;
             }
             if (second == 1 && buttonsIn[1])
             {
-                _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Joystick_zeroPos, 2);
+                _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
                 _searchRadioButton.Checked = true;
                 second = 0;
             }
@@ -325,7 +326,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             //-----------------------------------------
             if (second == 1 && buttonsIn[3])
             {
-                _serialController.Write((byte)Form1.WriteTableCodes.Cancle, (byte)Form1.WriteAddresses.TableControl, ON, 1);
+                _serialController.Write((byte)Form1.WriteTableCodes.Cancle, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
                 _cancleRadioButton.Checked = true;
                 second = 0;
             }
@@ -348,17 +349,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 second = 0;
             }
             //-----------------------------------------
-            if (second == 1 && !buttonsIn[5])
-            {
-                _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Stop, 1);
-                second = 0;
-            }
-            if (second == 1 && !buttonsIn[6])
-            {
-                _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Stop, 1);
-                second = 0;
-            }
-            //-----------------------------------------
             if (second == 1 && buttonsIn[7])
             {
                 _serialController.Write((byte)Form1.WriteLensDriverCodes.Tele, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
@@ -371,17 +361,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 second = 0;
             }
             //-----------------------------------------
-            if (second == 1 && !buttonsIn[7])
-            {
-                _serialController.Write((byte)Form1.WriteLensDriverCodes.Stop, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
-                second = 0;
-            }
-            if (second == 1 && !buttonsIn[8])
-            {
-                _serialController.Write((byte)Form1.WriteLensDriverCodes.Stop, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
-                second = 0;
-            }
-            //-----------------------------------------
             if (second == 1 && buttonsIn[9])
             {
                 _serialController.Write((byte)Form1.WriteNdYagCodes.Fire, (byte)Form1.WriteAddresses.NdYag, OFF, 1);
@@ -391,6 +370,13 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (second == 1 && buttonsIn[10])
             {
                 _serialController.Write((byte)Form1.WriteCo2Codes.Fire, (byte)Form1.WriteAddresses.Co2, OFF, 1);
+                second = 0;
+            }
+            //-----------------------------------------
+            if (second == 1)
+            {
+                _serialController.Write((byte)Form1.WriteLensDriverCodes.Stop, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
+                _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Stop, 1);
                 second = 0;
             }
         }

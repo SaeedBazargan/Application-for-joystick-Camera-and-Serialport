@@ -81,12 +81,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 if (_rotateImages.Checked)
                 {
                     ChangePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox, image);
-                    HidePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox);
+                    //HidePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox);
                 }
                 else
                 {
                     ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
-                    HidePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox);
+                    //HidePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox);
                 }
                 if (recording[index])
                 {
