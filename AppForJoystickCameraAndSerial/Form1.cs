@@ -375,7 +375,7 @@ namespace AppForJoystickCameraAndSerial
                 NearButton.Enabled = true;
                 FarButton.Enabled = true;
 
-                serialportController.Write((byte)WriteProPlatformCodes.SelectCamera, (byte)WriteAddresses.ProcessingPlatform, OFF, 1);
+                serialportController.Write((byte)WriteProPlatformCodes.SelectCamera, (byte)WriteAddresses.ProcessingPlatform, ON, 1);
                 camerasController.Start(1);
             }
             else
@@ -706,12 +706,12 @@ namespace AppForJoystickCameraAndSerial
         /// <param name="e"></param>
         private void TrackRadio_CheckedChanged(object sender, EventArgs e)
         {
-            serialportController.Write((byte)WriteTableCodes.Track, (byte)WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
+            //serialportController.Write((byte)WriteTableCodes.Track, (byte)WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
         }
 
         private void SearchRadio_CheckedChanged(object sender, EventArgs e)
         {
-            serialportController.Write((byte)WriteTableCodes.Search, (byte)WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
+            //serialportController.Write((byte)WriteTableCodes.Search, (byte)WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
         }
 
         private void PositionRadio_CheckedChanged(object sender, EventArgs e)
@@ -726,7 +726,7 @@ namespace AppForJoystickCameraAndSerial
 
         private void CancleRadio_CheckedChanged(object sender, EventArgs e)
         {
-            serialportController.Write((byte)WriteTableCodes.Cancle, (byte)WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 1);
+            //serialportController.Write((byte)WriteTableCodes.Cancle, (byte)WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
         }
 
         private void PositionX_TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -940,6 +940,9 @@ namespace AppForJoystickCameraAndSerial
         /// </summary>
         private void CustomInit()
         {
+            MaximizeBox = false;
+            MinimizeBox = false;
+            
             TrackRadio.Enabled = false;
             SearchRadio.Enabled = false;
             PositionRadio.Enabled = false;
