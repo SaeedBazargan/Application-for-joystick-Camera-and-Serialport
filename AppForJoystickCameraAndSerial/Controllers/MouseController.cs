@@ -29,7 +29,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 {
                     _position.X = e.X;
                     _position.Y = e.Y;
-                    Pointer.JoyPointer.MoveMouse(_position);
                     _serialController.Write((byte)Form1.WriteTableCodes.Position, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
                 };
 
@@ -41,9 +40,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     _serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
                 };
             }
-            else if(!Status)
+            else if (!Status)
+            {
                 _cancellationToken.Cancel();
+                Status = false;
+            }
         }
-
     }
 }

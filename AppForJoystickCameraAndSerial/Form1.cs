@@ -940,9 +940,6 @@ namespace AppForJoystickCameraAndSerial
         /// </summary>
         private void CustomInit()
         {
-            MaximizeBox = false;
-            MinimizeBox = false;
-            
             TrackRadio.Enabled = false;
             SearchRadio.Enabled = false;
             PositionRadio.Enabled = false;
