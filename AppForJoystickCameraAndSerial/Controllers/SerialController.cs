@@ -18,36 +18,38 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
         private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
-        private readonly TextBox _SerialMonitoring_TextBox;
         private readonly TextBox _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox;
-        private readonly PictureBox _Serial1Status, _Serial2Status;
         private readonly Button _openPortBtn;
+        private readonly PictureBox _Serial1Status, _Serial2Status;
+        private readonly CheckBox _selectSerial1, _selectSerial2;
 
         private readonly CancellationToken _cancellationToken;
         private readonly Task[] serialPortTasks;
         private readonly bool[] isRunning;
         private readonly bool[] recording;
+        public string RecordingDirectory { get; set; }
 
         int DataInBuffer_Size = 200;
         byte[] Data_Rx;
         int Data_Counter = 0;
         int serialportIndex = 0;
 
+        int NdYag = 0;
 
-        public string RecordingDirectory { get; set; }
-
-        public SerialController(CancellationToken cancellationToken, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn,
+        public SerialController(CancellationToken cancellationToken, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn, Button readyNdYagBtn, CheckBox SelectSerial1, CheckBox SelectSerial2,
             TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
         {
             _SerialPort = new SerialPort[2];
             Settings = new SerialPortSetting[2]
             {
-                new SerialPortSetting{PortNumber = "COM3",Baudrate = 9600, DataBit = 8},
+                new SerialPortSetting{PortNumber = "COM7",Baudrate = 115200, DataBit = 8},
                 new SerialPortSetting{PortNumber = "COM5",Baudrate = 115200, DataBit = 8}
             };
 
             _Serial1Status = serial1Status; _Serial2Status = serial2Status;
             _openPortBtn = openPortBtn;
+            _selectSerial1 = SelectSerial1;
+            _selectSerial2 = SelectSerial2;
 
             _cancellationToken = cancellationToken;
             serialPortTasks = new Task[2];
@@ -79,6 +81,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 _openPortBtn.Enabled = true;
             });
+            ChangePictureBox(SerialIndex == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
+            if (SerialIndex == 0)
+                _selectSerial1.Checked = false;
+            else if (SerialIndex == 1)
+                _selectSerial2.Checked = false;
+            _SerialPort[SerialIndex].Close();
         }
 
         public void Record(int SerialIndex)
@@ -101,9 +109,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 if (_Com_ComboBox.SelectedItem != null)
                     PortNumber = _Com_ComboBox.SelectedItem.ToString();
-                if (_Baud_ComboBox.SelectedItem != null)
+                else if (_Baud_ComboBox.SelectedItem != null)
                     Baudrate = int.Parse(_Baud_ComboBox.SelectedItem.ToString());
-                if (_DataBits_ComboBox.SelectedItem != null)
+                else if (_DataBits_ComboBox.SelectedItem != null)
                     DataBit = int.Parse(_DataBits_ComboBox.SelectedItem.ToString());
                 else
                 {
@@ -116,9 +124,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 if (_Com_ComboBox2.SelectedItem != null)
                     PortNumber = _Com_ComboBox2.SelectedItem.ToString();
-                if (_Baud_ComboBox2.SelectedItem != null)
+                else if (_Baud_ComboBox2.SelectedItem != null)
                     Baudrate = int.Parse(_Baud_ComboBox2.SelectedItem.ToString());
-                if (_DataBits_ComboBox2.SelectedItem != null)
+                else if (_DataBits_ComboBox2.SelectedItem != null)
                     DataBit = int.Parse(_DataBits_ComboBox2.SelectedItem.ToString());
                 else
                 {
@@ -132,32 +140,46 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         private void StartSerial(int index)
         {
-            Open = true;
-            serialportIndex = index;
-            var setting = Settings[index];
-            _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
-            _SerialPort[index].Open();
-            _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
+            try
             {
-                _openPortBtn.Enabled = false;
-            });
-            if (!_SerialPort[index].IsOpen)
-                MessageBox.Show($"Port is disconnect! {index}");
-                //throw new Exception($"Cannot open port {index}");
+                Open = true;
+                serialportIndex = index;
+                var setting = Settings[index];
+                _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
+                _SerialPort[index].Open();
+                _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    _openPortBtn.Enabled = false;
+                });
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show($"Port {index + 1} is not found!");
+                Stop(index);
+            }
             ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+
             while (isRunning[index])
             {
-                Data_Rx[Data_Counter] = (byte)_SerialPort[index].ReadByte();
-                Data_Counter = (Data_Counter + 1) % DataInBuffer_Size;
-                if (Data_Rx[0] == 85 && Data_Counter == 55)
+                try
                 {
-                    Handler.Master_CheckPacket(Data_Rx, RecordingDirectory, recording[index], index, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox);
-                    Data_Counter = 0;
+                    Data_Rx[Data_Counter] = (byte)_SerialPort[index].ReadByte();
+                    Data_Counter = (Data_Counter + 1) % DataInBuffer_Size;
+                    if (Data_Rx[0] == 85 && Data_Counter == 55)
+                    {
+                        Handler.Master_CheckPacket(Data_Rx, RecordingDirectory, recording[index], index, NdYag, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox);
+                        Data_Counter = 0;
+                    }
+                    else if (Data_Rx[0] != 85)
+                    {
+                        Array.Clear(Data_Rx, 0, 55);
+                        Data_Counter = 0;
+                    }
                 }
-                else if (Data_Rx[0] != 85)
+                catch(Exception e)
                 {
-                    Array.Clear(Data_Rx, 0, 55);
-                    Data_Counter = 0;
+                    Stop(index);
+                    MessageBox.Show($"Port {index + 1} is disconnected!");
                 }
             }
         }
@@ -166,9 +188,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (task.IsCompletedSuccessfully)
                 ChangePictureBox(isMain == true ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
             else
-            {
                 isRunning[Convert.ToInt32(isMain)] = false;
-            }
         }
         public void Write(byte Code, byte Address, Int32[] Value, byte Length)
         {
@@ -186,6 +206,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _SerialPort[1].Write(Data, 0, 55);
             else
                 MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public int CheckNdYag()
+        {
+            if (NdYag == 87)
+                return 1;
+            else
+                return 0;
         }
     }
 }

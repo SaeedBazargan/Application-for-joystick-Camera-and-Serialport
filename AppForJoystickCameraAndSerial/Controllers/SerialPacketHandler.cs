@@ -16,8 +16,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
         float FOV;
         float Az_Error;
         float Ei_Error;
+        float Error_X;
+        float Error_Y;
+        float Error_Z;
 
-        public void Master_CheckPacket(byte[] Rx_Data, string RecordDir, bool Record, int index, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
+        public void Master_CheckPacket(byte[] Rx_Data, string RecordDir, bool Record, int index, int ndyagState, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
         {
             if (Record)
             {
@@ -30,11 +33,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     writer = new StreamWriter(recordingPath);
                 }
                 if (TestLog == false)
-                    writer.Write('\n' + "Ax = " + Ax + "     " + "Ay = " + Ay + "     " + "Az = " + Az + "     " + "FOV = " + FOV + "     " + "Az_Error = " + Az_Error + "     " + "Ei_Error = " + Ei_Error + "     ");
+                    writer.Write('\n' + "Ax = " + Ax + "     " + "Ay = " + Ay + "     " + "Az = " + Az + "     " + "FOV = " + FOV + "     " +
+                                        "Az_Error = " + Az_Error + "     " + "Ei_Error = " + Ei_Error + "     " + "ErrorX = " + Error_X + "     "
+                                      + "ErrorY  = " + Error_Y + "     " + "ErrorZ  = " + Error_Z + "     ");
                 else if (TestLog == true)
+                {
+                    writer.Write("\n");
                     for (int i = 0; i < 55; i++)
-                        writer.Write("" + Rx_Data[i] + " , ");
-
+                        writer.Write("" + Rx_Data[i] + ",");
+                }
             }
             else if (writer != null)
             {
@@ -45,10 +52,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             for (byte k = 2; k < 52; k++)
                 LookUpTable[k - 2] = Rx_Data[k];
             if (CheckCRC(LookUpTable, Rx_Data))
-                SplitLookupTable(LookUpTable, fov_TextBox, azError_TextBox, eiError_TextBox, ax_TextBox, ay_TextBox, az_TextBox);
+                SplitLookupTable(LookUpTable, ndyagState, fov_TextBox, azError_TextBox, eiError_TextBox, ax_TextBox, ay_TextBox, az_TextBox);
         }
 
-        public void SplitLookupTable(byte[] LUT, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
+        public void SplitLookupTable(byte[] LUT, int NdYag_State, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
         {
             Int32 Counter;
             byte Address;
@@ -77,7 +84,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Data_7 = (LUT[33] << 24) + (LUT[32] << 16) + (LUT[31] << 8) + (LUT[30]);
             Data_8 = (LUT[37] << 24) + (LUT[36] << 16) + (LUT[35] << 8) + (LUT[34]);
             Data_9 = (LUT[41] << 24) + (LUT[40] << 16) + (LUT[39] << 8) + (LUT[38]);
-            Data_10 = (LUT[45] << 24) + (LUT[44] << 16) + (LUT[43] << 8) + (LUT[42]);
+            Data_10 = LUT[42];
+            //Data_10 = (LUT[45] << 24) + (LUT[44] << 16) + (LUT[43] << 8) + (LUT[42]);
             Data_11 = (LUT[49] << 24) + (LUT[48] << 16) + (LUT[47] << 8) + (LUT[46]);
 
             Ax = (float)Data_1 / 1000;
@@ -86,6 +94,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             FOV = (float)Data_4 / 1000;
             Az_Error = (float)Data_5 / 1000;
             Ei_Error = (float)Data_6 / 1000;
+            Error_X = (float)Data_7 / 1000;
+            Error_Y = (float)Data_8 / 1000;
+            Error_Z = (float)Data_9 / 1000;
+            NdYag_State = Data_10;
 
             ChangeTextBox(ax_TextBox, Ax.ToString());
             ChangeTextBox(ay_TextBox, Ay.ToString());
@@ -133,7 +145,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 Template[9]  = (byte)((Tx_Data[0] >> 8) & 0xFF); 
                 Template[10] = (byte)((Tx_Data[0] >> 16) & 0xFF);
                 Template[11] = (byte)((Tx_Data[0] >> 24) & 0xFF);
-                //Console.WriteLine("FFFFF = " + ((Template[8] << 24) + (Template[9] << 16) + (Template[10] << 8) + Template[11]));
             }
             if (Length == 2)
             {
@@ -141,21 +152,13 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 Template[9] = (byte)((Tx_Data[0] >> 8) & 0xFF);
                 Template[10] = (byte)((Tx_Data[0] >> 16) & 0xFF);
                 Template[11] = (byte)((Tx_Data[0] >> 24) & 0xFF);
-                //Console.WriteLine("AAAAA = " + ((Template[11] << 24) + (Template[10] << 16) + (Template[9] << 8) + Template[8]));
 
                 Template[12] = (byte)((Tx_Data[1]) & 0xFF);
                 Template[13] = (byte)((Tx_Data[1] >> 8) & 0xFF);
                 Template[14] = (byte)((Tx_Data[1] >> 16) & 0xFF);
                 Template[15] = (byte)((Tx_Data[1] >> 24) & 0xFF);
-
-                //Console.WriteLine("BBBBB = " + ((Template[15] << 24) + (Template[14] << 16) + (Template[13] << 8) + Template[12]));
-                //Console.WriteLine("CCCCC = " + ((buffer[0] << 24) + (buffer[1] << 16) + (buffer[2] << 8) + buffer[3]));
             }
-            //else
-            //{
-            //    Template[8] = 0x00; Template[9] = 0x00; Template[10] = 0x00; Template[11] = 0x00;   //Data 1
-            //    Template[12] = 0x00; Template[13] = 0x00; Template[14] = 0x00; Template[15] = 0x00; //Data 2
-            //}
+
             Template[16] = 0x00; Template[17] = 0x00; Template[18] = 0x00; Template[19] = 0x00;     //Data 3
             Template[20] = 0x00; Template[21] = 0x00; Template[22] = 0x00; Template[23] = 0x00;     //Data 4
             Template[24] = 0x00; Template[25] = 0x00; Template[26] = 0x00; Template[27] = 0x00;     //Data 5

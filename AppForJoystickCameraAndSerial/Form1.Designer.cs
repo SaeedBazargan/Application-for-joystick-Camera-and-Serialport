@@ -45,8 +45,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.RelayOnScanCo2_CheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
-            this.SingleMode_RadioButton = new System.Windows.Forms.RadioButton();
-            this.AutoModeCo2_RadioButton = new System.Windows.Forms.RadioButton();
+            this.SingleMode_Co2_CheckBox = new System.Windows.Forms.CheckBox();
+            this.AutoMode_Co2_CheckBox = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.SingleShootCo2_Button = new System.Windows.Forms.Button();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
@@ -183,6 +183,7 @@
             this.Joystick_Label = new System.Windows.Forms.Label();
             this.Serial2_Lable = new System.Windows.Forms.Label();
             this.MainCameraPictureBox = new System.Windows.Forms.PictureBox();
+            this.TwoImage_CheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox23.SuspendLayout();
             this.groupBox22.SuspendLayout();
             this.groupBox21.SuspendLayout();
@@ -409,39 +410,43 @@
             // 
             // groupBox21
             // 
-            this.groupBox21.Controls.Add(this.SingleMode_RadioButton);
-            this.groupBox21.Controls.Add(this.AutoModeCo2_RadioButton);
+            this.groupBox21.Controls.Add(this.SingleMode_Co2_CheckBox);
+            this.groupBox21.Controls.Add(this.AutoMode_Co2_CheckBox);
             this.groupBox21.ForeColor = System.Drawing.Color.BlanchedAlmond;
             this.groupBox21.Location = new System.Drawing.Point(6, 53);
             this.groupBox21.Name = "groupBox21";
-            this.groupBox21.Size = new System.Drawing.Size(79, 79);
+            this.groupBox21.Size = new System.Drawing.Size(172, 79);
             this.groupBox21.TabIndex = 50;
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "Mode";
             // 
-            // SingleMode_RadioButton
+            // SingleMode_Co2_CheckBox
             // 
-            this.SingleMode_RadioButton.AutoSize = true;
-            this.SingleMode_RadioButton.Location = new System.Drawing.Point(6, 49);
-            this.SingleMode_RadioButton.Name = "SingleMode_RadioButton";
-            this.SingleMode_RadioButton.Size = new System.Drawing.Size(57, 19);
-            this.SingleMode_RadioButton.TabIndex = 40;
-            this.SingleMode_RadioButton.TabStop = true;
-            this.SingleMode_RadioButton.Text = "Single";
-            this.SingleMode_RadioButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.SingleMode_RadioButton.UseVisualStyleBackColor = true;
+            this.SingleMode_Co2_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.SingleMode_Co2_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SingleMode_Co2_CheckBox.Location = new System.Drawing.Point(6, 50);
+            this.SingleMode_Co2_CheckBox.Name = "SingleMode_Co2_CheckBox";
+            this.SingleMode_Co2_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.SingleMode_Co2_CheckBox.Size = new System.Drawing.Size(109, 23);
+            this.SingleMode_Co2_CheckBox.TabIndex = 58;
+            this.SingleMode_Co2_CheckBox.Text = "Single";
+            this.SingleMode_Co2_CheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SingleMode_Co2_CheckBox.UseVisualStyleBackColor = false;
+            this.SingleMode_Co2_CheckBox.CheckStateChanged += new System.EventHandler(this.SingleMode_Co2_CheckBox_CheckStateChanged);
             // 
-            // AutoModeCo2_RadioButton
+            // AutoMode_Co2_CheckBox
             // 
-            this.AutoModeCo2_RadioButton.AutoSize = true;
-            this.AutoModeCo2_RadioButton.Location = new System.Drawing.Point(6, 24);
-            this.AutoModeCo2_RadioButton.Name = "AutoModeCo2_RadioButton";
-            this.AutoModeCo2_RadioButton.Size = new System.Drawing.Size(51, 19);
-            this.AutoModeCo2_RadioButton.TabIndex = 40;
-            this.AutoModeCo2_RadioButton.TabStop = true;
-            this.AutoModeCo2_RadioButton.Text = "Auto";
-            this.AutoModeCo2_RadioButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.AutoModeCo2_RadioButton.UseVisualStyleBackColor = true;
+            this.AutoMode_Co2_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.AutoMode_Co2_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AutoMode_Co2_CheckBox.Location = new System.Drawing.Point(6, 22);
+            this.AutoMode_Co2_CheckBox.Name = "AutoMode_Co2_CheckBox";
+            this.AutoMode_Co2_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.AutoMode_Co2_CheckBox.Size = new System.Drawing.Size(109, 23);
+            this.AutoMode_Co2_CheckBox.TabIndex = 57;
+            this.AutoMode_Co2_CheckBox.Text = "Auto";
+            this.AutoMode_Co2_CheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.AutoMode_Co2_CheckBox.UseVisualStyleBackColor = false;
+            this.AutoMode_Co2_CheckBox.CheckStateChanged += new System.EventHandler(this.AutoMode_Co2_CheckBox_CheckStateChanged);
             // 
             // label13
             // 
@@ -502,6 +507,7 @@
             0,
             0,
             0});
+            this.Co2Freq_Numeric.ValueChanged += new System.EventHandler(this.Co2Freq_Numeric_ValueChanged);
             // 
             // button1
             // 
@@ -844,6 +850,7 @@
             0,
             0,
             0});
+            this.NdYagFreq_Numeric.ValueChanged += new System.EventHandler(this.NdYagFreq_Numeric_ValueChanged);
             // 
             // PP_RelayOnBoard_CheckBox
             // 
@@ -948,13 +955,13 @@
             // groupBox16
             // 
             this.groupBox16.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.groupBox16.Controls.Add(this.TwoImage_CheckBox);
             this.groupBox16.Controls.Add(this.RotateImage_CheckBox);
             this.groupBox16.Controls.Add(this.groupBox15);
             this.groupBox16.Controls.Add(this.groupBox17);
             this.groupBox16.Controls.Add(this.PP_3dTrack_CheckBox);
             this.groupBox16.Controls.Add(this.PP_AutoWide_CheckBox);
             this.groupBox16.Controls.Add(this.PP_RelayOnBoard_CheckBox);
-            this.groupBox16.Controls.Add(this.MinorPictureBox);
             this.groupBox16.ForeColor = System.Drawing.Color.BlanchedAlmond;
             this.groupBox16.Location = new System.Drawing.Point(258, 239);
             this.groupBox16.Name = "groupBox16";
@@ -1005,9 +1012,9 @@
             // 
             this.MinorPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MinorPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MinorPictureBox.Image")));
-            this.MinorPictureBox.Location = new System.Drawing.Point(83, 160);
+            this.MinorPictureBox.Location = new System.Drawing.Point(487, 7);
             this.MinorPictureBox.Name = "MinorPictureBox";
-            this.MinorPictureBox.Size = new System.Drawing.Size(38, 34);
+            this.MinorPictureBox.Size = new System.Drawing.Size(160, 120);
             this.MinorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.MinorPictureBox.TabIndex = 16;
             this.MinorPictureBox.TabStop = false;
@@ -2223,6 +2230,19 @@
             this.MainCameraPictureBox.TabIndex = 2;
             this.MainCameraPictureBox.TabStop = false;
             // 
+            // TwoImage_CheckBox
+            // 
+            this.TwoImage_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.TwoImage_CheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TwoImage_CheckBox.Location = new System.Drawing.Point(6, 138);
+            this.TwoImage_CheckBox.Name = "TwoImage_CheckBox";
+            this.TwoImage_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TwoImage_CheckBox.Size = new System.Drawing.Size(115, 23);
+            this.TwoImage_CheckBox.TabIndex = 48;
+            this.TwoImage_CheckBox.Text = "One Image";
+            this.TwoImage_CheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TwoImage_CheckBox.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -2235,6 +2255,7 @@
             this.Controls.Add(this.groupBox18);
             this.Controls.Add(this.groupBox16);
             this.Controls.Add(this.groupBox14);
+            this.Controls.Add(this.MinorPictureBox);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox1);
@@ -2243,6 +2264,9 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.MainCameraPictureBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -2251,7 +2275,6 @@
             this.groupBox22.ResumeLayout(false);
             this.groupBox22.PerformLayout();
             this.groupBox21.ResumeLayout(false);
-            this.groupBox21.PerformLayout();
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Co2Freq_Numeric)).EndInit();
@@ -2322,8 +2345,6 @@
         private Button button2;
         private CheckBox RelayOnScanCo2_CheckBox;
         private GroupBox groupBox21;
-        private RadioButton SingleMode_RadioButton;
-        private RadioButton AutoModeCo2_RadioButton;
         private Label label13;
         private Button SingleShootCo2_Button;
         private GroupBox groupBox20;
@@ -2460,5 +2481,8 @@
         private NumericUpDown DownRangeLrf_Numeric;
         private NumericUpDown Co2Freq_Numeric;
         private NumericUpDown NdYagFreq_Numeric;
+        private CheckBox SingleMode_Co2_CheckBox;
+        private CheckBox AutoMode_Co2_CheckBox;
+        private CheckBox TwoImage_CheckBox;
     }
 }

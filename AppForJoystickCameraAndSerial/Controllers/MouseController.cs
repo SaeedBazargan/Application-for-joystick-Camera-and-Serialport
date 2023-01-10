@@ -8,7 +8,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly PictureBox _mainCameraPicture;
         private readonly RadioButton _searchRadioButton;
         private readonly SerialController _serialController;
-        private readonly CancellationTokenSource _cancellationToken;
+        private bool isReady;
         Vector2 _position;
 
         public MouseController(CancellationTokenSource cancellationToken, PictureBox mainCameraPicture, RadioButton searchRadio, SerialController serialController)
@@ -16,35 +16,34 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _mainCameraPicture = mainCameraPicture;
             _searchRadioButton = searchRadio;
             _serialController = serialController;
-            _cancellationToken = cancellationToken;
             Pointer.JoyPointer.SetContainerSize(_mainCameraPicture.Size);
             _position = new Vector2(320, 240);
+            isReady = true;
         }
 
-        public void Start(bool Status)
+        public void Start()
         {
-            if (Status)
+            isReady = true;
+            _mainCameraPicture.MouseMove += (s, e) =>
             {
-                _mainCameraPicture.MouseMove += (s, e) =>
-                {
-                    _position.X = e.X;
-                    _position.Y = e.Y;
+                _position.X = e.X;
+                _position.Y = e.Y;
+                if (isReady)
                     _serialController.Write((byte)Form1.WriteTableCodes.Position, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                };
+            };
 
-                _mainCameraPicture.MouseClick += (s, e) =>
-                {
-                    _position.X = e.X;
-                    _position.Y = e.Y;
-                    Pointer.JoyPointer.MoveMouse(_position);
-                    _serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                };
-            }
-            else if (!Status)
+            _mainCameraPicture.MouseClick += (s, e) =>
             {
-                _cancellationToken.Cancel();
-                Status = false;
-            }
+                _position.X = e.X;
+                _position.Y = e.Y;
+                Pointer.JoyPointer.MoveMouse(_position);
+                if (isReady)
+                    _serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
+            };
+        }
+        public void Stop()
+        {
+            isReady = false;
         }
     }
 }

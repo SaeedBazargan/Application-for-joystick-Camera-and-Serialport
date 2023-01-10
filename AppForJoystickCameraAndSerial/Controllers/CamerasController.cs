@@ -11,12 +11,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly Task[] cameraCaptureTasks;
         private readonly bool[] isRunning;
         private readonly bool[] recording;
-        private readonly CheckBox _rotateImages;
+        private readonly CheckBox _rotateImages, _twoImages;
         private readonly Action<string> _exceptionCallback;
 
         public string RecordingDirectory { get; set; }
 
-        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, CheckBox rotate, Action<string> exceptionCallback)
+        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, CheckBox rotate, CheckBox twoOrone, Action<string> exceptionCallback)
         {
             _mainPictureBox = main;
             _minorPictureBox = minor;
@@ -27,6 +27,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning = new bool[2];
             recording = new bool[2];
             _rotateImages = rotate;
+            _twoImages = twoOrone;
             _exceptionCallback = exceptionCallback;
         }
 
@@ -79,15 +80,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 image = BitmapConverter.ToBitmap(frame);
                 DrawJoyStickPointer(image);
                 if (_rotateImages.Checked)
-                {
                     ChangePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox, image);
-                    //HidePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox);
-                }
                 else
-                {
                     ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
-                    //HidePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox);
-                }
+
                 if (recording[index])
                 {
                     if (writer == null)
@@ -106,6 +102,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     writer.Dispose();
                     writer = null;
                 }
+
+                if (_twoImages.Checked)
+                    _minorPictureBox.Hide();
+                else
+                    _minorPictureBox.Show();
             }
         }
 

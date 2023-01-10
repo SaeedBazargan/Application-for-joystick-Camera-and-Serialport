@@ -4,6 +4,20 @@ namespace AppForJoystickCameraAndSerial
 {
     public partial class Form1 : Form
     {
+        enum Initial : byte
+        {
+            Motors = 0,
+            Camera = 1,
+            RangeFinder = 2,
+            Serial = 3,
+            ProcessingPlatform = 4,
+            NdYag = 5,
+            CO2 = 6,
+            Fire = 7,
+            Joystick = 8,
+            SerialClick = 9
+        }
+
         enum Joystick : byte
         {
             Xbox = 0,
@@ -71,12 +85,14 @@ namespace AppForJoystickCameraAndSerial
 
         public enum WriteCo2Codes : byte
         {
-            RelayCo2 = 1,
-            Fire = 2,
-            StopFire = 3,
-            Mode = 4,
+            Co2_On = 1,
+            Co2_Off = 2,
+            Mode = 3,
+            SingleShoot_Co2 = 4,
             Frequency = 5,
-            Energy = 6
+            //Fire = 2,
+            //StopFire = 3,
+            //Energy = 6
         }
 
         public enum WriteProPlatformCodes : byte
@@ -88,30 +104,41 @@ namespace AppForJoystickCameraAndSerial
             AutoWide = 8,
             Track_3D = 9
         }
-       
 
         int[] ON = new int[1] { 1 };
         int[] OFF = new int[1] { 0 };
+        
         int[] Joystick_zeroPos = new int[2] { 320, 240 };
+        
         bool EnableMotors_Flag = false;
+        
         int[] GateSize_Decrease = new int[1] { 0 };
         int[] GateSize_Increase = new int[1] { 2 };
         int[] GateSize_Stop = new int[1] { 1 };
         private bool PP_GateSize_NegButton_WasClicked = false;
         private bool PP_GateSize_PosButton_WasClicked = false;
+        
         private bool CC_Zoom_WideButton_WasClicked = false;
         private bool CC_Zoom_TeleButton_WasClicked = false;
         private bool CC_Focus_NearButton_WasClicked = false;
         private bool CC_Focus_FarButton_WasClicked = false;
+        
         private bool FireNdYagButton_WasClicked = false;
         private bool FireCo2Button_WasClicked = false;
+        
         int[] LensDriverSpeed = new int[1] { 80 };
+        
         int[] Co2AutoMode = new int[1] { 0 };
         int[] Co2SingleMode = new int[1] { 1 };
+        
+        int[] NdYag_Frequency = new int[1] { 1 };
+        int[] CO2_Frequency = new int[1] { 1 };
+        
         private byte NdYagReady_Button_WasClicked = 0;
+        
         bool isBusy = false;
+        
         byte secondCounter = 0;
-        byte second = 0;
 
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly JoysticksController joysticksController;
@@ -124,14 +151,22 @@ namespace AppForJoystickCameraAndSerial
             InitializeComponent();
 
             cancellationTokenSource = new CancellationTokenSource();
-            camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, RotateImage_CheckBox, CameraExceptionCallBack);
-            serialportController = new SerialController(cancellationTokenSource.Token, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button,
+            camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, RotateImage_CheckBox, TwoImage_CheckBox, CameraExceptionCallBack);
+            serialportController = new SerialController(cancellationTokenSource.Token, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button, NdYagReady_Button, SelectSerial1_CheckBox, SelectSerial2_CheckBox,
                 Fov_TextBox, AzError_TextBox, EiError_TextBox, Ax_TextBox, Ay_TextBox, Az_TextBox);
             joysticksController = new JoysticksController(cancellationTokenSource.Token, JoystickInfoTxtBox, Joystick_Label, XboxJoystickStatus_pictureBox, USBJoystickStatus_pictureBox, ATK3JoystickStatus_pictureBox, MainCameraPictureBox, TrackRadio, SearchRadio, PositionRadio, CancleRadio, serialportController, CameraExceptionCallBack);
             mouseController = new MouseController(cancellationTokenSource, MainCameraPictureBox, SearchRadio, serialportController);
 
             Timer_150ms.Enabled = true;
-            CustomInit();
+            CustomInit((byte)Initial.Motors);
+            CustomInit((byte)Initial.Camera);
+            CustomInit((byte)Initial.RangeFinder);
+            CustomInit((byte)Initial.Serial);
+            CustomInit((byte)Initial.ProcessingPlatform);
+            CustomInit((byte)Initial.NdYag);
+            CustomInit((byte)Initial.CO2);
+            CustomInit((byte)Initial.Fire);
+            CustomInit((byte)Initial.Joystick);
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -179,86 +214,18 @@ namespace AppForJoystickCameraAndSerial
         {
             if (SelectSerial1_CheckBox.Checked)
             {
-                TrackRadio.Enabled = true;
-                SearchRadio.Enabled = true;
-                PositionRadio.Enabled = true;
-                HomingRadio.Enabled = true;
-                CancleRadio.Enabled = true;
-                CancleRadio.Checked = true;
-                PositionX_TextBox.Enabled = true;
-                PositionY_TextBox.Enabled = true;
-                PositionZ_TextBox.Enabled = true;
-                RotateImage_CheckBox.Enabled = true;
-                TvCameraCheckBox.Enabled = true;
-                IrCameraCheckBox.Enabled = true;
-                PP_RelayOnBoard_CheckBox.Enabled = true;
-                AllMotorsCheckBox.Enabled = true;
-                Motor1_CheckBox.Enabled = true;
-                Motor2_CheckBox.Enabled = true;
-                Motor3_CheckBox.Enabled = true;
-                EnableMotors_CheckBox.Enabled = true;
-                ResetAlarm_CheckBox.Enabled = true;
-                RelayOnScan_NdYagCheckBox.Enabled = true;
-                EnableNdYagScaner_CheckBox.Enabled = true;
-                RecordSerial_1CheckBox.Enabled = true;
-                RecordSerial_2CheckBox.Enabled = true;
-                RelayOnScanCo2_CheckBox.Enabled = true;
+                CustomInit((byte)Initial.SerialClick);
                 isBusy = true;
                 serialportController.Start(0);
             }
             else if (SelectSerial2_CheckBox.Checked)
             {
-                TrackRadio.Enabled = true;
-                SearchRadio.Enabled = true;
-                PositionRadio.Enabled = true;
-                HomingRadio.Enabled = true;
-                CancleRadio.Enabled = true;
-                PositionX_TextBox.Enabled = true;
-                PositionY_TextBox.Enabled = true;
-                PositionZ_TextBox.Enabled = true;
-                RotateImage_CheckBox.Enabled = true;
-                TvCameraCheckBox.Enabled = true;
-                IrCameraCheckBox.Enabled = true;
-                PP_RelayOnBoard_CheckBox.Enabled = true;
-                AllMotorsCheckBox.Enabled = true;
-                Motor1_CheckBox.Enabled = true;
-                Motor2_CheckBox.Enabled = true;
-                Motor3_CheckBox.Enabled = true;
-                EnableMotors_CheckBox.Enabled = true;
-                ResetAlarm_CheckBox.Enabled = true;
-                RelayOnScan_NdYagCheckBox.Enabled = true;
-                EnableNdYagScaner_CheckBox.Enabled = true;
-                RecordSerial_1CheckBox.Enabled = true;
-                RecordSerial_2CheckBox.Enabled = true;
-                RelayOnScanCo2_CheckBox.Enabled = true;
+                CustomInit((byte)Initial.SerialClick);
                 isBusy = true;
                 serialportController.Start(1);
             }
             else
             {
-                TrackRadio.Enabled = false;
-                SearchRadio.Enabled = false;
-                PositionRadio.Enabled = false;
-                HomingRadio.Enabled = false;
-                CancleRadio.Enabled = false;
-                PositionX_TextBox.Enabled = false;
-                PositionY_TextBox.Enabled = false;
-                PositionZ_TextBox.Enabled = false;
-                RotateImage_CheckBox.Enabled = false;
-                TvCameraCheckBox.Enabled = false;
-                IrCameraCheckBox.Enabled = false;
-                PP_RelayOnBoard_CheckBox.Enabled = false;
-                AllMotorsCheckBox.Enabled = false;
-                Motor1_CheckBox.Enabled = false;
-                Motor2_CheckBox.Enabled = false;
-                Motor3_CheckBox.Enabled = false;
-                EnableMotors_CheckBox.Enabled = false;
-                ResetAlarm_CheckBox.Enabled = false;
-                RelayOnScan_NdYagCheckBox.Enabled = false;
-                EnableNdYagScaner_CheckBox.Enabled = false;
-                RecordSerial_1CheckBox.Enabled = false;
-                RecordSerial_2CheckBox.Enabled = false;
-                RelayOnScanCo2_CheckBox.Enabled = false;
                 isBusy = false;
                 MessageBox.Show("No port selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -266,8 +233,10 @@ namespace AppForJoystickCameraAndSerial
         private void ClosePort_Button_Click(object sender, EventArgs e)
         {
             isBusy = false;
-            serialportController.Stop(0);
-            serialportController.Stop(1);
+            if(SelectSerial1_CheckBox.Checked)
+                serialportController.Stop(0);
+            if(SelectSerial2_CheckBox.Checked)
+                serialportController.Stop(1);
         }
         private void RecordSerial_1CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
@@ -286,22 +255,17 @@ namespace AppForJoystickCameraAndSerial
         private void SerialLogBrowse_Button_Click(object sender, EventArgs e)
         {
             string dir;
-            if (SelectSerial1_CheckBox.Checked || SelectSerial2_CheckBox.Checked)
+            FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+            folderBrowser.ShowNewFolderButton = true;
+            DialogResult result = folderBrowser.ShowDialog();
+            if (result == DialogResult.OK)
             {
-                FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
-                folderBrowser.ShowNewFolderButton = true;
-                DialogResult result = folderBrowser.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    dir = folderBrowser.SelectedPath;
-                    dir = dir.Replace(@"\", @"/");
-                    SerialLogDirectory_TextBox.Text = dir + '/';
-                    serialportController.RecordDirectory(dir + '/');
-                    Environment.SpecialFolder root = folderBrowser.RootFolder;
-                }
+                dir = folderBrowser.SelectedPath;
+                dir = dir.Replace(@"\", @"/");
+                SerialLogDirectory_TextBox.Text = dir + '/';
+                serialportController.RecordDirectory(dir + '/');
+                Environment.SpecialFolder root = folderBrowser.RootFolder;
             }
-            else
-                MessageBox.Show("You can't record! First select one of the serials please", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         /// <summary>
         /// Camera Functions
@@ -414,22 +378,17 @@ namespace AppForJoystickCameraAndSerial
         private void CameraLogBrowse_Button_Click(object sender, EventArgs e)
         {
             string dir;
-            if (TvCameraCheckBox.Checked || IrCameraCheckBox.Checked)
+            FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+            folderBrowser.ShowNewFolderButton = true;
+            DialogResult result = folderBrowser.ShowDialog();
+            if (result == DialogResult.OK)
             {
-                FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
-                folderBrowser.ShowNewFolderButton = true;
-                DialogResult result = folderBrowser.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    dir = folderBrowser.SelectedPath;
-                    dir = dir.Replace(@"\", @"/");
-                    CameraLogDirectory_TextBox.Text = dir + '/';
-                    camerasController.RecordDirectory(dir + '/');
-                    Environment.SpecialFolder root = folderBrowser.RootFolder;
-                }
+                dir = folderBrowser.SelectedPath;
+                dir = dir.Replace(@"\", @"/");
+                CameraLogDirectory_TextBox.Text = dir + '/';
+                camerasController.RecordDirectory(dir + '/');
+                Environment.SpecialFolder root = folderBrowser.RootFolder;
             }
-            else
-                MessageBox.Show("You can't record! First select one of the cameras please", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void WideCameraButton_MouseDown(object sender, MouseEventArgs e)
@@ -570,9 +529,9 @@ namespace AppForJoystickCameraAndSerial
         private void Mouse_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
-                mouseController.Start(true);
+                mouseController.Start();
             else
-                mouseController.Start(false);
+                mouseController.Stop();
         }
 
         private void Joystick_CheckBox_CheckStateChanged(object sender, EventArgs e)
@@ -766,23 +725,9 @@ namespace AppForJoystickCameraAndSerial
         private void RelayOnScan_NdYagCheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
-            {
-                HomingScan_NYagCheckBox.Enabled = true;
-                NdYagFreq_Numeric.Enabled = true;
-                NdYagReady_Button.Enabled = true;
-                FireNdYag_Button.Enabled = true;
-
                 serialportController.Write((byte)WriteNdYagCodes.RelayScan, (byte)WriteAddresses.ScanNdYag, ON, 1);
-            }
             else
-            {
-                HomingScan_NYagCheckBox.Enabled = false;
-                NdYagFreq_Numeric.Enabled = false;
-                NdYagReady_Button.Enabled = false;
-                FireNdYag_Button.Enabled = false;
-
                 serialportController.Write((byte)WriteNdYagCodes.RelayScan, (byte)WriteAddresses.ScanNdYag, OFF, 1);
-            }
         }
 
         private void HomingScan_NYagCheckBox_CheckStateChanged(object sender, EventArgs e)
@@ -805,32 +750,48 @@ namespace AppForJoystickCameraAndSerial
             ++NdYagReady_Button_WasClicked;
             if (NdYagReady_Button_WasClicked == 1)
             {
-                NdYagReady_Button.Text = "UnReady";
-                serialportController.Write((byte)WriteNdYagCodes.Ready, (byte)WriteAddresses.NdYag, ON, 1);
+                serialportController.Write((byte)WriteNdYagCodes.Ready, (byte)WriteAddresses.NdYag, OFF, 1);
+                if (serialportController.CheckNdYag() == 1)
+                {
+                    NdYagReady_Button.Text = "UnReady";
+                    NdYagFreq_Numeric.Enabled = true;
+                    FireNdYag_Button.Enabled = true;
+                }
             }
             else if (NdYagReady_Button_WasClicked == 2)
             {
-                serialportController.Write((byte)WriteNdYagCodes.UnReady, (byte)WriteAddresses.NdYag, ON, 1);
+                serialportController.Write((byte)WriteNdYagCodes.UnReady, (byte)WriteAddresses.NdYag, OFF, 1);
                 NdYagReady_Button.Text = "Ready";
             }
             else if (NdYagReady_Button_WasClicked == 3)
             {
                 NdYagReady_Button_WasClicked = 1;
-                NdYagReady_Button.Text = "UnReady";
                 serialportController.Write((byte)WriteNdYagCodes.Ready, (byte)WriteAddresses.NdYag, ON, 1);
+                if (serialportController.CheckNdYag() == 1)
+                {
+                    NdYagReady_Button.Text = "UnReady";
+                    NdYagFreq_Numeric.Enabled = true;
+                    FireNdYag_Button.Enabled = true;
+                }
             }
         }
 
         private void FireNdYag_Button_MouseDown(object sender, MouseEventArgs e)
         {
             FireNdYagButton_WasClicked = true;
-            serialportController.Write((byte)WriteNdYagCodes.Fire, (byte)WriteAddresses.NdYag, ON, 1);
+            serialportController.Write((byte)WriteNdYagCodes.Fire, (byte)WriteAddresses.NdYag, OFF, 1);
         }
 
         private void FireNdYag_Button_MouseUp(object sender, MouseEventArgs e)
         {
             FireNdYagButton_WasClicked = false;
             serialportController.Write((byte)WriteNdYagCodes.StopFire, (byte)WriteAddresses.NdYag, ON, 1);
+        }
+
+        private void NdYagFreq_Numeric_ValueChanged(object sender, EventArgs e)
+        {
+            NdYag_Frequency[0] = (int)NdYagFreq_Numeric.Value;
+            serialportController.Write((byte)WriteNdYagCodes.Frequency, (byte)WriteAddresses.NdYag, NdYag_Frequency, 1);
         }
 
         /// <summary>
@@ -889,121 +850,229 @@ namespace AppForJoystickCameraAndSerial
         /// <param name="e"></param>
         private void RelayOnScanCo2_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
+            Co2Freq_Numeric.Enabled = true;
+            SingleShootCo2_Button.Enabled = true;
+            AutoMode_Co2_CheckBox.Enabled = true;
+            SingleMode_Co2_CheckBox.Enabled = true;
+            SingleMode_Co2_CheckBox.Checked = true;
+            FireCo2_Button.Enabled = true;
+
             if (((CheckBox)sender).Checked)
             {
-                Co2Freq_Numeric.Enabled = true;
-                SingleShootCo2_Button.Enabled = true;
-                AutoModeCo2_RadioButton.Enabled = true;
-                SingleMode_RadioButton.Enabled = true;
-                FireCo2_Button.Enabled = true;
+                //Co2Freq_Numeric.Enabled = true;
+                //SingleShootCo2_Button.Enabled = true;
+                //AutoMode_Co2_CheckBox.Enabled = true;
+                //SingleMode_Co2_CheckBox.Enabled = true;
+                //SingleMode_Co2_CheckBox.Checked = true;
+                //FireCo2_Button.Enabled = true;
 
-                serialportController.Write((byte)WriteCo2Codes.RelayCo2, (byte)WriteAddresses.Co2, ON, 1);
+                serialportController.Write((byte)WriteCo2Codes.Co2_On, (byte)WriteAddresses.Co2, ON, 1);
             }
             else
             {
-                Co2Freq_Numeric.Enabled = false;
-                SingleShootCo2_Button.Enabled = false;
-                AutoModeCo2_RadioButton.Enabled = false;
-                SingleMode_RadioButton.Enabled = false;
-                FireCo2_Button.Enabled = false;
+                //Co2Freq_Numeric.Enabled = false;
+                //SingleShootCo2_Button.Enabled = false;
+                //AutoMode_Co2_CheckBox.Enabled = false;
+                //SingleMode_Co2_CheckBox.Enabled = false;
+                //FireCo2_Button.Enabled = false;
 
-                serialportController.Write((byte)WriteCo2Codes.RelayCo2, (byte)WriteAddresses.Co2, OFF, 1);
+                serialportController.Write((byte)WriteCo2Codes.Co2_Off, (byte)WriteAddresses.Co2, OFF, 1);
             }
         }
 
         private void SingleShootCo2_Button_Click(object sender, EventArgs e)
         {
-            if (AutoModeCo2_RadioButton.Checked)
-            {
-                serialportController.Write((byte)WriteCo2Codes.Mode, (byte)WriteAddresses.Co2, Co2AutoMode, 1);
-            }
-            else if (SingleMode_RadioButton.Checked)
-            {
-                serialportController.Write((byte)WriteCo2Codes.Mode, (byte)WriteAddresses.Co2, Co2SingleMode, 1);
-            }
+            serialportController.Write((byte)WriteCo2Codes.SingleShoot_Co2, (byte)WriteAddresses.Co2, OFF, 1);
         }
 
         private void FireCo2_Button_MouseDown(object sender, MouseEventArgs e)
         {
             FireCo2Button_WasClicked = true;
-            serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, ON, 1);
+            //serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, ON, 1);
         }
 
         private void FireCo2_Button_MouseUp(object sender, MouseEventArgs e)
         {
             FireCo2Button_WasClicked = false;
-            serialportController.Write((byte)WriteCo2Codes.StopFire, (byte)WriteAddresses.Co2, ON, 1);
+            //serialportController.Write((byte)WriteCo2Codes.StopFire, (byte)WriteAddresses.Co2, ON, 1);
+        }
+
+        private void Co2Freq_Numeric_ValueChanged(object sender, EventArgs e)
+        {
+            CO2_Frequency[0] = (int)Co2Freq_Numeric.Value;
+            serialportController.Write((byte)WriteCo2Codes.Frequency, (byte)WriteAddresses.Co2, CO2_Frequency, 1);
+        }
+
+        private void AutoMode_Co2_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                SingleMode_Co2_CheckBox.Enabled = false;
+                serialportController.Write((byte)WriteCo2Codes.Mode, (byte)WriteAddresses.Co2, ON, 1);
+            }
+            else
+            {
+                SingleMode_Co2_CheckBox.Enabled = true;
+                AutoMode_Co2_CheckBox.Enabled = true;
+            }
+        }
+
+        private void SingleMode_Co2_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                AutoMode_Co2_CheckBox.Enabled = false;
+                serialportController.Write((byte)WriteCo2Codes.Mode, (byte)WriteAddresses.Co2, OFF, 1);
+            }
+            else
+            {
+                SingleMode_Co2_CheckBox.Enabled = true;
+                AutoMode_Co2_CheckBox.Enabled = true;
+            }
         }
 
         /// <summary>
         /// Custom Functions
         /// </summary>
-        private void CustomInit()
+        public void CustomInit(byte Initializer)
         {
-            TrackRadio.Enabled = false;
-            SearchRadio.Enabled = false;
-            PositionRadio.Enabled = false;
-            HomingRadio.Enabled = false;
-            CancleRadio.Enabled = false;
-            PositionX_TextBox.Enabled = false;
-            PositionY_TextBox.Enabled = false;
-            PositionZ_TextBox.Enabled = false;
+            switch (Initializer)
+            {
+                case 0:     //Motors
+                    AllMotorsCheckBox.Enabled = false;
+                    Motor1_CheckBox.Enabled = false;
+                    Motor2_CheckBox.Enabled = false;
+                    Motor3_CheckBox.Enabled = false;
+                    EnableMotors_CheckBox.Enabled = false;
+                    ResetAlarm_CheckBox.Enabled = false;
+                    break;
+                case 1:     //Camera
+                    TurnTvCamera_CheckBox.Enabled = false;
+                    TurnIrCamera_CheckBox.Enabled = false;
+                    TvCameraCheckBox.Enabled = false;
+                    IrCameraCheckBox.Enabled = false;
+                    RecordTvCamera_CheckBox.Enabled = false;
+                    RecordIrCamera_CheckBox.Enabled = false;
+                    WideCameraButton.Enabled = false;
+                    TeleButton.Enabled = false;
+                    NearButton.Enabled = false;
+                    FarButton.Enabled = false;
+                    break;
 
-            TvCameraCheckBox.Enabled = false;
-            IrCameraCheckBox.Enabled = false;
-            RecordTvCamera_CheckBox.Enabled = false;
-            RecordIrCamera_CheckBox.Enabled = false;
-            WideCameraButton.Enabled = false;
-            TeleButton.Enabled = false;
-            NearButton.Enabled = false;
-            FarButton.Enabled = false;
-            RotateImage_CheckBox.Enabled = false;
+                case 2:     //RangeFinder
+                    RelayOnLrf_CheckBox.Enabled = false;
+                    SettingLrf_CheckBox.Enabled = false;
+                    ActiveLrf_Button.Enabled = false;
+                    DeactiveLrf_Button.Enabled = false;
+                    DownRangeLrf_Numeric.Enabled = false;
+                    UpRangeLrf_Numeric.Enabled = false;
+                    FreqLrf_Numeric.Enabled = false;
+                    TimeLrf_Numeric.Enabled = false;
+                    break;
 
-            PP_AutoWide_CheckBox.Enabled = false;
-            PP_3dTrack_CheckBox.Enabled = false;
-            PP_GateSize_NegButton.Enabled = false;
-            PP_GateSize_PosButton.Enabled = false;
-            PP_RelayOnBoard_CheckBox.Enabled = false;
-            NegPolarity_RadioButton.Enabled = false;
-            PosPolarity_RadioButton.Enabled = false;
+                case 3:     //Serial
+                    RecordSerial_1CheckBox.Enabled = false;
+                    RecordSerial_2CheckBox.Enabled = false;
+                    break;
 
-            AllMotorsCheckBox.Enabled = false;
-            Motor1_CheckBox.Enabled = false;
-            Motor2_CheckBox.Enabled = false;
-            Motor3_CheckBox.Enabled = false;
-            EnableMotors_CheckBox.Enabled = false;
-            ResetAlarm_CheckBox.Enabled = false;
+                case 4:     //ProcessingPlatform
+                    PP_RelayOnBoard_CheckBox.Enabled = false;
+                    PP_AutoWide_CheckBox.Enabled = false;
+                    PP_3dTrack_CheckBox.Enabled = false;
+                    PP_GateSize_NegButton.Enabled = false;
+                    PP_GateSize_PosButton.Enabled = false;
+                    NegPolarity_RadioButton.Enabled = false;
+                    PosPolarity_RadioButton.Enabled = false;
+                    RotateImage_CheckBox.Enabled = false;
+                    TwoImage_CheckBox.Enabled = false;
+                    break;
 
-            RelayOnScan_NdYagCheckBox.Enabled = false;
-            EnableNdYagScaner_CheckBox.Enabled = false;
-            HomingScan_NYagCheckBox.Enabled = false;
-            NdYagFreq_Numeric.Enabled = false;
-            NdYagReady_Button.Enabled = false;
+                case 5:     //NdYag
+                    RelayOnScan_NdYagCheckBox.Enabled = false;
+                    EnableNdYagScaner_CheckBox.Enabled = false;
+                    HomingScan_NYagCheckBox.Enabled = false;
+                    NdYagReady_Button.Enabled = false;
+                    NdYagFreq_Numeric.Enabled = false;
+                    break;
 
-            RecordSerial_1CheckBox.Enabled = false;
-            RecordSerial_2CheckBox.Enabled = false;
+                case 6:     //CO2
+                    RelayOnScanCo2_CheckBox.Enabled = false;
+                    AutoMode_Co2_CheckBox.Enabled = false;
+                    SingleMode_Co2_CheckBox.Enabled = false;
+                    SingleShootCo2_Button.Enabled = false;
+                    Co2Freq_Numeric.Enabled = false;
+                    break;
 
-            RelayOnLrf_CheckBox.Enabled = false;
-            SettingLrf_CheckBox.Enabled = false;
-            ActiveLrf_Button.Enabled = false;
-            DeactiveLrf_Button.Enabled = false;
-            DownRangeLrf_Numeric.Enabled = false;
-            UpRangeLrf_Numeric.Enabled = false;
-            FreqLrf_Numeric.Enabled = false;
-            TimeLrf_Numeric.Enabled = false;
+                case 7:     //Fire
+                    FireNdYag_Button.Enabled = false;
+                    FireCo2_Button.Enabled = false;
+                    EmergencyStop_Button.Enabled = false;
+                    SingleShootRangeFinder_Button.Enabled = false;
+                    BurstRangeFinder_Button.Enabled = false;
+                    StopRangeFinder_Button.Enabled = false;
+                    FollowRadar_CheckBox.Enabled = false;
+                    break;
 
-            RelayOnScanCo2_CheckBox.Enabled = false;
-            Co2Freq_Numeric.Enabled = false;
-            SingleShootCo2_Button.Enabled = false;
-            AutoModeCo2_RadioButton.Enabled = false;
-            SingleMode_RadioButton.Enabled = false;
+                case 8:     //Joystick
+                    UsbJoystick_CheckBox.Enabled = false;
+                    ATK3_Joystick_CheckBox.Enabled = false;
+                    Joystick_CheckBox.Enabled = false;
+                    Mouse_CheckBox.Enabled = false;
+                    TrackRadio.Enabled = false;
+                    SearchRadio.Enabled = false;
+                    PositionRadio.Enabled = false;
+                    HomingRadio.Enabled = false;
+                    CancleRadio.Enabled = false;
+                    PositionX_TextBox.Enabled = false;
+                    PositionY_TextBox.Enabled = false;
+                    PositionZ_TextBox.Enabled = false;
+                    break;
 
-            FireNdYag_Button.Enabled = false;
-            FireCo2_Button.Enabled = false;
-            EmergencyStop_Button.Enabled = false;
-            SingleShootRangeFinder_Button.Enabled = false;
-            BurstRangeFinder_Button.Enabled = false;
-            StopRangeFinder_Button.Enabled = false;
+                case 9:     //SerialClick
+                    AllMotorsCheckBox.Enabled = true;
+                    Motor1_CheckBox.Enabled = true;
+                    Motor2_CheckBox.Enabled = true;
+                    Motor3_CheckBox.Enabled = true;
+                    EnableMotors_CheckBox.Enabled = true;
+                    ResetAlarm_CheckBox.Enabled = true;
+
+                    TurnIrCamera_CheckBox.Enabled = true;
+                    TurnTvCamera_CheckBox.Enabled = true;
+                    TvCameraCheckBox.Enabled = true;
+                    IrCameraCheckBox.Enabled = true;
+
+                    RelayOnLrf_CheckBox.Enabled = false;
+
+                    RecordSerial_1CheckBox.Enabled = false;
+                    RecordSerial_2CheckBox.Enabled = false;
+
+                    PP_RelayOnBoard_CheckBox.Enabled = true;
+                    RotateImage_CheckBox.Enabled = true;
+                    TwoImage_CheckBox.Enabled = true;
+
+                    RelayOnScan_NdYagCheckBox.Enabled = true;
+                    EnableNdYagScaner_CheckBox.Enabled = true;
+                    HomingScan_NYagCheckBox.Enabled = true;
+                    NdYagReady_Button.Enabled = true;
+
+
+                    RelayOnScanCo2_CheckBox.Enabled = true;
+
+                    UsbJoystick_CheckBox.Enabled = true;
+                    ATK3_Joystick_CheckBox.Enabled = true;
+                    ATK3_Joystick_CheckBox.Checked = true;
+                    Joystick_CheckBox.Enabled = true;
+                    Mouse_CheckBox.Enabled = true;
+                    TrackRadio.Enabled = true;
+                    SearchRadio.Enabled = true;
+                    PositionRadio.Enabled = true;
+                    HomingRadio.Enabled = true;
+                    CancleRadio.Enabled = true;
+                    PositionX_TextBox.Enabled = true;
+                    PositionY_TextBox.Enabled = true;
+                    PositionZ_TextBox.Enabled = true;
+                    break;
+            }
         }
 
         private void Timer_150ms_Tick(object sender, EventArgs e)
@@ -1031,8 +1100,8 @@ namespace AppForJoystickCameraAndSerial
 
             if (FireNdYagButton_WasClicked && isBusy)
                 serialportController.Write((byte)WriteNdYagCodes.Fire, (byte)WriteAddresses.NdYag, OFF, 1);
-            if (FireCo2Button_WasClicked && isBusy)
-                serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
+            //if (FireCo2Button_WasClicked && isBusy)
+                //serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
         }
     }
 }

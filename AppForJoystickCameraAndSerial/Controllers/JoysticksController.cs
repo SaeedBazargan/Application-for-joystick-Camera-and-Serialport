@@ -257,7 +257,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             //-----------------------------------------
             if (second == 1 && buttonsIn[10])
             {
-                _serialController.Write((byte)Form1.WriteCo2Codes.Fire, (byte)Form1.WriteAddresses.Co2, OFF, 1);
+                //_serialController.Write((byte)Form1.WriteCo2Codes.Fire, (byte)Form1.WriteAddresses.Co2, OFF, 1);
                 second = 0;
             }
             //-----------------------------------------
