@@ -11,6 +11,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private Joystick _joystick;
         private readonly DirectInput directInput;
         private readonly TextBox _infoTxtBox;
+        private readonly CheckBox _selectATK3, _selectUSBJoy, _selectXBox;
         private readonly XBoxController xboxController;
         private readonly Label _JoystickLabel;
         private readonly PictureBox _xboxJoystickStatus;
@@ -49,10 +50,13 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int Sx = 0;
         int Sy = 0;
 
-        public JoysticksController(CancellationToken cancellationToken, TextBox infoTxtBox, Label label, PictureBox XboxJoystickStatus, PictureBox USBJoystickStatus, PictureBox ATK3JoystickStatus, PictureBox mainCameraPicture, RadioButton trackRadio, RadioButton searchRadio, RadioButton positionRadio, RadioButton cancleRadio, SerialController serialController, Action<string> exceptionCallback)
+        public JoysticksController(CancellationToken cancellationToken, TextBox infoTxtBox, CheckBox SelectATK3, CheckBox SelectUSBJoy, CheckBox SelectXBox, Label label, PictureBox XboxJoystickStatus, PictureBox USBJoystickStatus, PictureBox ATK3JoystickStatus, PictureBox mainCameraPicture, RadioButton trackRadio, RadioButton searchRadio, RadioButton positionRadio, RadioButton cancleRadio, SerialController serialController, Action<string> exceptionCallback)
         {
             directInput = new DirectInput();
             _infoTxtBox = infoTxtBox;
+            _selectATK3 = SelectATK3;
+            _selectUSBJoy = SelectUSBJoy;
+            _selectXBox = SelectXBox;
             _cancellationToken = cancellationToken;
             xboxController = new XBoxController();
             _JoystickLabel = label;
@@ -84,15 +88,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
             }
             else if (1 <= joystickIndex || joystickIndex <= 2)
             {
-                if(USBJoystick_init())
-                {
-                    if (joystickIndex == 1)
-                        ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                    else if(joystickIndex == 2)
-                        ChangePictureBox(_atk3JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                    isRunning[joystickIndex] = true;
-                    USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), _cancellationToken).ContinueWith((t) => JoystickTaskDone(t, joystickIndex));
-                }
+                if (joystickIndex == 1)
+                    ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                else if(joystickIndex == 2)
+                    ChangePictureBox(_atk3JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                isRunning[joystickIndex] = true;
+                USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), _cancellationToken).ContinueWith((t) => JoystickTaskDone(t, joystickIndex));
             }
             else
                 throw new ArgumentOutOfRangeException();
@@ -101,49 +102,71 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public void Stop(int joystickIndex)
         {
             isRunning[joystickIndex] = false;
-        }
-
-        private bool USBJoystick_init()
-        {
-            foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
-                joystickGuid = deviceInstance.InstanceGuid;
-
-            if (joystickGuid == Guid.Empty)
-                foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
-                    joystickGuid = deviceInstance.InstanceGuid;
-            if (joystickGuid == Guid.Empty)
+            if (joystickIndex == 0)
             {
-                Console.WriteLine("No joystick/Gamepad found.");
-                return false;
+                ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                _selectXBox.Checked = false;
             }
-
-            _joystick = new Joystick(directInput, joystickGuid);
-            Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
-            _joystick.Acquire();
-            return true;
+            else if (joystickIndex == 1)
+            {
+                ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                _selectUSBJoy.Checked = false;
+            }
+            else if (joystickIndex == 2)
+            {
+                ChangePictureBox(_atk3JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                _selectATK3.Checked = false;
+            }
         }
 
         private void StartJoystick(int index)
         {
-            while (isRunning[index] && !_cancellationToken.IsCancellationRequested)
+            try
             {
-                if (index == 1)
+                foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
+                    joystickGuid = deviceInstance.InstanceGuid;
+
+                if (joystickGuid == Guid.Empty)
+                    foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
+                        joystickGuid = deviceInstance.InstanceGuid;
+                _joystick = new Joystick(directInput, joystickGuid);
+                Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
+                _joystick.Acquire();
+            }
+            catch (Exception e)
+            {
+                ChangeTextBox(_infoTxtBox, "Joystick is not found!");
+                Stop(index);
+            }
+
+            while (isRunning[index])
+            {
+                try
                 {
-                    var state = _joystick.GetCurrentState();
-                    GetButtonsPressed(state.Buttons);
-                    _currentThrottle = (1000 - GetAnalogStickValue(state.Sliders[0])) / 2;
-                    var yawtrimChange = GetYawTrimChange(state.Buttons);
-                    _currentYawTrim += yawtrimChange;
-                    USBJoystick_State(state);
+                    if (index == 1)
+                    {
+                        var state = _joystick.GetCurrentState();
+                        GetButtonsPressed(state.Buttons);
+                        _currentThrottle = (1000 - GetAnalogStickValue(state.Sliders[0])) / 2;
+                        var yawtrimChange = GetYawTrimChange(state.Buttons);
+                        _currentYawTrim += yawtrimChange;
+                        USBJoystick_State(state);
+                    }
+                    if (index == 2)
+                    {
+                        var state = _joystick.GetCurrentState();
+                        GetButtonsPressed(state.Buttons);
+                        _currentThrottle = (1000 - GetAnalogStickValue(state.Sliders[0])) / 2;
+                        var yawtrimChange = GetYawTrimChange(state.Buttons);
+                        _currentYawTrim += yawtrimChange;
+                        ATK3Joystick_State(state);
+                    }
                 }
-                if (index == 2)
+                catch (Exception e)
                 {
-                    var state = _joystick.GetCurrentState();
-                    GetButtonsPressed(state.Buttons);
-                    _currentThrottle = (1000 - GetAnalogStickValue(state.Sliders[0])) / 2;
-                    var yawtrimChange = GetYawTrimChange(state.Buttons);
-                    _currentYawTrim += yawtrimChange;
-                    ATK3Joystick_State(state);
+                    ChangeTextBox(_infoTxtBox, $"Joystick {index + 1} is disconnected!");
+                    //MessageBox.Show($"Joystick {index + 1} is disconnected!");
+                    Stop(index);
                 }
             }
         }
@@ -286,7 +309,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (task.IsCompletedSuccessfully)
             {
                 if (joyIndex == 0)
+                {
+                    _selectXBox.Checked = false;
                     ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
+                }
                 else if (joyIndex == 1)
                     ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
                 else

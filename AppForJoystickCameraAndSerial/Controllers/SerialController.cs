@@ -18,7 +18,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
         private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
-        private readonly TextBox _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox;
+        private readonly TextBox _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox, _infoTxtBox;
         private readonly Button _openPortBtn;
         private readonly PictureBox _Serial1Status, _Serial2Status;
         private readonly CheckBox _selectSerial1, _selectSerial2;
@@ -34,9 +34,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int Data_Counter = 0;
         int serialportIndex = 0;
 
-        int NdYag = 0;
+        byte NdYag = 0;
 
-        public SerialController(CancellationToken cancellationToken, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn, Button readyNdYagBtn, CheckBox SelectSerial1, CheckBox SelectSerial2,
+        public SerialController(CancellationToken cancellationToken, TextBox infoTxtBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn, Button readyNdYagBtn, CheckBox SelectSerial1, CheckBox SelectSerial2,
             TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
         {
             _SerialPort = new SerialPort[2];
@@ -52,6 +52,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _selectSerial2 = SelectSerial2;
 
             _cancellationToken = cancellationToken;
+            _infoTxtBox = infoTxtBox;
             serialPortTasks = new Task[2];
             isRunning = new bool[2];
             recording = new bool[2];
@@ -151,10 +152,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 {
                     _openPortBtn.Enabled = false;
                 });
+                ChangeTextBox(_infoTxtBox, $"Port {index + 1} is Connected!");
             }
             catch(Exception e)
             {
-                MessageBox.Show($"Port {index + 1} is not found!");
+                ChangeTextBox(_infoTxtBox, $"Port {index + 1} is not found!");
                 Stop(index);
             }
             ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
@@ -167,7 +169,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     Data_Counter = (Data_Counter + 1) % DataInBuffer_Size;
                     if (Data_Rx[0] == 85 && Data_Counter == 55)
                     {
-                        Handler.Master_CheckPacket(Data_Rx, RecordingDirectory, recording[index], index, NdYag, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox);
+                        Handler.Master_CheckPacket(Data_Rx, RecordingDirectory, recording[index], index, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox);
                         Data_Counter = 0;
                     }
                     else if (Data_Rx[0] != 85)
@@ -179,7 +181,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 catch(Exception e)
                 {
                     Stop(index);
-                    MessageBox.Show($"Port {index + 1} is disconnected!");
+                    ChangeTextBox(_infoTxtBox, $"Port {index + 1} is disconnected!");
                 }
             }
         }
@@ -206,14 +208,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _SerialPort[1].Write(Data, 0, 55);
             else
                 MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        public int CheckNdYag()
-        {
-            if (NdYag == 87)
-                return 1;
-            else
-                return 0;
         }
     }
 }
