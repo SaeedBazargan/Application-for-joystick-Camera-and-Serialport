@@ -27,6 +27,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 if (writer == null)
                 {
+                    // string recordingDir = "logs/"RecordDir + index.ToString() + '/';
                     string recordingDir = RecordDir + index.ToString() + '/';
                     if (!Directory.Exists(recordingDir))
                         Directory.CreateDirectory(recordingDir);

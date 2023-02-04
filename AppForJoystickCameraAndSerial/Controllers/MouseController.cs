@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic.Devices;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {

@@ -34,8 +34,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int Data_Counter = 0;
         int serialportIndex = 0;
 
-        byte NdYag = 0;
-
         public SerialController(CancellationToken cancellationToken, TextBox infoTxtBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn, Button readyNdYagBtn, CheckBox SelectSerial1, CheckBox SelectSerial2,
             TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
         {
@@ -202,10 +200,13 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 Console.WriteLine(Data[i]);
             }
 
-            if (Open && serialportIndex == 0)
-                _SerialPort[0].Write(Data, 0, 55);
-            else if (Open && serialportIndex == 1)
-                _SerialPort[1].Write(Data, 0, 55);
+            if (Open)
+            {
+                if (serialportIndex == 0)
+                    _SerialPort[0].Write(Data, 0, 55);
+                else
+                    _SerialPort[1].Write(Data, 0, 55);
+            }
             else
                 MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

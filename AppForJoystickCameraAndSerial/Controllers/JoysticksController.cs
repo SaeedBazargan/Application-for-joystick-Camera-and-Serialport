@@ -1,8 +1,6 @@
 ﻿using Com.Okmer.GameController;
-using AppForJoystickCameraAndSerial.Controllers;
 using SharpDX.DirectInput;
 using System.Numerics;
-using System.Net.Security;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
@@ -36,7 +34,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private const double Ratio = 2000.0 / ushort.MaxValue;
         private const short Speed = 20;
         private int bufferPointer;
-        int[] Joystick_zeroPos = new int[2] { 320, 240 };
         int[] ON = new int[1] { 1 };
         int[] OFF = new int[1] { 0 };
         int[] GateSize_Decrease = new int[1] { 0 };
@@ -45,10 +42,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         bool CancleButton = false;
         bool SearchButton = false;
         public byte second = 0;
-        int StateX = 0;// new int[50000];
-        int StateY = 0;// new int[50000];
-        int Sx = 0;
-        int Sy = 0;
 
         public JoysticksController(CancellationToken cancellationToken, TextBox infoTxtBox, CheckBox SelectATK3, CheckBox SelectUSBJoy, CheckBox SelectXBox, Label label, PictureBox XboxJoystickStatus, PictureBox USBJoystickStatus, PictureBox ATK3JoystickStatus, PictureBox mainCameraPicture, RadioButton trackRadio, RadioButton searchRadio, RadioButton positionRadio, RadioButton cancleRadio, SerialController serialController, Action<string> exceptionCallback)
         {
@@ -203,92 +196,85 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 bufferPointer = 0;
                 if(CancleButton)
                     _serialController.Write((byte)Form1.WriteTableCodes.Cancle, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                if(SearchButton)
+                else if(SearchButton)
                     _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
             }
         }
 
         private void GetButtonsPressed(bool[] buttonsIn)
         {
-            if (second == 1 && buttonsIn[0])
-            {
-                CancleButton = false;
-                SearchButton = false;
-                Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
-                _serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                _trackRadioButton.Checked = true;
-                second = 0;
-            }
-            if (second == 1 && buttonsIn[1])
-            {
-                CancleButton = false;
-                SearchButton = true;
-                _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                _searchRadioButton.Checked = true;
-                second = 0;
-            }
-            //-----------------------------------------
-            if (second == 1 && buttonsIn[2])
-            {
-                //_serialController.Write((byte)Form1.WriteCo2Codes.Fire, (byte)Form1.WriteAddresses.Co2, ON, 1);
-                second = 0;
-            }
-            //-----------------------------------------
-            if (second == 1 && buttonsIn[3])
-            {
-                CancleButton = true;
-                SearchButton = false;
-                _cancleRadioButton.Checked = true;
-                second = 0;
-            }
-            //-----------------------------------------
-            if (second == 1 && buttonsIn[4])
-            {
-                _serialController.Write((byte)Form1.WriteProPlatformCodes.AutoWide, (byte)Form1.WriteAddresses.ProcessingPlatform, ON, 1);
-                second = 0;
-            }
-            //-----------------------------------------
-            if (second == 1 && buttonsIn[5])
-            {
-                _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Decrease, 1);
-                second = 0;
-            }
-            //-----------------------------------------
-            if (second == 1 && buttonsIn[6])
-            {
-                _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Increase, 1);
-                second = 0;
-            }
-            //-----------------------------------------
-            if (second == 1 && buttonsIn[7])
-            {
-                _serialController.Write((byte)Form1.WriteLensDriverCodes.Tele, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
-                second = 0;
-            }
-            //-----------------------------------------
-            if (second == 1 && buttonsIn[8])
-            {
-                _serialController.Write((byte)Form1.WriteLensDriverCodes.Wide, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
-                second = 0;
-            }
-            //-----------------------------------------
-            if (second == 1 && buttonsIn[9])
-            {
-                _serialController.Write((byte)Form1.WriteNdYagCodes.Fire, (byte)Form1.WriteAddresses.NdYag, OFF, 1);
-                second = 0;
-            }
-            //-----------------------------------------
-            if (second == 1 && buttonsIn[10])
-            {
-                //_serialController.Write((byte)Form1.WriteCo2Codes.Fire, (byte)Form1.WriteAddresses.Co2, OFF, 1);
-                second = 0;
-            }
-            //-----------------------------------------
             if (second == 1)
             {
-                _serialController.Write((byte)Form1.WriteLensDriverCodes.Stop, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
-                _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Stop, 1);
-                second = 0;
+                if (buttonsIn[0])
+                {
+                    CancleButton = false;
+                    SearchButton = false;
+                    Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
+                    _serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
+                    _trackRadioButton.Checked = true;
+                    second = 0;
+                }
+                else if (buttonsIn[1])
+                {
+                    CancleButton = false;
+                    SearchButton = true;
+                    _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
+                    _searchRadioButton.Checked = true;
+                    second = 0;
+                }
+                else if (buttonsIn[2])
+                {
+                    //_serialController.Write((byte)Form1.WriteCo2Codes.Fire, (byte)Form1.WriteAddresses.Co2, ON, 1);
+                    second = 0;
+                }
+                else if (buttonsIn[3])
+                {
+                    CancleButton = true;
+                    SearchButton = false;
+                    _cancleRadioButton.Checked = true;
+                    second = 0;
+                }
+                else if (buttonsIn[4])
+                {
+                    _serialController.Write((byte)Form1.WriteProPlatformCodes.AutoWide, (byte)Form1.WriteAddresses.ProcessingPlatform, ON, 1);
+                    second = 0;
+                }
+                else if (buttonsIn[5])
+                {
+                    _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Decrease, 1);
+                    second = 0;
+                }
+                else if (buttonsIn[6])
+                {
+                    _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Increase, 1);
+                    second = 0;
+                }
+                else if (buttonsIn[7])
+                {
+                    _serialController.Write((byte)Form1.WriteLensDriverCodes.Tele, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
+                    second = 0;
+                }
+                else if (buttonsIn[8])
+                {
+                    _serialController.Write((byte)Form1.WriteLensDriverCodes.Wide, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
+                    second = 0;
+                }
+                else if (buttonsIn[9])
+                {
+                    _serialController.Write((byte)Form1.WriteNdYagCodes.Fire, (byte)Form1.WriteAddresses.NdYag, OFF, 1);
+                    second = 0;
+                }
+                else if (buttonsIn[10])
+                {
+                    //_serialController.Write((byte)Form1.WriteCo2Codes.Fire, (byte)Form1.WriteAddresses.Co2, OFF, 1);
+                    second = 0;
+                }
+                else
+                {
+                    _serialController.Write((byte)Form1.WriteLensDriverCodes.Stop, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
+                    _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Stop, 1);
+                    second = 0;
+                }
             }
         }
 

@@ -1129,24 +1129,29 @@ namespace AppForJoystickCameraAndSerial
                 secondCounter = 0;
             }
 
-            if (PP_GateSize_NegButton_WasClicked && isBusy)
-                serialportController.Write((byte)WriteProPlatformCodes.GateSize, (byte)WriteAddresses.ProcessingPlatform, GateSize_Decrease, 1);
-            if (PP_GateSize_PosButton_WasClicked && isBusy)
-                serialportController.Write((byte)WriteProPlatformCodes.GateSize, (byte)WriteAddresses.ProcessingPlatform, GateSize_Increase, 1);
+            if (isBusy)
+            {
+                if (PP_GateSize_NegButton_WasClicked)
+                    serialportController.Write((byte)WriteProPlatformCodes.GateSize, (byte)WriteAddresses.ProcessingPlatform, GateSize_Decrease, 1);
+                else if (PP_GateSize_PosButton_WasClicked)
+                    serialportController.Write((byte)WriteProPlatformCodes.GateSize, (byte)WriteAddresses.ProcessingPlatform, GateSize_Increase, 1);
 
-            if (CC_Zoom_TeleButton_WasClicked && isBusy)
-                serialportController.Write((byte)WriteLensDriverCodes.Tele, (byte)WriteAddresses.LensDriver, OFF, 1);
-            if (CC_Zoom_WideButton_WasClicked && isBusy)
-                serialportController.Write((byte)WriteLensDriverCodes.Wide, (byte)WriteAddresses.LensDriver, OFF, 1);
-            if (CC_Focus_NearButton_WasClicked && isBusy)
-                serialportController.Write((byte)WriteLensDriverCodes.Near, (byte)WriteAddresses.LensDriver, OFF, 1);
-            if (CC_Focus_FarButton_WasClicked && isBusy)
-                serialportController.Write((byte)WriteLensDriverCodes.Far, (byte)WriteAddresses.LensDriver, OFF, 1);
+                else if (CC_Zoom_TeleButton_WasClicked)
+                    serialportController.Write((byte)WriteLensDriverCodes.Tele, (byte)WriteAddresses.LensDriver, OFF, 1);
+                else if (CC_Zoom_WideButton_WasClicked)
+                    serialportController.Write((byte)WriteLensDriverCodes.Wide, (byte)WriteAddresses.LensDriver, OFF, 1);
+                else if (CC_Focus_NearButton_WasClicked)
+                    serialportController.Write((byte)WriteLensDriverCodes.Near, (byte)WriteAddresses.LensDriver, OFF, 1);
+                else if (CC_Focus_FarButton_WasClicked)
+                    serialportController.Write((byte)WriteLensDriverCodes.Far, (byte)WriteAddresses.LensDriver, OFF, 1);
 
-            if (FireNdYagButton_WasClicked && isBusy)
-                serialportController.Write((byte)WriteNdYagCodes.Fire, (byte)WriteAddresses.NdYag, OFF, 1);
-            // if (FireCo2Button_WasClicked && isBusy)
-            //     serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
+                else if (FireNdYagButton_WasClicked)
+                    serialportController.Write((byte)WriteNdYagCodes.Fire, (byte)WriteAddresses.NdYag, OFF, 1);
+                // else if (FireCo2Button_WasClicked)
+                //     serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
+            }
+
+
         }
     }
 }
