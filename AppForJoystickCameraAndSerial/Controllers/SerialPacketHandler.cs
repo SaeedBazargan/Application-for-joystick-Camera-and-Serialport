@@ -4,6 +4,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
     public class SerialPacketHandler
     {
         StreamWriter writer = null;
+        string recordingDir;
 
         byte[] LookUpTable = new byte[55];
         byte Counter = 0;
@@ -27,12 +28,16 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 if (writer == null)
                 {
-                    // string recordingDir = "logs/"RecordDir + index.ToString() + '/';
-                    string recordingDir = RecordDir + index.ToString() + '/';
-                    if (!Directory.Exists(recordingDir))
-                        Directory.CreateDirectory(recordingDir);
-                    string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".txt";
-                    writer = new StreamWriter(recordingPath);
+                    if (RecordDir == null)
+                        recordingDir = "logs/";
+                    else
+                    {
+                        recordingDir = RecordDir + index.ToString() + '/';
+                        if (!Directory.Exists(recordingDir))
+                            Directory.CreateDirectory(recordingDir);
+                        string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".txt";
+                        writer = new StreamWriter(recordingPath);
+                    }
                 }
                 if (TestLog == false)
                     writer.Write('\n' + "Ax = " + Ax + "     " + "Ay = " + Ay + "     " + "Az = " + Az + "     " + "FOV = " + FOV + "     " +
@@ -90,15 +95,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
             //Data_10 = (LUT[45] << 24) + (LUT[44] << 16) + (LUT[43] << 8) + (LUT[42]);
             Data_11 = (LUT[49] << 24) + (LUT[48] << 16) + (LUT[47] << 8) + (LUT[46]);
 
-            Ax = MathF.Round(((float)Data_1 / 1000), 3);
-            Ay = MathF.Round(((float)Data_2 / 1000), 3);
-            Az = MathF.Round(((float)Data_3 / 1000), 3);
-            FOV = MathF.Round(((float)Data_4 / 1000), 3);
-            Az_Error = MathF.Round(((float)Data_5 / 1000), 3);
-            Ei_Error = MathF.Round(((float)Data_6 / 1000), 3);
-            Error_X = MathF.Round(((float)Data_7 / 1000), 3);
-            Error_Y = MathF.Round(((float)Data_8 / 1000), 3);
-            Error_Z = MathF.Round(((float)Data_9 / 1000), 3);
+            Ax = (MathF.Round(Data_1, 3))/ 1000;
+            Az = (MathF.Round(Data_2, 3)) / 1000;
+            Ay = (MathF.Round(Data_3, 3)) / 1000;
+            FOV = (MathF.Round(Data_4, 3)) / 1000;
+            Az_Error = (MathF.Round(Data_5, 3)) / 1000;
+            Ei_Error = (MathF.Round(Data_6, 3)) / 1000;
+            Error_X = (MathF.Round(Data_7, 3)) / 1000;
+            Error_Y = (MathF.Round(Data_8, 3)) / 1000;
+            Error_Z = (MathF.Round(Data_9, 3)) / 1000;
             NdYag_State = (byte)Data_10;
 
             ChangeTextBox(ax_TextBox, Ax.ToString());

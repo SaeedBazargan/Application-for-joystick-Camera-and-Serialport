@@ -11,12 +11,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly Task[] cameraCaptureTasks;
         private readonly bool[] isRunning;
         private readonly bool[] recording;
-        private readonly CheckBox _rotateImages, _twoImages;
+        private readonly CheckBox _rotateImages, _twoImages, _selectTvCamera, _selectIrCamera, _selectSecCamera;
         private readonly Action<string> _exceptionCallback;
 
         public string RecordingDirectory { get; set; }
+        string recordingDir;
 
-        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, CheckBox rotate, CheckBox twoOrone, Action<string> exceptionCallback)
+        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, CheckBox rotate, CheckBox twoOrone,
+                                 CheckBox tvCameraCheckBox, CheckBox irCameraCheckBox, CheckBox secCameraCheckBox, Action<string> exceptionCallback)
         {
             _mainPictureBox = main;
             _minorPictureBox = minor;
@@ -28,6 +30,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
             recording = new bool[2];
             _rotateImages = rotate;
             _twoImages = twoOrone;
+            _selectTvCamera = tvCameraCheckBox;
+            _selectIrCamera = irCameraCheckBox;
+            _selectSecCamera = secCameraCheckBox;
             _exceptionCallback = exceptionCallback;
         }
 
@@ -71,9 +76,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
             capture.Open(index);
 
             if (!capture.IsOpened())
-                throw new Exception($"Cannot open camera {index}");
+            {
+                ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
+                if (index == 1)
+                    _selectSecCamera.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        _selectSecCamera.Checked = false;
+                    });
+            }
             ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-
             while (isRunning[index])
             {
                 capture.Read(frame);
@@ -88,7 +99,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 {
                     if (writer == null)
                     {
-                        string recordingDir = RecordingDirectory + index.ToString() + '/';
+                        recordingDir = RecordingDirectory + index.ToString() + '/';
                         if (!Directory.Exists(recordingDir))
                             Directory.CreateDirectory(recordingDir);
                         string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
@@ -104,9 +115,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 }
 
                 if (_twoImages.Checked)
-                    _minorPictureBox.Hide();
+                    _minorPictureBox.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        _minorPictureBox.Hide();
+                    });
                 else
-                    _minorPictureBox.Show();
+                    _minorPictureBox.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        _minorPictureBox.Show();
+                    });
             }
         }
 

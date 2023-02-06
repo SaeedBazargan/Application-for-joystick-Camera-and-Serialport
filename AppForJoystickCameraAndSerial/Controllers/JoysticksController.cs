@@ -98,17 +98,17 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (joystickIndex == 0)
             {
                 ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                _selectXBox.Checked = false;
+                _selectXBox.BeginInvoke((MethodInvoker)delegate () { _selectXBox.Checked = false; });
             }
             else if (joystickIndex == 1)
             {
                 ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                _selectUSBJoy.Checked = false;
+                _selectUSBJoy.BeginInvoke((MethodInvoker)delegate () { _selectUSBJoy.Checked = false; });
             }
             else if (joystickIndex == 2)
             {
                 ChangePictureBox(_atk3JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                _selectATK3.Checked = false;
+                _selectATK3.BeginInvoke((MethodInvoker)delegate () { _selectATK3.Checked = false; });
             }
         }
 

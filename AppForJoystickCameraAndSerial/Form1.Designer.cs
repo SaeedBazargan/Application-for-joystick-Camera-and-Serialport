@@ -44,6 +44,8 @@
             this.groupBox22 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
+            this.SingleMode_Co2_RadioButton = new System.Windows.Forms.RadioButton();
+            this.AutoMode_Co2_RadioButton = new System.Windows.Forms.RadioButton();
             this.label13 = new System.Windows.Forms.Label();
             this.SingleShootCo2_Button = new System.Windows.Forms.Button();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
@@ -120,6 +122,9 @@
             this.CameraLogBrowse_Button = new System.Windows.Forms.Button();
             this.CameraLogDirectory_TextBox = new System.Windows.Forms.TextBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.RecordSecCamera_CheckBox = new System.Windows.Forms.CheckBox();
+            this.SecCameraCheckBox = new System.Windows.Forms.CheckBox();
+            this.TurnSecCamera_CheckBox = new System.Windows.Forms.CheckBox();
             this.TurnIrCamera_CheckBox = new System.Windows.Forms.CheckBox();
             this.TurnTvCamera_CheckBox = new System.Windows.Forms.CheckBox();
             this.TvCameraCheckBox = new System.Windows.Forms.CheckBox();
@@ -181,11 +186,8 @@
             this.Joystick_Label = new System.Windows.Forms.Label();
             this.Serial2_Lable = new System.Windows.Forms.Label();
             this.MainCameraPictureBox = new System.Windows.Forms.PictureBox();
-            this.TurnSecCamera_CheckBox = new System.Windows.Forms.CheckBox();
-            this.SecCameraCheckBox = new System.Windows.Forms.CheckBox();
-            this.RecordSecCamera_CheckBox = new System.Windows.Forms.CheckBox();
-            this.AutoMode_Co2_RadioButton = new System.Windows.Forms.RadioButton();
-            this.SingleMode_Co2_RadioButton = new System.Windows.Forms.RadioButton();
+            this.Timer_500ms_Reconect = new System.Windows.Forms.Timer(this.components);
+            this.Timer_5min_RecordData = new System.Windows.Forms.Timer(this.components);
             this.groupBox23.SuspendLayout();
             this.groupBox22.SuspendLayout();
             this.groupBox21.SuspendLayout();
@@ -407,6 +409,31 @@
             this.groupBox21.TabIndex = 50;
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "Mode";
+            // 
+            // SingleMode_Co2_RadioButton
+            // 
+            this.SingleMode_Co2_RadioButton.AutoSize = true;
+            this.SingleMode_Co2_RadioButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SingleMode_Co2_RadioButton.Location = new System.Drawing.Point(11, 47);
+            this.SingleMode_Co2_RadioButton.Name = "SingleMode_Co2_RadioButton";
+            this.SingleMode_Co2_RadioButton.Size = new System.Drawing.Size(57, 19);
+            this.SingleMode_Co2_RadioButton.TabIndex = 60;
+            this.SingleMode_Co2_RadioButton.TabStop = true;
+            this.SingleMode_Co2_RadioButton.Text = "Single";
+            this.SingleMode_Co2_RadioButton.UseVisualStyleBackColor = true;
+            // 
+            // AutoMode_Co2_RadioButton
+            // 
+            this.AutoMode_Co2_RadioButton.AutoSize = true;
+            this.AutoMode_Co2_RadioButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AutoMode_Co2_RadioButton.Location = new System.Drawing.Point(11, 22);
+            this.AutoMode_Co2_RadioButton.Name = "AutoMode_Co2_RadioButton";
+            this.AutoMode_Co2_RadioButton.Size = new System.Drawing.Size(51, 19);
+            this.AutoMode_Co2_RadioButton.TabIndex = 59;
+            this.AutoMode_Co2_RadioButton.TabStop = true;
+            this.AutoMode_Co2_RadioButton.Text = "Auto";
+            this.AutoMode_Co2_RadioButton.UseVisualStyleBackColor = true;
+            this.AutoMode_Co2_RadioButton.CheckedChanged += new System.EventHandler(this.AutoMode_Co2_RadioButton_CheckedChanged);
             // 
             // label13
             // 
@@ -1513,6 +1540,46 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Camera Configuration";
             // 
+            // RecordSecCamera_CheckBox
+            // 
+            this.RecordSecCamera_CheckBox.AutoSize = true;
+            this.RecordSecCamera_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.RecordSecCamera_CheckBox.Location = new System.Drawing.Point(163, 79);
+            this.RecordSecCamera_CheckBox.Name = "RecordSecCamera_CheckBox";
+            this.RecordSecCamera_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RecordSecCamera_CheckBox.Size = new System.Drawing.Size(70, 23);
+            this.RecordSecCamera_CheckBox.TabIndex = 48;
+            this.RecordSecCamera_CheckBox.Text = "Record";
+            this.RecordSecCamera_CheckBox.UseVisualStyleBackColor = false;
+            this.RecordSecCamera_CheckBox.CheckStateChanged += new System.EventHandler(this.RecordSecCamera_CheckBox_CheckStateChanged);
+            // 
+            // SecCameraCheckBox
+            // 
+            this.SecCameraCheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.SecCameraCheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SecCameraCheckBox.Location = new System.Drawing.Point(62, 79);
+            this.SecCameraCheckBox.Name = "SecCameraCheckBox";
+            this.SecCameraCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.SecCameraCheckBox.Size = new System.Drawing.Size(95, 23);
+            this.SecCameraCheckBox.TabIndex = 47;
+            this.SecCameraCheckBox.Text = "SecCamera";
+            this.SecCameraCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SecCameraCheckBox.UseVisualStyleBackColor = false;
+            this.SecCameraCheckBox.CheckStateChanged += new System.EventHandler(this.SecCameraCheckBox_CheckStateChanged);
+            // 
+            // TurnSecCamera_CheckBox
+            // 
+            this.TurnSecCamera_CheckBox.AutoSize = true;
+            this.TurnSecCamera_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
+            this.TurnSecCamera_CheckBox.Location = new System.Drawing.Point(7, 79);
+            this.TurnSecCamera_CheckBox.Name = "TurnSecCamera_CheckBox";
+            this.TurnSecCamera_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TurnSecCamera_CheckBox.Size = new System.Drawing.Size(49, 23);
+            this.TurnSecCamera_CheckBox.TabIndex = 46;
+            this.TurnSecCamera_CheckBox.Text = "ON";
+            this.TurnSecCamera_CheckBox.UseVisualStyleBackColor = false;
+            this.TurnSecCamera_CheckBox.CheckStateChanged += new System.EventHandler(this.TurnSecCamera_CheckBox_CheckStateChanged);
+            // 
             // TurnIrCamera_CheckBox
             // 
             this.TurnIrCamera_CheckBox.AutoSize = true;
@@ -2207,70 +2274,15 @@
             this.MainCameraPictureBox.TabIndex = 2;
             this.MainCameraPictureBox.TabStop = false;
             // 
-            // TurnSecCamera_CheckBox
+            // Timer_500ms_Reconect
             // 
-            this.TurnSecCamera_CheckBox.AutoSize = true;
-            this.TurnSecCamera_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.TurnSecCamera_CheckBox.Location = new System.Drawing.Point(7, 79);
-            this.TurnSecCamera_CheckBox.Name = "TurnSecCamera_CheckBox";
-            this.TurnSecCamera_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.TurnSecCamera_CheckBox.Size = new System.Drawing.Size(49, 23);
-            this.TurnSecCamera_CheckBox.TabIndex = 46;
-            this.TurnSecCamera_CheckBox.Text = "ON";
-            this.TurnSecCamera_CheckBox.UseVisualStyleBackColor = false;
-            this.TurnSecCamera_CheckBox.CheckStateChanged += new System.EventHandler(this.TurnSecCamera_CheckBox_CheckStateChanged);
+            this.Timer_500ms_Reconect.Interval = 500;
+            this.Timer_500ms_Reconect.Tick += new System.EventHandler(this.Timer_500ms_Reconect_Tick);
             // 
-            // SecCameraCheckBox
+            // Timer_5min_RecordData
             // 
-            this.SecCameraCheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.SecCameraCheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SecCameraCheckBox.Location = new System.Drawing.Point(62, 79);
-            this.SecCameraCheckBox.Name = "SecCameraCheckBox";
-            this.SecCameraCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.SecCameraCheckBox.Size = new System.Drawing.Size(95, 23);
-            this.SecCameraCheckBox.TabIndex = 47;
-            this.SecCameraCheckBox.Text = "SecCamera";
-            this.SecCameraCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.SecCameraCheckBox.UseVisualStyleBackColor = false;
-            this.SecCameraCheckBox.CheckStateChanged += new System.EventHandler(this.SecCameraCheckBox_CheckStateChanged);
-            // 
-            // RecordSecCamera_CheckBox
-            // 
-            this.RecordSecCamera_CheckBox.AutoSize = true;
-            this.RecordSecCamera_CheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(136)))), ((int)(((byte)(193)))));
-            this.RecordSecCamera_CheckBox.Location = new System.Drawing.Point(163, 79);
-            this.RecordSecCamera_CheckBox.Name = "RecordSecCamera_CheckBox";
-            this.RecordSecCamera_CheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.RecordSecCamera_CheckBox.Size = new System.Drawing.Size(70, 23);
-            this.RecordSecCamera_CheckBox.TabIndex = 48;
-            this.RecordSecCamera_CheckBox.Text = "Record";
-            this.RecordSecCamera_CheckBox.UseVisualStyleBackColor = false;
-            this.RecordSecCamera_CheckBox.CheckStateChanged += new System.EventHandler(this.RecordSecCamera_CheckBox_CheckStateChanged);
-            // 
-            // AutoMode_Co2_RadioButton
-            // 
-            this.AutoMode_Co2_RadioButton.AutoSize = true;
-            this.AutoMode_Co2_RadioButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.AutoMode_Co2_RadioButton.Location = new System.Drawing.Point(11, 22);
-            this.AutoMode_Co2_RadioButton.Name = "AutoMode_Co2_RadioButton";
-            this.AutoMode_Co2_RadioButton.Size = new System.Drawing.Size(51, 19);
-            this.AutoMode_Co2_RadioButton.TabIndex = 59;
-            this.AutoMode_Co2_RadioButton.TabStop = true;
-            this.AutoMode_Co2_RadioButton.Text = "Auto";
-            this.AutoMode_Co2_RadioButton.UseVisualStyleBackColor = true;
-            this.AutoMode_Co2_RadioButton.CheckedChanged += new System.EventHandler(this.AutoMode_Co2_RadioButton_CheckedChanged);
-            // 
-            // SingleMode_Co2_RadioButton
-            // 
-            this.SingleMode_Co2_RadioButton.AutoSize = true;
-            this.SingleMode_Co2_RadioButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SingleMode_Co2_RadioButton.Location = new System.Drawing.Point(11, 47);
-            this.SingleMode_Co2_RadioButton.Name = "SingleMode_Co2_RadioButton";
-            this.SingleMode_Co2_RadioButton.Size = new System.Drawing.Size(57, 19);
-            this.SingleMode_Co2_RadioButton.TabIndex = 60;
-            this.SingleMode_Co2_RadioButton.TabStop = true;
-            this.SingleMode_Co2_RadioButton.Text = "Single";
-            this.SingleMode_Co2_RadioButton.UseVisualStyleBackColor = true;
+            this.Timer_5min_RecordData.Interval = 300000;
+            this.Timer_5min_RecordData.Tick += new System.EventHandler(this.Timer_5min_RecordData_Tick);
             // 
             // Form1
             // 
@@ -2516,5 +2528,7 @@
         private CheckBox TurnSecCamera_CheckBox;
         private RadioButton AutoMode_Co2_RadioButton;
         private RadioButton SingleMode_Co2_RadioButton;
+        private System.Windows.Forms.Timer Timer_500ms_Reconect;
+        private System.Windows.Forms.Timer Timer_5min_RecordData;
     }
 }

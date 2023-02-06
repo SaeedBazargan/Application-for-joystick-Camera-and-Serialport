@@ -21,8 +21,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly TextBox _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox, _infoTxtBox;
         private readonly Button _openPortBtn;
         private readonly PictureBox _Serial1Status, _Serial2Status;
-        private readonly CheckBox _selectSerial1, _selectSerial2;
-
+        private readonly CheckBox _selectSerial1, _selectSerial2, _recordSerial1, _recordSerial2;
+        private readonly CheckBox _tvCameraCheckBox;
+        
         private readonly CancellationToken _cancellationToken;
         private readonly Task[] serialPortTasks;
         private readonly bool[] isRunning;
@@ -35,7 +36,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int serialportIndex = 0;
 
         public SerialController(CancellationToken cancellationToken, TextBox infoTxtBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn, Button readyNdYagBtn, CheckBox SelectSerial1, CheckBox SelectSerial2,
-            TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
+            CheckBox recordSerial1, CheckBox recordSerial2, CheckBox tvCamera, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
         {
             _SerialPort = new SerialPort[2];
             Settings = new SerialPortSetting[2]
@@ -46,8 +47,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
             _Serial1Status = serial1Status; _Serial2Status = serial2Status;
             _openPortBtn = openPortBtn;
-            _selectSerial1 = SelectSerial1;
-            _selectSerial2 = SelectSerial2;
+            _selectSerial1 = SelectSerial1; _recordSerial1 = recordSerial1;
+            _selectSerial2 = SelectSerial2; _recordSerial2 = recordSerial2;
+            _tvCameraCheckBox = tvCamera;
 
             _cancellationToken = cancellationToken;
             _infoTxtBox = infoTxtBox;
@@ -76,16 +78,24 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public void Stop(int SerialIndex)
         {
             isRunning[SerialIndex] = false;
+            Open = false;
             _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
             {
                 _openPortBtn.Enabled = true;
             });
             ChangePictureBox(SerialIndex == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
             if (SerialIndex == 0)
-                _selectSerial1.Checked = false;
+            {
+                _selectSerial1.BeginInvoke((MethodInvoker)delegate () { _selectSerial1.Checked = false; });
+                _recordSerial1.BeginInvoke((MethodInvoker)delegate () { _recordSerial1.Checked = false; });
+            }
             else if (SerialIndex == 1)
-                _selectSerial2.Checked = false;
+            {
+                _selectSerial2.BeginInvoke((MethodInvoker)delegate () { _selectSerial2.Checked = false; });
+                _recordSerial2.BeginInvoke((MethodInvoker)delegate () { _recordSerial2.Checked = false; });
+            }
             _SerialPort[SerialIndex].Close();
+            //_tvCameraCheckBox.BeginInvoke((MethodInvoker)delegate () { _tvCameraCheckBox.Checked = false; });
         }
 
         public void Record(int SerialIndex)
@@ -150,14 +160,25 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 {
                     _openPortBtn.Enabled = false;
                 });
+                if (index == 0)
+                {
+                    _recordSerial1.BeginInvoke((MethodInvoker)delegate () { _recordSerial1.Checked = true; });
+                    ChangePictureBox(_Serial1Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                }
+                else if (index == 1)
+                {
+                    _recordSerial2.BeginInvoke((MethodInvoker)delegate () { _recordSerial2.Checked = true; });
+                    ChangePictureBox(_Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                }
+
                 ChangeTextBox(_infoTxtBox, $"Port {index + 1} is Connected!");
+                //_tvCameraCheckBox.Checked = true;
             }
             catch(Exception e)
             {
                 ChangeTextBox(_infoTxtBox, $"Port {index + 1} is not found!");
                 Stop(index);
             }
-            ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
 
             while (isRunning[index])
             {
@@ -208,7 +229,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     _SerialPort[1].Write(Data, 0, 55);
             }
             else
-                MessageBox.Show("SerialPort is not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ChangeTextBox(_infoTxtBox, "SerialPort is disconnected!");
         }
     }
 }
