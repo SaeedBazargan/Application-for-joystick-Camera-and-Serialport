@@ -32,9 +32,6 @@
 
         public void MoveJoystick(System.Numerics.Vector2 v)
         {
-            //Console.WriteLine("xxxx = " + v.X);
-            //Console.WriteLine("yyyy = " + v.Y);
-
             var center = new PointF(Center.X + v.X, Center.Y - v.Y);
             Center = new PointF(((ContainerSize.Width / 2) * v.X) + (ContainerSize.Width / 2), ((ContainerSize.Height / 2) * -v.Y) + (ContainerSize.Height / 2));
 
@@ -43,17 +40,11 @@
         }
         public void MoveMouse(System.Numerics.Vector2 v)
         {
-            //Console.WriteLine("xxxx = " + v.X);
-            //Console.WriteLine("yyyy = " + v.Y);
-
             var center = new PointF(v.X, v.Y);
             Center = new PointF(v.X, v.Y);
         }
         public void MoveUSBJoystick(System.Numerics.Vector2 v)
         {
-            //Console.WriteLine("xxxx = " + v.X);
-            //Console.WriteLine("yyyy = " + v.Y);
-
             var center = new PointF(v.X, v.Y);
             Center = new PointF(v.X, v.Y);
         }

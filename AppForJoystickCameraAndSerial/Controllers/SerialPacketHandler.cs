@@ -29,20 +29,18 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 if (writer == null)
                 {
                     if (RecordDir == null)
-                        recordingDir = "logs/";
-                    else
-                    {
-                        recordingDir = RecordDir + index.ToString() + '/';
-                        if (!Directory.Exists(recordingDir))
-                            Directory.CreateDirectory(recordingDir);
-                        string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".txt";
-                        writer = new StreamWriter(recordingPath);
-                    }
+                        RecordDir = @"..\..\..\..\..\..\Record\Data\";
+                    recordingDir = RecordDir + index.ToString() + '/';
+                    if (!Directory.Exists(recordingDir))
+                        Directory.CreateDirectory(recordingDir);
+                    string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".txt";
+                    writer = new StreamWriter(recordingPath);
+                    writer.Write("Ax        " + " Ay         " + " Az         " + " FOV       " + " Az_Error " + " Ei_Error   " + " ErrorX    " + " ErrorY   " + " ErrorZ   ");
+                    writer.Write("\n" + "-----------------------------------------------------------------------------------------------------" + "\n");
                 }
-                if (TestLog == false)
-                    writer.Write('\n' + "Ax = " + Ax + "     " + "Ay = " + Ay + "     " + "Az = " + Az + "     " + "FOV = " + FOV + "     " +
-                                        "Az_Error = " + Az_Error + "     " + "Ei_Error = " + Ei_Error + "     " + "ErrorX = " + Error_X + "     "
-                                      + "ErrorY  = " + Error_Y + "     " + "ErrorZ  = " + Error_Z + "     ");
+                else if (writer != null && TestLog == false)
+                    writer.Write("\n" + Ax.ToString("0.000") + "      " + Ay.ToString("0.000") + "     " + Az.ToString("0.000") + "       " + FOV.ToString("0.000") + "      " + Az_Error.ToString("0.000") + "     "
+                                      + Ei_Error.ToString("0.000") + "      " + Error_X.ToString("0.000") + "     " + Error_Y.ToString("0.000") + "      " + Error_Z.ToString("0.000") + "     ");
                 else if (TestLog == true)
                 {
                     writer.Write("\n");
@@ -92,10 +90,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Data_8 = (LUT[37] << 24) + (LUT[36] << 16) + (LUT[35] << 8) + (LUT[34]);
             Data_9 = (LUT[41] << 24) + (LUT[40] << 16) + (LUT[39] << 8) + (LUT[38]);
             Data_10 = LUT[42];
-            //Data_10 = (LUT[45] << 24) + (LUT[44] << 16) + (LUT[43] << 8) + (LUT[42]);
             Data_11 = (LUT[49] << 24) + (LUT[48] << 16) + (LUT[47] << 8) + (LUT[46]);
 
-            Ax = (MathF.Round(Data_1, 3))/ 1000;
+            Ax = (MathF.Round(Data_1, 3)) / 1000;
             Az = (MathF.Round(Data_2, 3)) / 1000;
             Ay = (MathF.Round(Data_3, 3)) / 1000;
             FOV = (MathF.Round(Data_4, 3)) / 1000;

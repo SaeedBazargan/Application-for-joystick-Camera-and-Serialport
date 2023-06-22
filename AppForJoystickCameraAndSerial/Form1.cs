@@ -135,10 +135,11 @@ namespace AppForJoystickCameraAndSerial
         private byte NdYagReady_Button_WasClicked = 0;
         private byte TurnCo2_Button_WasClicked = 0;
 
-        bool SerialisBusy = false;
         bool ReconnectSerialFlag = false;
+        bool RunCameraFlag = true;
 
         byte secondCounter = 0;
+        byte Timer_5min_Counter = 0;
 
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly JoysticksController joysticksController;
@@ -149,11 +150,10 @@ namespace AppForJoystickCameraAndSerial
         public Form1()
         {
             InitializeComponent();
-
             cancellationTokenSource = new CancellationTokenSource();
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, RotateImage_CheckBox, TwoImage_CheckBox,
                 TvCameraCheckBox, IrCameraCheckBox, SecCameraCheckBox, CameraExceptionCallBack);
-            serialportController = new SerialController(cancellationTokenSource.Token, JoystickInfoTxtBox, Serial1Status_pictureBox, Serial1Status_pictureBox, OpenPort_Button, NdYagReady_Button, SelectSerial1_CheckBox,
+            serialportController = new SerialController(cancellationTokenSource.Token, JoystickInfoTxtBox, Serial1Status_pictureBox, Serial2Status_pictureBox, OpenPort_Button, NdYagReady_Button, SelectSerial1_CheckBox,
                 SelectSerial2_CheckBox, RecordSerial_1CheckBox, RecordSerial_2CheckBox, TvCameraCheckBox, Fov_TextBox, AzError_TextBox, EiError_TextBox, Ax_TextBox, Ay_TextBox, Az_TextBox);
             joysticksController = new JoysticksController(cancellationTokenSource.Token, JoystickInfoTxtBox, ATK3_Joystick_CheckBox, UsbJoystick_CheckBox, Joystick_CheckBox, Joystick_Label, XboxJoystickStatus_pictureBox,
                 USBJoystickStatus_pictureBox, ATK3JoystickStatus_pictureBox, MainCameraPictureBox, TrackRadio, SearchRadio, PositionRadio, CancleRadio, serialportController, CameraExceptionCallBack);
@@ -169,6 +169,8 @@ namespace AppForJoystickCameraAndSerial
             CustomInit((byte)Initial.Fire);
             CustomInit((byte)Initial.Joystick);
             CustomInit((byte)Initial.RunAutomaticlly);
+
+            Timer_15ms.Enabled = true;
             Timer_150ms.Enabled = true;
             Timer_500ms_Reconect.Enabled = true;
         }
@@ -217,34 +219,23 @@ namespace AppForJoystickCameraAndSerial
         private void OpenPort_Button_Click(object sender, EventArgs e)
         {
             if (SelectSerial1_CheckBox.Checked)
-            {
-                CustomInit((byte)Initial.SerialClick);
-                SerialisBusy = true;
                 serialportController.Start(0);
-                Timer_500ms_Reconect.Enabled = true;
-            }
             else if (SelectSerial2_CheckBox.Checked)
-            {
-                CustomInit((byte)Initial.SerialClick);
-                SerialisBusy = true;
                 serialportController.Start(1);
-                Timer_500ms_Reconect.Enabled = true;
-            }
             else
             {
-                SerialisBusy = false;
-                MessageBox.Show("No port selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Timer_500ms_Reconect.Enabled = false;
+                JoystickInfoTxtBox.Text = "No port selected!";
+                Timer_500ms_Reconect.Enabled = true;
             }
         }
         private void ClosePort_Button_Click(object sender, EventArgs e)
         {
-            SerialisBusy = false;
             if (SelectSerial1_CheckBox.Checked)
                 serialportController.Stop(0);
             if (SelectSerial2_CheckBox.Checked)
                 serialportController.Stop(1);
             Timer_500ms_Reconect.Enabled = false;
+            //RunCameraFlag = true;
         }
         private void RecordSerial_1CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
@@ -323,10 +314,9 @@ namespace AppForJoystickCameraAndSerial
         {
             if (((CheckBox)sender).Checked)
             {
-                IrCameraCheckBox.Enabled = false;
-                IrCameraCheckBox.Enabled = true;
-                IrCameraCheckBox.Checked = false;
                 Thread.Sleep(2000);
+                PP_RelayOnBoard_CheckBox.Checked = true;
+                IrCameraCheckBox.Checked = false;
                 RecordTvCamera_CheckBox.Enabled = true;
                 RecordTvCamera_CheckBox.Checked = true;
                 WideCameraButton.Enabled = true;
@@ -354,10 +344,9 @@ namespace AppForJoystickCameraAndSerial
         {
             if (((CheckBox)sender).Checked && serialportController.Open)
             {
-                TvCameraCheckBox.Enabled = false;
-                TvCameraCheckBox.Enabled = true;
-                TvCameraCheckBox.Checked = false;
                 Thread.Sleep(2000);
+                PP_RelayOnBoard_CheckBox.Checked = true;
+                TvCameraCheckBox.Checked = false;
                 RecordIrCamera_CheckBox.Enabled = true;
                 RecordIrCamera_CheckBox.Checked = true;
                 WideCameraButton.Enabled = true;
@@ -385,6 +374,7 @@ namespace AppForJoystickCameraAndSerial
         {
             if (((CheckBox)sender).Checked)
             {
+                PP_RelayOnBoard_CheckBox.Checked = true;
                 RecordSecCamera_CheckBox.Enabled = true;
                 RecordSecCamera_CheckBox.Checked = true;
                 WideCameraButton.Enabled = true;
@@ -410,7 +400,7 @@ namespace AppForJoystickCameraAndSerial
 
         private void CameraExceptionCallBack(string message)
         {
-            BeginInvoke(() => MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error));
+            // BeginInvoke(() => MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error));
         }
 
         private void RecordTvCamera_CheckBox_CheckStateChanged(object sender, EventArgs e)
@@ -642,6 +632,18 @@ namespace AppForJoystickCameraAndSerial
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+
+        private void EmergencyStop_Button_Click(object sender, EventArgs e)
+        {
+            serialportController.Write((byte)WriteMotorCodes.All_Motors, (byte)WriteAddresses.Relay, OFF, 1);
+            AllMotorsCheckBox.Checked = false;
+            Motor1_CheckBox.Checked = false;
+            Motor2_CheckBox.Checked = false;
+            Motor3_CheckBox.Checked = false;
+            EnableMotors_CheckBox.Checked = false;
+            PP_RelayOnBoard_CheckBox.Checked = true;
+        }
+
         private void AllMotorsCheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
@@ -943,13 +945,19 @@ namespace AppForJoystickCameraAndSerial
         private void AutoMode_Co2_RadioButton_CheckedChanged(object sender, EventArgs e)
         {
             if (AutoMode_Co2_RadioButton.Checked)
+            {
                 serialportController.Write((byte)WriteCo2Codes.Mode, (byte)WriteAddresses.Co2, ON, 1);
+                SingleShootCo2_Button.Enabled = false;
+            }
         }
 
         private void SingleMode_Co2_RadioButton_CheckedChanged(object sender, EventArgs e)
         {
             if (SingleMode_Co2_RadioButton.Checked)
+            {
                 serialportController.Write((byte)WriteCo2Codes.Mode, (byte)WriteAddresses.Co2, OFF, 1);
+                SingleShootCo2_Button.Enabled = true;
+            }
         }
 
         private void SingleShootCo2_Button_Click(object sender, EventArgs e)
@@ -994,6 +1002,7 @@ namespace AppForJoystickCameraAndSerial
                     TurnTvCamera_CheckBox.Enabled = false;
                     TurnIrCamera_CheckBox.Enabled = false;
                     TurnSecCamera_CheckBox.Enabled = false;
+                    TvCameraCheckBox.Checked = false;
                     TvCameraCheckBox.Enabled = false;
                     IrCameraCheckBox.Enabled = false;
                     SecCameraCheckBox.Enabled = false;
@@ -1061,14 +1070,17 @@ namespace AppForJoystickCameraAndSerial
 
                 case 8:     //Joystick
                     UsbJoystick_CheckBox.Enabled = false;
-                    ATK3_Joystick_CheckBox.Enabled = false;
                     Joystick_CheckBox.Enabled = false;
+                    ATK3_Joystick_CheckBox.Enabled = false;
                     Mouse_CheckBox.Enabled = false;
+                    ATK3_Joystick_CheckBox.Checked = false;
+                    Mouse_CheckBox.Checked = false;
                     TrackRadio.Enabled = false;
                     SearchRadio.Enabled = false;
                     PositionRadio.Enabled = false;
                     HomingRadio.Enabled = false;
                     CancleRadio.Enabled = false;
+                    CancleRadio.Checked = true;
                     PositionX_TextBox.Enabled = false;
                     PositionY_TextBox.Enabled = false;
                     PositionZ_TextBox.Enabled = false;
@@ -1081,6 +1093,7 @@ namespace AppForJoystickCameraAndSerial
                     Motor3_CheckBox.Enabled = true;
                     EnableMotors_CheckBox.Enabled = true;
                     ResetAlarm_CheckBox.Enabled = true;
+                    EmergencyStop_Button.Enabled = true;
 
                     TurnIrCamera_CheckBox.Enabled = true;
                     TurnTvCamera_CheckBox.Enabled = true;
@@ -1088,8 +1101,6 @@ namespace AppForJoystickCameraAndSerial
                     TvCameraCheckBox.Enabled = true;
                     IrCameraCheckBox.Enabled = true;
                     SecCameraCheckBox.Enabled = true;
-
-                    RelayOnLrf_CheckBox.Enabled = false;
 
                     RecordSerial_1CheckBox.Enabled = true;
                     RecordSerial_2CheckBox.Enabled = true;
@@ -1110,13 +1121,16 @@ namespace AppForJoystickCameraAndSerial
                     PositionRadio.Enabled = true;
                     HomingRadio.Enabled = true;
                     CancleRadio.Enabled = true;
-                    CancleRadio.Checked = true;
                     PositionX_TextBox.Enabled = true;
                     PositionY_TextBox.Enabled = true;
                     PositionZ_TextBox.Enabled = true;
 
-                    ATK3_Joystick_CheckBox.Enabled = false;
+                    RelayOnLrf_CheckBox.Enabled = false;
+
                     Mouse_CheckBox.Enabled = false;
+                    Mouse_CheckBox.Checked = true;
+                    ATK3_Joystick_CheckBox.Enabled = false;
+                    ATK3_Joystick_CheckBox.Checked = true;
                     UsbJoystick_CheckBox.Enabled = false;
                     Joystick_CheckBox.Enabled = false;
                     break;
@@ -1138,35 +1152,56 @@ namespace AppForJoystickCameraAndSerial
             }
         }
 
+        private void Timer_15ms_Tick(object sender, EventArgs e)
+        {
+            if (PP_GateSize_NegButton_WasClicked)
+                serialportController.Write((byte)WriteProPlatformCodes.GateSize, (byte)WriteAddresses.ProcessingPlatform, GateSize_Decrease, 1);
+            else if (PP_GateSize_PosButton_WasClicked)
+                serialportController.Write((byte)WriteProPlatformCodes.GateSize, (byte)WriteAddresses.ProcessingPlatform, GateSize_Increase, 1);
+
+            else if (CC_Zoom_TeleButton_WasClicked)
+                serialportController.Write((byte)WriteLensDriverCodes.Tele, (byte)WriteAddresses.LensDriver, OFF, 1);
+            else if (CC_Zoom_WideButton_WasClicked)
+                serialportController.Write((byte)WriteLensDriverCodes.Wide, (byte)WriteAddresses.LensDriver, OFF, 1);
+            else if (CC_Focus_NearButton_WasClicked)
+                serialportController.Write((byte)WriteLensDriverCodes.Near, (byte)WriteAddresses.LensDriver, OFF, 1);
+            else if (CC_Focus_FarButton_WasClicked)
+                serialportController.Write((byte)WriteLensDriverCodes.Far, (byte)WriteAddresses.LensDriver, OFF, 1);
+
+            else if (FireNdYagButton_WasClicked)
+                serialportController.Write((byte)WriteNdYagCodes.Fire, (byte)WriteAddresses.NdYag, OFF, 1);
+            // else if (FireCo2Button_WasClicked)
+            //     serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
+        }
+
         private void Timer_150ms_Tick(object sender, EventArgs e)
         {
-            secondCounter++;
-            if (secondCounter == 1)
-            {
-                joysticksController.second = 1;
-                secondCounter = 0;
-            }
-
             if (serialportController.Open)
             {
-                if (PP_GateSize_NegButton_WasClicked)
-                    serialportController.Write((byte)WriteProPlatformCodes.GateSize, (byte)WriteAddresses.ProcessingPlatform, GateSize_Decrease, 1);
-                else if (PP_GateSize_PosButton_WasClicked)
-                    serialportController.Write((byte)WriteProPlatformCodes.GateSize, (byte)WriteAddresses.ProcessingPlatform, GateSize_Increase, 1);
+                Timer_500ms_Reconect.Enabled = false;
+                CustomInit((byte)Initial.SerialClick);
 
-                else if (CC_Zoom_TeleButton_WasClicked)
-                    serialportController.Write((byte)WriteLensDriverCodes.Tele, (byte)WriteAddresses.LensDriver, OFF, 1);
-                else if (CC_Zoom_WideButton_WasClicked)
-                    serialportController.Write((byte)WriteLensDriverCodes.Wide, (byte)WriteAddresses.LensDriver, OFF, 1);
-                else if (CC_Focus_NearButton_WasClicked)
-                    serialportController.Write((byte)WriteLensDriverCodes.Near, (byte)WriteAddresses.LensDriver, OFF, 1);
-                else if (CC_Focus_FarButton_WasClicked)
-                    serialportController.Write((byte)WriteLensDriverCodes.Far, (byte)WriteAddresses.LensDriver, OFF, 1);
+                secondCounter++;
+                if (secondCounter == 1)
+                {
+                    joysticksController.second = 1;
+                    secondCounter = 0;
+                }
 
-                else if (FireNdYagButton_WasClicked)
-                    serialportController.Write((byte)WriteNdYagCodes.Fire, (byte)WriteAddresses.NdYag, OFF, 1);
-                // else if (FireCo2Button_WasClicked)
-                //     serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
+            }
+            else if (!serialportController.Open)
+            {
+                CustomInit((byte)Initial.Motors);
+                CustomInit((byte)Initial.Camera);
+                CustomInit((byte)Initial.RangeFinder);
+                CustomInit((byte)Initial.Serial);
+                CustomInit((byte)Initial.ProcessingPlatform);
+                CustomInit((byte)Initial.NdYag);
+                CustomInit((byte)Initial.CO2);
+                CustomInit((byte)Initial.Fire);
+                CustomInit((byte)Initial.Joystick);
+
+                Timer_500ms_Reconect.Enabled = true;
             }
 
             if (RecordSerial_1CheckBox.Checked == true || RecordSerial_2CheckBox.Checked == true || RecordIrCamera_CheckBox.Checked == true || RecordTvCamera_CheckBox.Checked == true || RecordSecCamera_CheckBox.Checked == true)
@@ -1175,65 +1210,43 @@ namespace AppForJoystickCameraAndSerial
 
         private void Timer_500ms_Reconect_Tick(object sender, EventArgs e)
         {
-            //if (!serialportController.Open && !ReconnectSerialFlag)
-            //{
-            //    CustomInit((byte)Initial.Motors);
-            //    CustomInit((byte)Initial.Camera);
-            //    CustomInit((byte)Initial.RangeFinder);
-            //    CustomInit((byte)Initial.Serial);
-            //    CustomInit((byte)Initial.ProcessingPlatform);
-            //    CustomInit((byte)Initial.NdYag);
-            //    CustomInit((byte)Initial.CO2);
-            //    CustomInit((byte)Initial.Fire);
-            //    CustomInit((byte)Initial.Joystick);
-
-            //    SelectSerial1_CheckBox.Checked = true;
-            //    SelectSerial2_CheckBox.Checked = false;
-            //    OpenPort_Button_Click(sender, e);
-            //    ReconnectSerialFlag = true;
-            //    Thread.Sleep(100);
-            //    Mouse_CheckBox.Checked = false;
-            //    ATK3_Joystick_CheckBox.Checked = false;
-            //}
-            //else if (!serialportController.Open && ReconnectSerialFlag)
-            //{
-            //    CustomInit((byte)Initial.Motors);
-            //    CustomInit((byte)Initial.Camera);
-            //    CustomInit((byte)Initial.RangeFinder);
-            //    CustomInit((byte)Initial.Serial);
-            //    CustomInit((byte)Initial.ProcessingPlatform);
-            //    CustomInit((byte)Initial.NdYag);
-            //    CustomInit((byte)Initial.CO2);
-            //    CustomInit((byte)Initial.Fire);
-            //    CustomInit((byte)Initial.Joystick);
-
-            //    SelectSerial1_CheckBox.Checked = false;
-            //    SelectSerial2_CheckBox.Checked = true;
-            //    OpenPort_Button_Click(sender, e);
-            //    ReconnectSerialFlag = false;
-            //    Thread.Sleep(100);
-            //    Mouse_CheckBox.Checked = false;
-            //    ATK3_Joystick_CheckBox.Checked = false;
-            //}
-            //else if(serialportController.Open)
-            //{
-            //    Mouse_CheckBox.Checked = true;
-            //    ATK3_Joystick_CheckBox.Checked = true;
-            //}
+            if (!serialportController.Open && !ReconnectSerialFlag)
+            {
+                SelectSerial1_CheckBox.Checked = true;
+                SelectSerial2_CheckBox.Checked = false;
+                OpenPort_Button_Click(sender, e);
+                ReconnectSerialFlag = true;
+                Thread.Sleep(1000);
+            }
+            else if (!serialportController.Open && ReconnectSerialFlag)
+            {
+                SelectSerial1_CheckBox.Checked = false;
+                SelectSerial2_CheckBox.Checked = true;
+                OpenPort_Button_Click(sender, e);
+                ReconnectSerialFlag = false;
+                Thread.Sleep(1000);
+            }
         }
 
         private void Timer_5min_RecordData_Tick(object sender, EventArgs e)
         {
-            //dialogResult = MessageBox.Show("Want to continue saving?", "Warning", MessageBoxButtons.YesNo);
-            //if (dialogResult == DialogResult.No)
-            //{
-            //    Timer_5min_RecordData.Enabled = false;
-            //    RecordSerial_1CheckBox.Checked = false;
-            //    RecordSerial_2CheckBox.Checked = false;
-            //    RecordIrCamera_CheckBox.Checked = false;
-            //    RecordTvCamera_CheckBox.Checked = false;
-            //    RecordSecCamera_CheckBox.Checked = false;
-            //}
+            if (Timer_5min_Counter == 0 && (RecordIrCamera_CheckBox.Checked || RecordSecCamera_CheckBox.Checked || RecordSerial_1CheckBox.Checked || RecordSerial_2CheckBox.Checked || RecordTvCamera_CheckBox.Checked))
+            {
+                Timer_5min_Counter = 1;
+                DialogResult dialogResult = MessageBox.Show("Want to continue saving?", "Warning", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.No)
+                {
+                    Timer_5min_RecordData.Enabled = false;
+                    RecordSerial_1CheckBox.Checked = false;
+                    RecordSerial_2CheckBox.Checked = false;
+                    RecordIrCamera_CheckBox.Checked = false;
+                    RecordTvCamera_CheckBox.Checked = false;
+                    RecordSecCamera_CheckBox.Checked = false;
+                    Timer_5min_Counter = 0;
+                }
+                else if (dialogResult == DialogResult.Yes)
+                    Timer_5min_Counter = 0;
+            }
         }
     }
 }

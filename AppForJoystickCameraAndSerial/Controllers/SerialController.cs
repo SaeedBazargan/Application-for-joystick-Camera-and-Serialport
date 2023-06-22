@@ -95,7 +95,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _recordSerial2.BeginInvoke((MethodInvoker)delegate () { _recordSerial2.Checked = false; });
             }
             _SerialPort[SerialIndex].Close();
-            //_tvCameraCheckBox.BeginInvoke((MethodInvoker)delegate () { _tvCameraCheckBox.Checked = false; });
         }
 
         public void Record(int SerialIndex)
@@ -156,23 +155,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 var setting = Settings[index];
                 _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
                 _SerialPort[index].Open();
-                _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
-                {
-                    _openPortBtn.Enabled = false;
-                });
-                if (index == 0)
-                {
-                    _recordSerial1.BeginInvoke((MethodInvoker)delegate () { _recordSerial1.Checked = true; });
-                    ChangePictureBox(_Serial1Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                }
-                else if (index == 1)
-                {
-                    _recordSerial2.BeginInvoke((MethodInvoker)delegate () { _recordSerial2.Checked = true; });
-                    ChangePictureBox(_Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                }
 
+                _openPortBtn.BeginInvoke((MethodInvoker)delegate () { _openPortBtn.Enabled = false; });
+                if (index == 0)
+                    _recordSerial1.BeginInvoke((MethodInvoker)delegate () { _recordSerial1.Checked = true; });
+                else if (index == 1)
+                    _recordSerial2.BeginInvoke((MethodInvoker)delegate () { _recordSerial2.Checked = true; });
+
+                ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
                 ChangeTextBox(_infoTxtBox, $"Port {index + 1} is Connected!");
-                //_tvCameraCheckBox.Checked = true;
             }
             catch(Exception e)
             {
@@ -197,10 +188,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
                         Data_Counter = 0;
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    Stop(index);
-                    ChangeTextBox(_infoTxtBox, $"Port {index + 1} is disconnected!");
+                    ChangeTextBox(_infoTxtBox, $"Port {index + 1} has problem!");
+                    Array.Clear(Data_Rx, 0, 55);
+                    Data_Counter = 0;
                 }
             }
         }

@@ -97,17 +97,17 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning[joystickIndex] = false;
             if (joystickIndex == 0)
             {
-                ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
                 _selectXBox.BeginInvoke((MethodInvoker)delegate () { _selectXBox.Checked = false; });
             }
             else if (joystickIndex == 1)
             {
-                ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
                 _selectUSBJoy.BeginInvoke((MethodInvoker)delegate () { _selectUSBJoy.Checked = false; });
             }
             else if (joystickIndex == 2)
             {
-                ChangePictureBox(_atk3JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                ChangePictureBox(_atk3JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
                 _selectATK3.BeginInvoke((MethodInvoker)delegate () { _selectATK3.Checked = false; });
             }
         }
@@ -158,7 +158,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 catch (Exception e)
                 {
                     ChangeTextBox(_infoTxtBox, $"Joystick {index + 1} is disconnected!");
-                    //MessageBox.Show($"Joystick {index + 1} is disconnected!");
                     Stop(index);
                 }
             }

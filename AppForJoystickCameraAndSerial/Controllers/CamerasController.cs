@@ -99,6 +99,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 {
                     if (writer == null)
                     {
+                        if (RecordingDirectory == null)
+                            RecordingDirectory = @"..\..\..\..\..\..\Record\Camera\";
                         recordingDir = RecordingDirectory + index.ToString() + '/';
                         if (!Directory.Exists(recordingDir))
                             Directory.CreateDirectory(recordingDir);
@@ -115,15 +117,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 }
 
                 if (_twoImages.Checked)
-                    _minorPictureBox.BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        _minorPictureBox.Hide();
-                    });
+                    _minorPictureBox.BeginInvoke((MethodInvoker)delegate () { _minorPictureBox.Hide(); });
                 else
-                    _minorPictureBox.BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        _minorPictureBox.Show();
-                    });
+                    _minorPictureBox.BeginInvoke((MethodInvoker)delegate () { _minorPictureBox.Show(); });
             }
         }
 
