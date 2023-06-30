@@ -38,14 +38,17 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     writer.Write("Ax        " + " Ay         " + " Az         " + " FOV       " + " Az_Error " + " Ei_Error   " + " ErrorX    " + " ErrorY   " + " ErrorZ   ");
                     writer.Write("\n" + "-----------------------------------------------------------------------------------------------------" + "\n");
                 }
-                else if (writer != null && TestLog == false)
-                    writer.Write("\n" + Ax.ToString("0.000") + "      " + Ay.ToString("0.000") + "     " + Az.ToString("0.000") + "       " + FOV.ToString("0.000") + "      " + Az_Error.ToString("0.000") + "     "
-                                      + Ei_Error.ToString("0.000") + "      " + Error_X.ToString("0.000") + "     " + Error_Y.ToString("0.000") + "      " + Error_Z.ToString("0.000") + "     ");
-                else if (TestLog == true)
-                {
-                    writer.Write("\n");
-                    for (int i = 0; i < 55; i++)
-                        writer.Write("" + Rx_Data[i] + ",");
+                else
+                {                    
+                    if (TestLog == false)
+                        writer.Write("\n" + Ax.ToString("0.000") + "      " + Ay.ToString("0.000") + "     " + Az.ToString("0.000") + "       " + FOV.ToString("0.000") + "      " + Az_Error.ToString("0.000") + "     "
+                                          + Ei_Error.ToString("0.000") + "      " + Error_X.ToString("0.000") + "     " + Error_Y.ToString("0.000") + "      " + Error_Z.ToString("0.000") + "     ");
+                    else if (TestLog == true)
+                    {
+                        writer.Write("\n");
+                        for (int i = 0; i < 55; i++)
+                            writer.Write("" + Rx_Data[i] + ",");
+                    }
                 }
             }
             else if (writer != null)

@@ -1,10 +1,15 @@
-﻿using OpenCvSharp;
+﻿using DirectShowLib;
+using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using SharpDX.DirectInput;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
     public class CamerasController : ControllerBase
     {
+        private string cameraPartNumber0;
+        private string cameraPartNumber1;
+
         private readonly PictureBox _mainPictureBox, _minorPictureBox;
         private readonly PictureBox _Camera1Status, _Camera2Status;
         private readonly CancellationToken _cancellationToken;
@@ -34,6 +39,21 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _selectIrCamera = irCameraCheckBox;
             _selectSecCamera = secCameraCheckBox;
             _exceptionCallback = exceptionCallback;
+
+        }
+
+        private void ReadCameraPartNumbers()
+        {
+            DsDevice[] devices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
+            if (devices.Length >= 1)
+            {
+                cameraPartNumber0 = devices[0].DevicePath; // Store the part number of camera 0
+                cameraPartNumber1 = devices[1].DevicePath; // Store the part number of camera 1
+            }
+            else
+            {
+                throw new Exception("Insufficient cameras detected.");
+            }
         }
 
         public void Start(int cameraIndex)
@@ -41,10 +61,31 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (0 <= cameraIndex || cameraIndex <= 2)
             {
                 isRunning[cameraIndex] = true;
-                cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, cameraIndex == 0));
+                cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex, cameraPartNumber0), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, cameraIndex == 0));
             }
             else
                 throw new ArgumentOutOfRangeException();
+
+            //ReadCameraPartNumbers();
+
+            //if (cameraIndex == 0)
+            //{
+            //    if (!string.IsNullOrEmpty(cameraPartNumber0))
+            //    {
+            //        isRunning[cameraIndex] = true;
+            //        cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex, cameraPartNumber0), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, true));
+            //    }
+            //}
+            //else if (cameraIndex == 1)
+            //{
+            //    if (!string.IsNullOrEmpty(cameraPartNumber1))
+            //    {
+            //        isRunning[cameraIndex] = true;
+            //        cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex, cameraPartNumber1), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, false));
+            //    }
+            //}
+            //else
+            //    throw new ArgumentOutOfRangeException();
         }
 
         public void Record(int cameraIndex)
@@ -67,13 +108,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning[cameraIndex] = false;
         }
 
-        private void StartCamera(int index)
+        private void StartCamera(int index, string partNumber)
         {
             using VideoCapture capture = new(index);
             VideoWriter writer = null;
             var frame = new Mat();
             Bitmap image;
             capture.Open(index);
+
 
             if (!capture.IsOpened())
             {
@@ -84,42 +126,45 @@ namespace AppForJoystickCameraAndSerial.Controllers
                         _selectSecCamera.Checked = false;
                     });
             }
-            ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-            while (isRunning[index])
+            else
             {
-                capture.Read(frame);
-                image = BitmapConverter.ToBitmap(frame);
-                DrawJoyStickPointer(image);
-                if (_rotateImages.Checked)
-                    ChangePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox, image);
-                else
-                    ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
-
-                if (recording[index])
+                ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                while (isRunning[index])
                 {
-                    if (writer == null)
+                    capture.Read(frame);
+                    image = BitmapConverter.ToBitmap(frame);
+                    DrawJoyStickPointer(image);
+                    if (_rotateImages.Checked)
+                        ChangePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox, image);
+                    else
+                        ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
+
+                    if (recording[index])
                     {
-                        if (RecordingDirectory == null)
-                            RecordingDirectory = @"..\..\..\..\..\..\Record\Camera\";
-                        recordingDir = RecordingDirectory + index.ToString() + '/';
-                        if (!Directory.Exists(recordingDir))
-                            Directory.CreateDirectory(recordingDir);
-                        string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
-                        writer = new VideoWriter(recordingPath, FourCC.MJPG, capture.Fps, new OpenCvSharp.Size(capture.Get(VideoCaptureProperties.FrameWidth), capture.Get(VideoCaptureProperties.FrameHeight)));
+                        if (writer == null)
+                        {
+                            if (RecordingDirectory == null)
+                                RecordingDirectory = @"..\..\..\..\..\..\Record\Camera\";
+                            recordingDir = RecordingDirectory + index.ToString() + '/';
+                            if (!Directory.Exists(recordingDir))
+                                Directory.CreateDirectory(recordingDir);
+                            string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
+                            writer = new VideoWriter(recordingPath, FourCC.MJPG, capture.Fps, new OpenCvSharp.Size(capture.Get(VideoCaptureProperties.FrameWidth), capture.Get(VideoCaptureProperties.FrameHeight)));
+                        }
+                        writer.Write(frame);
                     }
-                    writer.Write(frame);
-                }
-                else if (writer != null && !writer.IsDisposed)
-                {
-                    writer.Release();
-                    writer.Dispose();
-                    writer = null;
-                }
+                    else if (writer != null && !writer.IsDisposed)
+                    {
+                        writer.Release();
+                        writer.Dispose();
+                        writer = null;
+                    }
 
-                if (_twoImages.Checked)
-                    _minorPictureBox.BeginInvoke((MethodInvoker)delegate () { _minorPictureBox.Hide(); });
-                else
-                    _minorPictureBox.BeginInvoke((MethodInvoker)delegate () { _minorPictureBox.Show(); });
+                    if (_twoImages.Checked)
+                        _minorPictureBox.BeginInvoke((MethodInvoker)delegate () { _minorPictureBox.Hide(); });
+                    else
+                        _minorPictureBox.BeginInvoke((MethodInvoker)delegate () { _minorPictureBox.Show(); });
+                }
             }
         }
 
