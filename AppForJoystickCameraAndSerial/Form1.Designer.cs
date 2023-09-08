@@ -189,6 +189,7 @@
             Timer_500ms_Reconect = new System.Windows.Forms.Timer(components);
             Timer_5min_RecordData = new System.Windows.Forms.Timer(components);
             Timer_15ms = new System.Windows.Forms.Timer(components);
+            Axis3D_CheckBox = new CheckBox();
             groupBox23.SuspendLayout();
             groupBox22.SuspendLayout();
             groupBox21.SuspendLayout();
@@ -708,7 +709,7 @@
             TimeLrf_Numeric.Size = new Size(111, 27);
             TimeLrf_Numeric.TabIndex = 63;
             TimeLrf_Numeric.TextAlign = HorizontalAlignment.Center;
-            TimeLrf_Numeric.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            TimeLrf_Numeric.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // FreqLrf_Numeric
             // 
@@ -1305,7 +1306,7 @@
             AllMotorsCheckBox.FlatAppearance.CheckedBackColor = Color.Red;
             AllMotorsCheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             AllMotorsCheckBox.ForeColor = Color.Transparent;
-            AllMotorsCheckBox.Location = new Point(5, 33);
+            AllMotorsCheckBox.Location = new Point(5, 23);
             AllMotorsCheckBox.Margin = new Padding(3, 4, 3, 4);
             AllMotorsCheckBox.Name = "AllMotorsCheckBox";
             AllMotorsCheckBox.RightToLeft = RightToLeft.Yes;
@@ -1325,7 +1326,7 @@
             Motor1_CheckBox.FlatAppearance.CheckedBackColor = Color.Red;
             Motor1_CheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             Motor1_CheckBox.ForeColor = Color.Transparent;
-            Motor1_CheckBox.Location = new Point(5, 72);
+            Motor1_CheckBox.Location = new Point(5, 56);
             Motor1_CheckBox.Margin = new Padding(3, 4, 3, 4);
             Motor1_CheckBox.Name = "Motor1_CheckBox";
             Motor1_CheckBox.RightToLeft = RightToLeft.Yes;
@@ -1345,7 +1346,7 @@
             Motor2_CheckBox.FlatAppearance.CheckedBackColor = Color.Red;
             Motor2_CheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             Motor2_CheckBox.ForeColor = Color.Transparent;
-            Motor2_CheckBox.Location = new Point(5, 111);
+            Motor2_CheckBox.Location = new Point(5, 90);
             Motor2_CheckBox.Margin = new Padding(3, 4, 3, 4);
             Motor2_CheckBox.Name = "Motor2_CheckBox";
             Motor2_CheckBox.RightToLeft = RightToLeft.Yes;
@@ -1365,7 +1366,7 @@
             Motor3_CheckBox.FlatAppearance.CheckedBackColor = Color.Red;
             Motor3_CheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             Motor3_CheckBox.ForeColor = Color.Transparent;
-            Motor3_CheckBox.Location = new Point(5, 149);
+            Motor3_CheckBox.Location = new Point(5, 123);
             Motor3_CheckBox.Margin = new Padding(3, 4, 3, 4);
             Motor3_CheckBox.Name = "Motor3_CheckBox";
             Motor3_CheckBox.RightToLeft = RightToLeft.Yes;
@@ -1385,7 +1386,7 @@
             EnableMotors_CheckBox.FlatAppearance.CheckedBackColor = Color.Red;
             EnableMotors_CheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             EnableMotors_CheckBox.ForeColor = Color.Transparent;
-            EnableMotors_CheckBox.Location = new Point(5, 188);
+            EnableMotors_CheckBox.Location = new Point(5, 157);
             EnableMotors_CheckBox.Margin = new Padding(3, 4, 3, 4);
             EnableMotors_CheckBox.Name = "EnableMotors_CheckBox";
             EnableMotors_CheckBox.RightToLeft = RightToLeft.Yes;
@@ -1405,7 +1406,7 @@
             ResetAlarm_CheckBox.FlatAppearance.CheckedBackColor = Color.Red;
             ResetAlarm_CheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             ResetAlarm_CheckBox.ForeColor = Color.Transparent;
-            ResetAlarm_CheckBox.Location = new Point(5, 227);
+            ResetAlarm_CheckBox.Location = new Point(5, 191);
             ResetAlarm_CheckBox.Margin = new Padding(3, 4, 3, 4);
             ResetAlarm_CheckBox.Name = "ResetAlarm_CheckBox";
             ResetAlarm_CheckBox.RightToLeft = RightToLeft.Yes;
@@ -1419,6 +1420,7 @@
             // groupBox11
             // 
             groupBox11.Anchor = AnchorStyles.None;
+            groupBox11.Controls.Add(Axis3D_CheckBox);
             groupBox11.Controls.Add(ResetAlarm_CheckBox);
             groupBox11.Controls.Add(EnableMotors_CheckBox);
             groupBox11.Controls.Add(Motor3_CheckBox);
@@ -2462,6 +2464,26 @@
             Timer_15ms.Interval = 15;
             Timer_15ms.Tick += Timer_15ms_Tick;
             // 
+            // Axis3D_CheckBox
+            // 
+            Axis3D_CheckBox.Anchor = AnchorStyles.None;
+            Axis3D_CheckBox.BackColor = Color.FromArgb(82, 136, 193);
+            Axis3D_CheckBox.FlatAppearance.BorderColor = Color.FromArgb(192, 0, 192);
+            Axis3D_CheckBox.FlatAppearance.BorderSize = 3;
+            Axis3D_CheckBox.FlatAppearance.CheckedBackColor = Color.Red;
+            Axis3D_CheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            Axis3D_CheckBox.ForeColor = Color.Transparent;
+            Axis3D_CheckBox.Location = new Point(6, 225);
+            Axis3D_CheckBox.Margin = new Padding(3, 4, 3, 4);
+            Axis3D_CheckBox.Name = "Axis3D_CheckBox";
+            Axis3D_CheckBox.RightToLeft = RightToLeft.Yes;
+            Axis3D_CheckBox.Size = new Size(118, 31);
+            Axis3D_CheckBox.TabIndex = 45;
+            Axis3D_CheckBox.Text = "3D Axis";
+            Axis3D_CheckBox.TextAlign = ContentAlignment.MiddleCenter;
+            Axis3D_CheckBox.UseVisualStyleBackColor = false;
+            Axis3D_CheckBox.CheckStateChanged += Axis3D_CheckBox_CheckStateChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -2705,5 +2727,6 @@
         private System.Windows.Forms.Timer Timer_500ms_Reconect;
         private System.Windows.Forms.Timer Timer_5min_RecordData;
         private System.Windows.Forms.Timer Timer_15ms;
+        private CheckBox Axis3D_CheckBox;
     }
 }

@@ -34,7 +34,8 @@ namespace AppForJoystickCameraAndSerial
             TableControl = 9,
             ScanNdYag = 10,
             ProcessingPlatform = 11,
-            Co2 = 12
+            Co2 = 12,
+            LRF = 13
         }
 
         public enum WriteMotorCodes : byte
@@ -55,8 +56,7 @@ namespace AppForJoystickCameraAndSerial
             Search = 5,
             Track = 6,
             Cancle = 7,
-            Position = 8,
-            Axis_3D = 9
+            Position = 8
         }
 
         public enum WriteLensDriverCodes : byte
@@ -90,10 +90,23 @@ namespace AppForJoystickCameraAndSerial
             Mode = 3,
             SingleShoot_Co2 = 4,
             Frequency = 5,
-            //Fire = 2,
-            //StopFire = 3,
-            //Energy = 6
         }
+
+        public enum WriteLRFCodes : byte
+        {
+            LRF_Relay = 1,
+            LRF_Setting = 2,
+            LRF_Active = 3,
+            LRF_Deactive = 4,
+            LRF_SingleShoot = 5,
+            LRF_Burst = 6,
+            LRF_Stop = 7,
+            LRF_DownRange = 8,
+            LRF_UpRange = 9,
+            LRF_Frequency = 10,
+            LRF_Time = 11
+        }
+
 
         public enum WriteProPlatformCodes : byte
         {
@@ -102,13 +115,12 @@ namespace AppForJoystickCameraAndSerial
             SelectCamera = 6,
             RelayOnBoard = 7,
             AutoWide = 8,
-            Track_3D = 9
+            Track_3D = 9,
+            Axis_3D = 10
         }
 
         int[] ON = new int[1] { 1 };
         int[] OFF = new int[1] { 0 };
-
-        int[] Joystick_zeroPos = new int[2] { 320, 240 };
 
         bool EnableMotors_Flag = false;
 
@@ -127,9 +139,6 @@ namespace AppForJoystickCameraAndSerial
         private bool FireCo2Button_WasClicked = false;
 
         int[] LensDriverSpeed = new int[1] { 80 };
-
-        int[] NdYag_Frequency = new int[1] { 1 };
-        int[] CO2_Frequency = new int[1] { 1 };
 
         private byte NdYagReady_Button_WasClicked = 0;
         private byte TurnCo2_Button_WasClicked = 0;
@@ -154,7 +163,7 @@ namespace AppForJoystickCameraAndSerial
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, RotateImage_CheckBox, TwoImage_CheckBox,
                 TvCameraCheckBox, IrCameraCheckBox, SecCameraCheckBox, CameraExceptionCallBack);
             serialportController = new SerialController(cancellationTokenSource.Token, JoystickInfoTxtBox, Serial1Status_pictureBox, Serial2Status_pictureBox, OpenPort_Button, NdYagReady_Button, SelectSerial1_CheckBox,
-                SelectSerial2_CheckBox, RecordSerial_1CheckBox, RecordSerial_2CheckBox, Fov_TextBox, AzError_TextBox, EiError_TextBox, Ax_TextBox, Ay_TextBox, Az_TextBox);
+                SelectSerial2_CheckBox, RecordSerial_1CheckBox, RecordSerial_2CheckBox, Fov_TextBox, AzError_TextBox, EiError_TextBox, Ax_TextBox, Ay_TextBox, Az_TextBox, LrfRange_TextBox);
             joysticksController = new JoysticksController(cancellationTokenSource.Token, JoystickInfoTxtBox, ATK3_Joystick_CheckBox, UsbJoystick_CheckBox, Joystick_CheckBox, Joystick_Label, XboxJoystickStatus_pictureBox,
                 USBJoystickStatus_pictureBox, ATK3JoystickStatus_pictureBox, MainCameraPictureBox, TrackRadio, SearchRadio, PositionRadio, CancleRadio, serialportController, CameraExceptionCallBack);
             mouseController = new MouseController(cancellationTokenSource, JoystickInfoTxtBox, Mouse_CheckBox, MainCameraPictureBox, SearchRadio, serialportController);
@@ -169,9 +178,9 @@ namespace AppForJoystickCameraAndSerial
             CustomInit((byte)Initial.Fire);
             CustomInit((byte)Initial.Joystick);
 
-            Timer_15ms.Enabled = true;
-            Timer_150ms.Enabled = true;
-            Timer_500ms_Reconect.Enabled = true;
+            //Timer_15ms.Enabled = true;
+            //Timer_150ms.Enabled = true;
+            //Timer_500ms_Reconect.Enabled = true;
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -397,7 +406,7 @@ namespace AppForJoystickCameraAndSerial
         }
 
         private void CameraExceptionCallBack(string message)
-        {}
+        { }
 
         private void RecordTvCamera_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
@@ -636,6 +645,7 @@ namespace AppForJoystickCameraAndSerial
             Motor1_CheckBox.Checked = false;
             Motor2_CheckBox.Checked = false;
             Motor3_CheckBox.Checked = false;
+            Axis3D_CheckBox.Checked = false;
             EnableMotors_CheckBox.Checked = false;
             PP_RelayOnBoard_CheckBox.Checked = true;
         }
@@ -689,6 +699,15 @@ namespace AppForJoystickCameraAndSerial
             else
                 serialportController.Write((byte)WriteMotorCodes.Motor_3, (byte)WriteAddresses.Relay, OFF, 1);
         }
+        private void Axis3D_CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                serialportController.Write((byte)WriteProPlatformCodes.Axis_3D, (byte)WriteAddresses.ProcessingPlatform, ON, 1);
+            }
+            else
+                serialportController.Write((byte)WriteProPlatformCodes.Axis_3D, (byte)WriteAddresses.ProcessingPlatform, OFF, 1);
+        }
 
         private void EnableMotors_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
@@ -737,6 +756,7 @@ namespace AppForJoystickCameraAndSerial
 
         private void PositionRadio_CheckedChanged(object sender, EventArgs e)
         {
+            int[] Joystick_zeroPos = new int[2] { 320, 240 };
             serialportController.Write((byte)WriteTableCodes.Position, (byte)WriteAddresses.TableControl, Joystick_zeroPos, 2);
         }
 
@@ -846,7 +866,7 @@ namespace AppForJoystickCameraAndSerial
 
         private void NdYagFreq_Numeric_ValueChanged(object sender, EventArgs e)
         {
-            NdYag_Frequency[0] = (int)NdYagFreq_Numeric.Value;
+            int[] NdYag_Frequency = new int[1] { (int)NdYagFreq_Numeric.Value };
             serialportController.Write((byte)WriteNdYagCodes.Frequency, (byte)WriteAddresses.NdYag, NdYag_Frequency, 1);
         }
 
@@ -869,9 +889,11 @@ namespace AppForJoystickCameraAndSerial
                 SingleShootRangeFinder_Button.Enabled = true;
                 BurstRangeFinder_Button.Enabled = true;
                 StopRangeFinder_Button.Enabled = true;
+                serialportController.Write((byte)WriteLRFCodes.LRF_Relay, (byte)WriteAddresses.LRF, ON, 1);
             }
             else
             {
+                SettingLrf_CheckBox.Checked = false;
                 SettingLrf_CheckBox.Enabled = false;
                 ActiveLrf_Button.Enabled = false;
                 DeactiveLrf_Button.Enabled = false;
@@ -882,22 +904,35 @@ namespace AppForJoystickCameraAndSerial
                 SingleShootRangeFinder_Button.Enabled = false;
                 BurstRangeFinder_Button.Enabled = false;
                 StopRangeFinder_Button.Enabled = false;
+                serialportController.Write((byte)WriteLRFCodes.LRF_Relay, (byte)WriteAddresses.LRF, OFF, 1);
             }
         }
 
         private void SettingLrf_CheckBox_CheckStateChanged(object sender, EventArgs e)
         {
+            int[] LRF_Down = new int[1] { (int)DownRangeLrf_Numeric.Value };
+            int[] LRF_Up = new int[1] { (int)UpRangeLrf_Numeric.Value };
+            int[] LRF_Freq = new int[1] { (int)FreqLrf_Numeric.Value };
+            int[] LRF_Time = new int[1] { (int)TimeLrf_Numeric.Value };
 
+            serialportController.Write((byte)WriteLRFCodes.LRF_Setting, (byte)WriteAddresses.LRF, ON, 1);
+            serialportController.Write((byte)WriteLRFCodes.LRF_DownRange, (byte)WriteAddresses.LRF, LRF_Down, 1);
+            serialportController.Write((byte)WriteLRFCodes.LRF_UpRange, (byte)WriteAddresses.LRF, LRF_Up, 1);
+            serialportController.Write((byte)WriteLRFCodes.LRF_Frequency, (byte)WriteAddresses.LRF, LRF_Freq, 1);
+            serialportController.Write((byte)WriteLRFCodes.LRF_Time, (byte)WriteAddresses.LRF, LRF_Time, 1);
         }
 
         private void ActiveLrf_Button_Click(object sender, EventArgs e)
         {
-
+            serialportController.Write((byte)WriteLRFCodes.LRF_Active, (byte)WriteAddresses.LRF, ON, 1);
+            ActiveLrf_Button.Enabled = false;
         }
 
         private void DeactiveLrf_Button_Click(object sender, EventArgs e)
         {
-
+            serialportController.Write((byte)WriteLRFCodes.LRF_Deactive, (byte)WriteAddresses.LRF, ON, 1);
+            DeactiveLrf_Button.Enabled = false;
+            ActiveLrf_Button.Enabled = true;
         }
         /// <summary>
         /// Co2 Functions
@@ -975,7 +1010,7 @@ namespace AppForJoystickCameraAndSerial
 
         private void Co2Freq_Numeric_ValueChanged(object sender, EventArgs e)
         {
-            CO2_Frequency[0] = (int)Co2Freq_Numeric.Value;
+            int[] CO2_Frequency = new int[1] { (int)Co2Freq_Numeric.Value };
             serialportController.Write((byte)WriteCo2Codes.Frequency, (byte)WriteAddresses.Co2, CO2_Frequency, 1);
         }
 
@@ -993,6 +1028,7 @@ namespace AppForJoystickCameraAndSerial
                     Motor3_CheckBox.Enabled = false;
                     EnableMotors_CheckBox.Enabled = false;
                     ResetAlarm_CheckBox.Enabled = false;
+                    Axis3D_CheckBox.Enabled = false;
                     break;
                 case 1:     //Camera
                     TurnTvCamera_CheckBox.Enabled = false;
@@ -1088,6 +1124,7 @@ namespace AppForJoystickCameraAndSerial
                     Motor2_CheckBox.Enabled = true;
                     Motor3_CheckBox.Enabled = true;
                     EnableMotors_CheckBox.Enabled = true;
+                    Axis3D_CheckBox.Enabled = true;
                     ResetAlarm_CheckBox.Enabled = true;
                     EmergencyStop_Button.Enabled = true;
 
@@ -1121,7 +1158,7 @@ namespace AppForJoystickCameraAndSerial
                     PositionY_TextBox.Enabled = true;
                     PositionZ_TextBox.Enabled = true;
 
-                    RelayOnLrf_CheckBox.Enabled = false;
+                    RelayOnLrf_CheckBox.Enabled = true;
 
                     Mouse_CheckBox.Enabled = false;
                     Mouse_CheckBox.Checked = true;

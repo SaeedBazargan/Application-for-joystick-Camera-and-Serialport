@@ -108,7 +108,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning[cameraIndex] = false;
         }
 
-        private void StartCamera(int index, string partNumber)
+        private async void StartCamera(int index, string partNumber)
         {
             using VideoCapture capture = new(index);
             VideoWriter writer = null;
@@ -132,12 +132,17 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 while (isRunning[index])
                 {
                     capture.Read(frame);
-                    image = BitmapConverter.ToBitmap(frame);
-                    DrawJoyStickPointer(image);
-                    if (_rotateImages.Checked)
-                        ChangePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox, image);
-                    else
-                        ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
+
+                    await Task.Run(() =>
+                    {
+                        image = BitmapConverter.ToBitmap(frame);
+                        DrawJoyStickPointer(image);
+                        if (_rotateImages.Checked)
+                            ChangePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox, image);
+                        else
+                            ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
+                    });
+
 
                     if (recording[index])
                     {

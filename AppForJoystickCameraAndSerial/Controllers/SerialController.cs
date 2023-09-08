@@ -18,7 +18,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
         private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
-        private readonly TextBox _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox, _infoTxtBox;
+        private readonly TextBox _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox, _LrfRange_TextBox, _infoTxtBox;
         private readonly Button _openPortBtn;
         private readonly PictureBox _Serial1Status, _Serial2Status;
         private readonly CheckBox _selectSerial1, _selectSerial2, _recordSerial1, _recordSerial2;
@@ -35,7 +35,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int serialportIndex = 0;
 
         public SerialController(CancellationToken cancellationToken, TextBox infoTxtBox, PictureBox serial1Status, PictureBox serial2Status, Button openPortBtn, Button readyNdYagBtn, CheckBox SelectSerial1, CheckBox SelectSerial2,
-            CheckBox recordSerial1, CheckBox recordSerial2, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
+            CheckBox recordSerial1, CheckBox recordSerial2, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox, TextBox lrfRange_TextBox)
         {
             _SerialPort = new SerialPort[2];
             Settings = new SerialPortSetting[2]
@@ -60,6 +60,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _Ax_TextBox = ax_TextBox;
             _Ay_TextBox = ay_TextBox;
             _Az_TextBox = az_TextBox;
+            _LrfRange_TextBox = lrfRange_TextBox;
 
             Data_Rx = new byte[DataInBuffer_Size];
 
@@ -68,35 +69,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 _SerialPort[i] = new SerialPort();
             }
-
-
-
-
-            //_SerialPort = new SerialPort[2];
-            //Settings = new SerialPortSetting[2]
-            //{
-            //    new SerialPortSetting{PortNumber = "COM7",Baudrate = 115200, DataBit = 8},
-            //    new SerialPortSetting{PortNumber = "COM5",Baudrate = 115200, DataBit = 8}
-            //};
-
-            //_Serial1Status = serial1Status; _Serial2Status = serial2Status;
-            //_openPortBtn = openPortBtn;
-            //_selectSerial1 = SelectSerial1; _recordSerial1 = recordSerial1;
-            //_selectSerial2 = SelectSerial2; _recordSerial2 = recordSerial2;
-
-            //_cancellationToken = cancellationToken;
-            //_infoTxtBox = infoTxtBox;
-            //serialPortTasks = new Task[2];
-            //isRunning = new bool[2];
-            //recording = new bool[2];
-            //_Fov_TextBox = fov_TextBox;
-            //_AzError_TextBox = azError_TextBox;
-            //_EiError_TextBox = eiError_TextBox;
-            //_Ax_TextBox = ax_TextBox;
-            //_Ay_TextBox = ay_TextBox;
-            //_Az_TextBox = az_TextBox;
-
-            //Data_Rx = new byte[DataInBuffer_Size];
         }
         public void Start(int SerialIndex)
         {
@@ -212,7 +184,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     Data_Counter = (Data_Counter + 1) % DataInBuffer_Size;
                     if (Data_Rx[0] == 85 && Data_Counter == 55)
                     {
-                        Handler.Master_CheckPacket(Data_Rx, RecordingDirectory, recording[index], index, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox);
+                        Handler.Master_CheckPacket(Data_Rx, RecordingDirectory, recording[index], index, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox, _LrfRange_TextBox);
                         Data_Counter = 0;
                     }
                     else if (Data_Rx[0] != 85)

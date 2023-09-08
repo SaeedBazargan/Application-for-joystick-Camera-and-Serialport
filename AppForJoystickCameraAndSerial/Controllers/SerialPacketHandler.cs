@@ -21,8 +21,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
         float Error_Y;
         float Error_Z;
         byte NdYag_State = 0;
+        Int16 LRF_Range = 0;
 
-        public void Master_CheckPacket(byte[] Rx_Data, string RecordDir, bool Record, int index, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
+        public void Master_CheckPacket(byte[] Rx_Data, string RecordDir, bool Record, int index, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox, TextBox LrfRange_TextBox)
         {
             if (Record)
             {
@@ -60,10 +61,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             for (byte k = 2; k < 52; k++)
                 LookUpTable[k - 2] = Rx_Data[k];
             if (CheckCRC(LookUpTable, Rx_Data))
-                SplitLookupTable(LookUpTable, fov_TextBox, azError_TextBox, eiError_TextBox, ax_TextBox, ay_TextBox, az_TextBox);
+                SplitLookupTable(LookUpTable, fov_TextBox, azError_TextBox, eiError_TextBox, ax_TextBox, ay_TextBox, az_TextBox, LrfRange_TextBox);
         }
 
-        public void SplitLookupTable(byte[] LUT, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox)
+        public void SplitLookupTable(byte[] LUT, TextBox fov_TextBox, TextBox azError_TextBox, TextBox eiError_TextBox, TextBox ax_TextBox, TextBox ay_TextBox, TextBox az_TextBox, TextBox lrfRange_TextBox)
         {
             Int32 Counter;
             byte Address;
@@ -93,7 +94,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Data_8 = (LUT[37] << 24) + (LUT[36] << 16) + (LUT[35] << 8) + (LUT[34]);
             Data_9 = (LUT[41] << 24) + (LUT[40] << 16) + (LUT[39] << 8) + (LUT[38]);
             Data_10 = LUT[42];
-            Data_11 = (LUT[49] << 24) + (LUT[48] << 16) + (LUT[47] << 8) + (LUT[46]);
+            Data_11 = (LUT[46] << 24) + (LUT[45] << 16) + (LUT[44] << 8) + (LUT[43]);
 
             Ax = (MathF.Round(Data_1, 3)) / 1000;
             Az = (MathF.Round(Data_2, 3)) / 1000;
@@ -105,13 +106,16 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Error_Y = (MathF.Round(Data_8, 3)) / 1000;
             Error_Z = (MathF.Round(Data_9, 3)) / 1000;
             NdYag_State = (byte)Data_10;
+            LRF_Range = (Int16)Data_11;
 
-            ChangeTextBox(ax_TextBox, Ax.ToString());
-            ChangeTextBox(ay_TextBox, Ay.ToString());
-            ChangeTextBox(az_TextBox, Az.ToString());
-            ChangeTextBox(fov_TextBox, FOV.ToString());
-            ChangeTextBox(azError_TextBox, Az_Error.ToString());
-            ChangeTextBox(eiError_TextBox, Ei_Error.ToString());
+
+            ChangeTextBox(ax_TextBox, Ax.ToString("0.0"));
+            ChangeTextBox(ay_TextBox, Ay.ToString("0.0"));
+            ChangeTextBox(az_TextBox, Az.ToString("0.0"));
+            ChangeTextBox(fov_TextBox, FOV.ToString("0.0"));
+            ChangeTextBox(azError_TextBox, Az_Error.ToString("0.0"));
+            ChangeTextBox(eiError_TextBox, Ei_Error.ToString("0.0"));
+            ChangeTextBox(lrfRange_TextBox, LRF_Range.ToString());
         }
 
         void ChangeTextBox(TextBox textBox, string txt)

@@ -31,7 +31,7 @@ namespace AppForJoystickCameraAndSerial
             var setting = new SerialPortSetting();
             var com_combo = index == 0 ? Com_ComboBox : Com_ComboBox2;
             var baud_combo = index == 0 ? Baud_ComboBox : Baud_ComboBox2;
-            var dataBits_combo= index == 0 ? DataBits_ComboBox : DataBits_ComboBox2;
+            var dataBits_combo = index == 0 ? DataBits_ComboBox : DataBits_ComboBox2;
             if (com_combo.SelectedItem != null)
                 setting.PortNumber = com_combo.SelectedItem.ToString();
             if (baud_combo.SelectedItem != null)
