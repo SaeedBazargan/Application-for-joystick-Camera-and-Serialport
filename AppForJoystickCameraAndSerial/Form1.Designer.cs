@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            Timer_150ms = new System.Windows.Forms.Timer(components);
             button5 = new Button();
             button4 = new Button();
             FireNdYag_Button = new Button();
@@ -110,6 +109,7 @@
             EnableMotors_CheckBox = new CheckBox();
             ResetAlarm_CheckBox = new CheckBox();
             groupBox11 = new GroupBox();
+            Axis3D_CheckBox = new CheckBox();
             IrCameraCheckBox = new CheckBox();
             RecordTvCamera_CheckBox = new CheckBox();
             groupBox13 = new GroupBox();
@@ -186,10 +186,7 @@
             Joystick_Label = new Label();
             Serial2_Lable = new Label();
             MainCameraPictureBox = new PictureBox();
-            Timer_500ms_Reconect = new System.Windows.Forms.Timer(components);
-            Timer_5min_RecordData = new System.Windows.Forms.Timer(components);
-            Timer_15ms = new System.Windows.Forms.Timer(components);
-            Axis3D_CheckBox = new CheckBox();
+            Timer_1ms_Routine = new System.Windows.Forms.Timer(components);
             groupBox23.SuspendLayout();
             groupBox22.SuspendLayout();
             groupBox21.SuspendLayout();
@@ -229,11 +226,6 @@
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)MainCameraPictureBox).BeginInit();
             SuspendLayout();
-            // 
-            // Timer_150ms
-            // 
-            Timer_150ms.Interval = 150;
-            Timer_150ms.Tick += Timer_150ms_Tick;
             // 
             // button5
             // 
@@ -1438,6 +1430,26 @@
             groupBox11.TabStop = false;
             groupBox11.Text = "Motors";
             // 
+            // Axis3D_CheckBox
+            // 
+            Axis3D_CheckBox.Anchor = AnchorStyles.None;
+            Axis3D_CheckBox.BackColor = Color.FromArgb(82, 136, 193);
+            Axis3D_CheckBox.FlatAppearance.BorderColor = Color.FromArgb(192, 0, 192);
+            Axis3D_CheckBox.FlatAppearance.BorderSize = 3;
+            Axis3D_CheckBox.FlatAppearance.CheckedBackColor = Color.Red;
+            Axis3D_CheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            Axis3D_CheckBox.ForeColor = Color.Transparent;
+            Axis3D_CheckBox.Location = new Point(6, 225);
+            Axis3D_CheckBox.Margin = new Padding(3, 4, 3, 4);
+            Axis3D_CheckBox.Name = "Axis3D_CheckBox";
+            Axis3D_CheckBox.RightToLeft = RightToLeft.Yes;
+            Axis3D_CheckBox.Size = new Size(118, 31);
+            Axis3D_CheckBox.TabIndex = 45;
+            Axis3D_CheckBox.Text = "3D Axis";
+            Axis3D_CheckBox.TextAlign = ContentAlignment.MiddleCenter;
+            Axis3D_CheckBox.UseVisualStyleBackColor = false;
+            Axis3D_CheckBox.CheckStateChanged += Axis3D_CheckBox_CheckStateChanged;
+            // 
             // IrCameraCheckBox
             // 
             IrCameraCheckBox.Anchor = AnchorStyles.None;
@@ -2449,40 +2461,9 @@
             MainCameraPictureBox.TabIndex = 2;
             MainCameraPictureBox.TabStop = false;
             // 
-            // Timer_500ms_Reconect
+            // Timer_1ms_Routine
             // 
-            Timer_500ms_Reconect.Interval = 250;
-            Timer_500ms_Reconect.Tick += Timer_500ms_Reconect_Tick;
-            // 
-            // Timer_5min_RecordData
-            // 
-            Timer_5min_RecordData.Interval = 60000;
-            Timer_5min_RecordData.Tick += Timer_5min_RecordData_Tick;
-            // 
-            // Timer_15ms
-            // 
-            Timer_15ms.Interval = 15;
-            Timer_15ms.Tick += Timer_15ms_Tick;
-            // 
-            // Axis3D_CheckBox
-            // 
-            Axis3D_CheckBox.Anchor = AnchorStyles.None;
-            Axis3D_CheckBox.BackColor = Color.FromArgb(82, 136, 193);
-            Axis3D_CheckBox.FlatAppearance.BorderColor = Color.FromArgb(192, 0, 192);
-            Axis3D_CheckBox.FlatAppearance.BorderSize = 3;
-            Axis3D_CheckBox.FlatAppearance.CheckedBackColor = Color.Red;
-            Axis3D_CheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            Axis3D_CheckBox.ForeColor = Color.Transparent;
-            Axis3D_CheckBox.Location = new Point(6, 225);
-            Axis3D_CheckBox.Margin = new Padding(3, 4, 3, 4);
-            Axis3D_CheckBox.Name = "Axis3D_CheckBox";
-            Axis3D_CheckBox.RightToLeft = RightToLeft.Yes;
-            Axis3D_CheckBox.Size = new Size(118, 31);
-            Axis3D_CheckBox.TabIndex = 45;
-            Axis3D_CheckBox.Text = "3D Axis";
-            Axis3D_CheckBox.TextAlign = ContentAlignment.MiddleCenter;
-            Axis3D_CheckBox.UseVisualStyleBackColor = false;
-            Axis3D_CheckBox.CheckStateChanged += Axis3D_CheckBox_CheckStateChanged;
+            Timer_1ms_Routine.Tick += Timer_1ms_Routine_Tick;
             // 
             // Form1
             // 
@@ -2567,8 +2548,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Timer Timer_150ms;
         private Button button5;
         private Button button4;
         private Button FireNdYag_Button;
@@ -2724,9 +2703,7 @@
         private CheckBox TurnSecCamera_CheckBox;
         private RadioButton AutoMode_Co2_RadioButton;
         private RadioButton SingleMode_Co2_RadioButton;
-        private System.Windows.Forms.Timer Timer_500ms_Reconect;
-        private System.Windows.Forms.Timer Timer_5min_RecordData;
-        private System.Windows.Forms.Timer Timer_15ms;
         private CheckBox Axis3D_CheckBox;
+        private System.Windows.Forms.Timer Timer_1ms_Routine;
     }
 }

@@ -70,6 +70,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _SerialPort[i] = new SerialPort();
             }
         }
+        public bool CheckOpen(int SerialIndex)
+        {
+            if (_SerialPort[SerialIndex].IsOpen)
+            {
+                return true;
+            }
+            return false;
+        }
         public void Start(int SerialIndex)
         {
             if (0 <= SerialIndex || SerialIndex <= 2)
@@ -153,28 +161,51 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         private void StartSerial(int index)
         {
-            try
+            Open = true;
+            var setting = Settings[index];
+            _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
+            _SerialPort[index].Open();
+            _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
             {
-                Open = true;
-                serialportIndex = index;
-                var setting = Settings[index];
-                _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
-                _SerialPort[index].Open();
+                _openPortBtn.Enabled = false;
+            });
+            if (!_SerialPort[index].IsOpen)
+                throw new Exception($"Cannot open camera {index}");
+            ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+            //while (isRunning[index])
+            //{
+            //    for (int i = 0; i < 55; i++)
+            //    {
+            //        DataBuffer_Rx[i] = (byte)_SerialPort[index].ReadByte();
+            //        //ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
+            //    }
+            //    Handler.Master_CheckPacket(DataBuffer_Rx, RecordingDirectory, recording[index], index);
+            //}
 
-                _openPortBtn.BeginInvoke((MethodInvoker)delegate () { _openPortBtn.Enabled = false; });
-                if (index == 0)
-                    _recordSerial1.BeginInvoke((MethodInvoker)delegate () { _recordSerial1.Checked = true; });
-                else if (index == 1)
-                    _recordSerial2.BeginInvoke((MethodInvoker)delegate () { _recordSerial2.Checked = true; });
 
-                ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                ChangeTextBox(_infoTxtBox, $"Port {index + 1} is Connected!");
-            }
-            catch(Exception e)
-            {
-                ChangeTextBox(_infoTxtBox, $"Port {index + 1} is not found!");
-                Stop(index);
-            }
+
+
+            //try
+            //{
+            //    Open = true;
+            //    serialportIndex = index;
+            //    var setting = Settings[index];
+            //    _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
+            //    _SerialPort[index].Open();
+
+            //    _openPortBtn.BeginInvoke((MethodInvoker)delegate () { _openPortBtn.Enabled = false; });
+            //    if (index == 0)
+            //        _recordSerial1.BeginInvoke((MethodInvoker)delegate () { _recordSerial1.Checked = true; });
+            //    else if (index == 1)
+            //        _recordSerial2.BeginInvoke((MethodInvoker)delegate () { _recordSerial2.Checked = true; });
+
+            //    ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+            //    ChangeTextBox(_infoTxtBox, $"Port {index + 1} is Connected!");
+            //}
+            //catch (Exception e)
+            //{
+            //    Stop(index);
+            //}
 
             while (isRunning[index])
             {
@@ -198,6 +229,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     ChangeTextBox(_infoTxtBox, $"Port {index + 1} has problem!");
                     Array.Clear(Data_Rx, 0, 55);
                     Data_Counter = 0;
+                    //Stop(index);
                 }
             }
         }
