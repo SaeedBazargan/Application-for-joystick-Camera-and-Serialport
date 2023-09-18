@@ -15,6 +15,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
         const StopBits StopBit = StopBits.One;
         int Baudrate, DataBit;
         string PortNumber;
+        static string[] staticPortNumber = new string[2]{ "COM7", "COM5" };
+        public bool serialFoundFlag = false;
 
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;
         private readonly ComboBox _Com_ComboBox2, _Baud_ComboBox2, _DataBits_ComboBox2;
@@ -25,7 +27,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         
         private readonly CancellationToken _cancellationToken;
         private readonly Task[] serialPortTasks;
-        private readonly bool[] isRunning;
+        public readonly bool[] isRunning;
         private readonly bool[] recording;
         public string RecordingDirectory { get; set; }
 
@@ -40,8 +42,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _SerialPort = new SerialPort[2];
             Settings = new SerialPortSetting[2]
             {
-                new SerialPortSetting{PortNumber = "COM7",Baudrate = 115200, DataBit = 8},
-                new SerialPortSetting{PortNumber = "COM5",Baudrate = 115200, DataBit = 8}
+                new SerialPortSetting{PortNumber = staticPortNumber[0],Baudrate = 115200, DataBit = 8},
+                new SerialPortSetting{PortNumber = staticPortNumber[1],Baudrate = 115200, DataBit = 8}
             };
 
             _Serial1Status = serial1Status; _Serial2Status = serial2Status;
@@ -70,27 +72,29 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _SerialPort[i] = new SerialPort();
             }
         }
-        public bool CheckOpen(int SerialIndex)
-        {
-            if (_SerialPort[SerialIndex].IsOpen)
-            {
-                return true;
-            }
-            return false;
-        }
         public void Start(int SerialIndex)
         {
-            if (0 <= SerialIndex || SerialIndex <= 2)
+            foreach (string portName in SerialPort.GetPortNames())
             {
-                isRunning[SerialIndex] = true;
-                serialPortTasks[SerialIndex] = Task.Factory.StartNew(() => StartSerial(SerialIndex), _cancellationToken).ContinueWith((t) => SerialTaskDone(t, SerialIndex == 0));
+                Console.WriteLine("Port = {0}", portName);
+                if (portName == staticPortNumber[0] || portName == staticPortNumber[1])
+                {
+                    serialFoundFlag = true;
+                    if (0 <= SerialIndex || SerialIndex <= 2)
+                    {
+                        var setting = Settings[SerialIndex];
+                        _SerialPort[SerialIndex] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
+                        serialPortTasks[SerialIndex] = Task.Factory.StartNew(() => StartSerial(SerialIndex), _cancellationToken).ContinueWith((t) => SerialTaskDone(t, SerialIndex == 0));
+                    }
+                    else
+                        throw new ArgumentOutOfRangeException();
+                }
             }
-            else
-                throw new ArgumentOutOfRangeException();
         }
         public void Stop(int SerialIndex)
         {
             isRunning[SerialIndex] = false;
+            serialFoundFlag = false;
             Open = false;
             _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
             {
@@ -162,51 +166,18 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private void StartSerial(int index)
         {
             Open = true;
-            var setting = Settings[index];
-            _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
             _SerialPort[index].Open();
             _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
             {
                 _openPortBtn.Enabled = false;
             });
+
             if (!_SerialPort[index].IsOpen)
-                throw new Exception($"Cannot open camera {index}");
+                Stop(index);
+            else
+                isRunning[index] = true;
+
             ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-            //while (isRunning[index])
-            //{
-            //    for (int i = 0; i < 55; i++)
-            //    {
-            //        DataBuffer_Rx[i] = (byte)_SerialPort[index].ReadByte();
-            //        //ChangeTextBox(_SerialMonitoring_TextBox, _SerialMonitoring_TextBox.Text + DataBuffer_Rx[i].ToString());
-            //    }
-            //    Handler.Master_CheckPacket(DataBuffer_Rx, RecordingDirectory, recording[index], index);
-            //}
-
-
-
-
-            //try
-            //{
-            //    Open = true;
-            //    serialportIndex = index;
-            //    var setting = Settings[index];
-            //    _SerialPort[index] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
-            //    _SerialPort[index].Open();
-
-            //    _openPortBtn.BeginInvoke((MethodInvoker)delegate () { _openPortBtn.Enabled = false; });
-            //    if (index == 0)
-            //        _recordSerial1.BeginInvoke((MethodInvoker)delegate () { _recordSerial1.Checked = true; });
-            //    else if (index == 1)
-            //        _recordSerial2.BeginInvoke((MethodInvoker)delegate () { _recordSerial2.Checked = true; });
-
-            //    ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-            //    ChangeTextBox(_infoTxtBox, $"Port {index + 1} is Connected!");
-            //}
-            //catch (Exception e)
-            //{
-            //    Stop(index);
-            //}
-
             while (isRunning[index])
             {
                 try
@@ -229,7 +200,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     ChangeTextBox(_infoTxtBox, $"Port {index + 1} has problem!");
                     Array.Clear(Data_Rx, 0, 55);
                     Data_Counter = 0;
-                    //Stop(index);
+                    Stop(index);
                 }
             }
         }
@@ -244,11 +215,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             byte[] Data = new byte[55];
             Handler.WriteMessage_Generator(Code, Address, Value, Length, Data);
-            for (byte i = 0; i < 55; i++)
-            {
-                Console.Write(i + ":      ");
-                Console.WriteLine(Data[i]);
-            }
+            //for (byte i = 0; i < 55; i++)
+            //{
+            //    Console.Write(i + ":      ");
+            //    Console.WriteLine(Data[i]);
+            //}
 
             if (Open)
             {

@@ -186,7 +186,7 @@
             Joystick_Label = new Label();
             Serial2_Lable = new Label();
             MainCameraPictureBox = new PictureBox();
-            Timer_1ms_Routine = new System.Windows.Forms.Timer(components);
+            Timer_100ms_Routine = new System.Windows.Forms.Timer(components);
             groupBox23.SuspendLayout();
             groupBox22.SuspendLayout();
             groupBox21.SuspendLayout();
@@ -2461,9 +2461,9 @@
             MainCameraPictureBox.TabIndex = 2;
             MainCameraPictureBox.TabStop = false;
             // 
-            // Timer_1ms_Routine
+            // Timer_100ms_Routine
             // 
-            Timer_1ms_Routine.Tick += Timer_1ms_Routine_Tick;
+            Timer_100ms_Routine.Tick += Timer_100ms_Routine_Tick;
             // 
             // Form1
             // 
@@ -2704,6 +2704,6 @@
         private RadioButton AutoMode_Co2_RadioButton;
         private RadioButton SingleMode_Co2_RadioButton;
         private CheckBox Axis3D_CheckBox;
-        private System.Windows.Forms.Timer Timer_1ms_Routine;
+        private System.Windows.Forms.Timer Timer_100ms_Routine;
     }
 }

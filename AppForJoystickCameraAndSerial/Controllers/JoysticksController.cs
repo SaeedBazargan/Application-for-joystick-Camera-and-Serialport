@@ -11,7 +11,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly TextBox _infoTxtBox;
         private readonly CheckBox _selectATK3, _selectUSBJoy, _selectXBox;
         private readonly XBoxController xboxController;
-        private readonly Label _JoystickLabel;
         private readonly PictureBox _xboxJoystickStatus;
         private readonly PictureBox _usbJoystickStatus;
         private readonly PictureBox _atk3JoystickStatus;
@@ -43,7 +42,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         bool SearchButton = false;
         public byte second = 0;
 
-        public JoysticksController(CancellationToken cancellationToken, TextBox infoTxtBox, CheckBox SelectATK3, CheckBox SelectUSBJoy, CheckBox SelectXBox, Label label, PictureBox XboxJoystickStatus, PictureBox USBJoystickStatus, PictureBox ATK3JoystickStatus, PictureBox mainCameraPicture, RadioButton trackRadio, RadioButton searchRadio, RadioButton positionRadio, RadioButton cancleRadio, SerialController serialController, Action<string> exceptionCallback)
+        public JoysticksController(CancellationToken cancellationToken, TextBox infoTxtBox, CheckBox SelectATK3, CheckBox SelectUSBJoy, CheckBox SelectXBox, PictureBox XboxJoystickStatus, PictureBox USBJoystickStatus, PictureBox ATK3JoystickStatus, PictureBox mainCameraPicture, RadioButton trackRadio, RadioButton searchRadio, RadioButton positionRadio, RadioButton cancleRadio, SerialController serialController, Action<string> exceptionCallback)
         {
             directInput = new DirectInput();
             _infoTxtBox = infoTxtBox;
@@ -52,7 +51,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _selectXBox = SelectXBox;
             _cancellationToken = cancellationToken;
             xboxController = new XBoxController();
-            _JoystickLabel = label;
             _xboxJoystickStatus = XboxJoystickStatus;
             _usbJoystickStatus = USBJoystickStatus;
             _atk3JoystickStatus = ATK3JoystickStatus;
@@ -79,13 +77,8 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
                 xboxInit();
             }
-            else if (1 <= joystickIndex || joystickIndex <= 2)
+            else if (1 == joystickIndex || joystickIndex == 2)
             {
-                if (joystickIndex == 1)
-                    ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                else if(joystickIndex == 2)
-                    ChangePictureBox(_atk3JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                isRunning[joystickIndex] = true;
                 USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), _cancellationToken).ContinueWith((t) => JoystickTaskDone(t, joystickIndex));
             }
             else
@@ -125,6 +118,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _joystick = new Joystick(directInput, joystickGuid);
                 Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
                 _joystick.Acquire();
+                isRunning[index] = true;
+
+                if (index == 1)
+                    ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                else if (index == 2)
+                    ChangePictureBox(_atk3JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
             }
             catch (Exception e)
             {

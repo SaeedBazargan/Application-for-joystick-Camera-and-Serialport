@@ -16,7 +16,7 @@
         {
             pictureBox.BeginInvoke((MethodInvoker)delegate ()
             {
-                if (pictureBox.Image != null) 
+                if (pictureBox.Image != null)
                     pictureBox.Image.Dispose();
                 pictureBox.Image = image;
             });
