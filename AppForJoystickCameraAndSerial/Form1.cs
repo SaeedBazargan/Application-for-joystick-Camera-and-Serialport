@@ -1027,7 +1027,7 @@ namespace AppForJoystickCameraAndSerial
                         RecordSerial_2CheckBox, PP_RelayOnBoard_CheckBox, RotateImage_CheckBox, TwoImage_CheckBox, RelayOnScan_NdYagCheckBox, EnableNdYagScaner_CheckBox, HomingScan_NYagCheckBox,
                         RelayOnLrf_CheckBox);
                     itemController.CheckBox_Enable(false, Mouse_CheckBox, ATK3_Joystick_CheckBox, UsbJoystick_CheckBox, Joystick_CheckBox);
-                    //itemController.CheckBox_Checked(true, Mouse_CheckBox, ATK3_Joystick_CheckBox);
+                    itemController.CheckBox_Checked(true, Mouse_CheckBox, ATK3_Joystick_CheckBox);
                     itemController.Button_Enable(true, EmergencyStop_Button, NdYagReady_Button, TurnCo2_Button);
                     itemController.RadioButton_Enable(true, TrackRadio, SearchRadio, PositionRadio, HomingRadio, CancleRadio);
 
@@ -1083,7 +1083,7 @@ namespace AppForJoystickCameraAndSerial
                 // else if (FireCo2Button_WasClicked)
                 //     serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
             }
-            if(recordEstimateTime == 300)
+            if(recordEstimateTime == 1000)
             {
                 foreach (string portName in SerialPort.GetPortNames())
                 {
@@ -1096,7 +1096,7 @@ namespace AppForJoystickCameraAndSerial
                 }
             }
 
-            if (recordEstimateTime == 3000 && (RecordSerial_1CheckBox.Checked || RecordSerial_2CheckBox.Checked || RecordIrCamera_CheckBox.Checked || RecordTvCamera_CheckBox.Checked || RecordSecCamera_CheckBox.Checked))
+            if (recordEstimateTime == 30000 && (RecordSerial_1CheckBox.Checked || RecordSerial_2CheckBox.Checked || RecordIrCamera_CheckBox.Checked || RecordTvCamera_CheckBox.Checked || RecordSecCamera_CheckBox.Checked))
             {
                 DialogResult dialogResult = MessageBox.Show("Want to continue saving?", "Warning", MessageBoxButtons.YesNo);
 
@@ -1108,7 +1108,7 @@ namespace AppForJoystickCameraAndSerial
                 else if (dialogResult == DialogResult.Yes)
                     recordEstimateTime = 0;
             }
-            else if(recordEstimateTime == 3010)
+            else if(recordEstimateTime == 30010)
                 recordEstimateTime = 0;
         }
     }

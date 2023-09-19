@@ -72,17 +72,35 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         public void Start(byte joystickIndex)
         {
-            if (joystickIndex == 0)
-            {
-                ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                xboxInit();
-            }
-            else if (1 == joystickIndex || joystickIndex == 2)
-            {
-                USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), _cancellationToken).ContinueWith((t) => JoystickTaskDone(t, joystickIndex));
-            }
+            foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
+                joystickGuid = deviceInstance.InstanceGuid;
+
+            // If Gamepad not found, look for a Joystick
+            if (joystickGuid == Guid.Empty)
+                foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
+                    joystickGuid = deviceInstance.InstanceGuid;
+
+            // If Joystick not found, throws an error
+            if (joystickGuid == Guid.Empty)
+                Stop(joystickIndex);
             else
-                throw new ArgumentOutOfRangeException();
+            {
+                Console.WriteLine("joystick/Gamepad found.");
+                if (joystickIndex == 0)
+                {
+                    ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+                    xboxInit();
+                }
+                else if (1 == joystickIndex || joystickIndex == 2)
+                {
+                    // Instantiate the joystick
+                    USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), _cancellationToken).ContinueWith((t) => JoystickTaskDone(t, joystickIndex));
+                }
+                else
+                    throw new ArgumentOutOfRangeException();
+            }
+
+
         }
 
         public void Stop(int joystickIndex)
@@ -109,14 +127,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             try
             {
-                foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
-                    joystickGuid = deviceInstance.InstanceGuid;
+                //    foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
+                //        joystickGuid = deviceInstance.InstanceGuid;
 
-                if (joystickGuid == Guid.Empty)
-                    foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
-                        joystickGuid = deviceInstance.InstanceGuid;
+                //    if (joystickGuid == Guid.Empty)
+                //        foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
+                //            joystickGuid = deviceInstance.InstanceGuid;
                 _joystick = new Joystick(directInput, joystickGuid);
-                Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
+                //    Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
                 _joystick.Acquire();
                 isRunning[index] = true;
 
@@ -127,7 +145,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             }
             catch (Exception e)
             {
-                ChangeTextBox(_infoTxtBox, "Joystick is not found!");
+                ChangeTextBox(_infoTxtBox, "No joystick/Gamepad found!");
                 Stop(index);
             }
 
