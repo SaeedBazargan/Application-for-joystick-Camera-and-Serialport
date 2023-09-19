@@ -15,7 +15,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         const StopBits StopBit = StopBits.One;
         int Baudrate, DataBit;
         string PortNumber;
-        static string[] staticPortNumber = new string[2]{ "COM7", "COM5" };
+        public string[] staticPortNumber = new string[2]{ "COM7", "COM5" };
         public bool serialFoundFlag = false;
 
         private readonly ComboBox _Com_ComboBox, _Baud_ComboBox, _DataBits_ComboBox;

@@ -146,7 +146,6 @@ namespace AppForJoystickCameraAndSerial
         private byte NdYagReady_Button_WasClicked = 0;
         private byte TurnCo2_Button_WasClicked = 0;
 
-        bool selectReconnectSerial = false;
         int recordEstimateTime = 0;
 
         byte Timer_5min_Counter = 0;
@@ -1055,26 +1054,9 @@ namespace AppForJoystickCameraAndSerial
                 CustomInit((byte)Initial.Joystick);
 
                 Console.WriteLine("Disconnected");
-                switch (selectReconnectSerial)
-                {
-                    case false:
-                        itemController.CheckBox_Checked(true, SelectSerial1_CheckBox);
-                        itemController.CheckBox_Checked(false, SelectSerial2_CheckBox);
-                        serialportController.Start(0);
-
-                        if (!serialportController.isRunning[0])
-                            selectReconnectSerial = true;
-                        break;
-
-                    case true:
-                        itemController.CheckBox_Checked(false, SelectSerial1_CheckBox);
-                        itemController.CheckBox_Checked(true, SelectSerial2_CheckBox);
-                        serialportController.Start(1);
-
-                        if (!serialportController.isRunning[1])
-                            selectReconnectSerial = false;
-                        break;
-                }
+                itemController.CheckBox_Checked(true, SelectSerial1_CheckBox);
+                itemController.CheckBox_Checked(false, SelectSerial2_CheckBox);
+                serialportController.Start(0);
             }
             else
             {
@@ -1101,6 +1083,19 @@ namespace AppForJoystickCameraAndSerial
                 // else if (FireCo2Button_WasClicked)
                 //     serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
             }
+            if(recordEstimateTime == 300)
+            {
+                foreach (string portName in SerialPort.GetPortNames())
+                {
+                    if (portName == serialportController.staticPortNumber[1])
+                    {
+                        itemController.CheckBox_Checked(false, SelectSerial1_CheckBox);
+                        itemController.CheckBox_Checked(true, SelectSerial2_CheckBox);
+                        serialportController.Start(1);
+                    }
+                }
+            }
+
             if (recordEstimateTime == 3000 && (RecordSerial_1CheckBox.Checked || RecordSerial_2CheckBox.Checked || RecordIrCamera_CheckBox.Checked || RecordTvCamera_CheckBox.Checked || RecordSecCamera_CheckBox.Checked))
             {
                 DialogResult dialogResult = MessageBox.Show("Want to continue saving?", "Warning", MessageBoxButtons.YesNo);
@@ -1113,6 +1108,8 @@ namespace AppForJoystickCameraAndSerial
                 else if (dialogResult == DialogResult.Yes)
                     recordEstimateTime = 0;
             }
+            else if(recordEstimateTime == 3010)
+                recordEstimateTime = 0;
         }
     }
 }
