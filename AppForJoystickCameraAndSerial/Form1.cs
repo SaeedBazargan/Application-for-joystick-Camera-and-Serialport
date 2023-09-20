@@ -1,5 +1,6 @@
 using AppForJoystickCameraAndSerial.Controllers;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.IO.Ports;
 using System.Threading;
 

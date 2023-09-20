@@ -7,9 +7,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
 {
     public class CamerasController : ControllerBase
     {
-        private string cameraPartNumber0;
-        private string cameraPartNumber1;
-
         private readonly PictureBox _mainPictureBox, _minorPictureBox;
         private readonly PictureBox _Camera1Status, _Camera2Status;
         private readonly CancellationToken _cancellationToken;
@@ -39,53 +36,50 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _selectIrCamera = irCameraCheckBox;
             _selectSecCamera = secCameraCheckBox;
             _exceptionCallback = exceptionCallback;
-
-        }
-
-        private void ReadCameraPartNumbers()
-        {
-            DsDevice[] devices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
-            if (devices.Length >= 1)
-            {
-                cameraPartNumber0 = devices[0].DevicePath; // Store the part number of camera 0
-                cameraPartNumber1 = devices[1].DevicePath; // Store the part number of camera 1
-            }
-            else
-            {
-                throw new Exception("Insufficient cameras detected.");
-            }
         }
 
         public void Start(int cameraIndex)
         {
-            if (0 <= cameraIndex || cameraIndex <= 2)
-            {
-                isRunning[cameraIndex] = true;
-                cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex, cameraPartNumber0), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, cameraIndex == 0));
-            }
-            else
-                throw new ArgumentOutOfRangeException();
+            // VideoCapture[] cameras = new VideoCapture[100];
 
-            //ReadCameraPartNumbers();
+            // for (int i = 0; i < 100; i++)
+            // {
+            //     cameras[i] = new VideoCapture(i);
+            //     if (!cameras[i].IsOpened())
+            //     {
+            //         break;
+            //     }
+            //     Console.WriteLine($"Camera {i + 1}: {cameras[i].Get(VideoCaptureProperties.Fps)} fps");
+            //     cameras[i].Release();
+            // }
 
-            //if (cameraIndex == 0)
-            //{
-            //    if (!string.IsNullOrEmpty(cameraPartNumber0))
-            //    {
-            //        isRunning[cameraIndex] = true;
-            //        cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex, cameraPartNumber0), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, true));
-            //    }
-            //}
-            //else if (cameraIndex == 1)
-            //{
-            //    if (!string.IsNullOrEmpty(cameraPartNumber1))
-            //    {
-            //        isRunning[cameraIndex] = true;
-            //        cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex, cameraPartNumber1), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, false));
-            //    }
-            //}
-            //else
-            //    throw new ArgumentOutOfRangeException();
+            // int numCameras = 0;
+            // while (true)
+            // {
+            //     cameras[numCameras] = new VideoCapture(numCameras);
+            //     if (!cameras[numCameras].IsOpened())
+            //     {
+            //         break;
+            //     }
+            //     numCameras++;
+            //     cameras[numCameras - 1].Release();
+            // }
+
+            // if (numCameras > 0)
+            // {
+            //     Console.WriteLine($"Total number of cameras: {numCameras}");
+            // }
+            // else
+            // {
+            //     Console.WriteLine("No cameras found");
+            // }
+            // if (0 <= cameraIndex || cameraIndex <= 2)
+            // {
+            //     isRunning[cameraIndex] = true;
+            //     cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex, cameraPartNumber0), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, cameraIndex == 0));
+            // }
+            // else
+            //     throw new ArgumentOutOfRangeException();
         }
 
         public void Record(int cameraIndex)

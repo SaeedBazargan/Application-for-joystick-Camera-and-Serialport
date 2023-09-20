@@ -99,8 +99,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 else
                     throw new ArgumentOutOfRangeException();
             }
-
-
         }
 
         public void Stop(int joystickIndex)
