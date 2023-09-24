@@ -1,7 +1,5 @@
-﻿using DirectShowLib;
-using OpenCvSharp;
+﻿using OpenCvSharp;
 using OpenCvSharp.Extensions;
-using SharpDX.DirectInput;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
@@ -13,14 +11,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly Task[] cameraCaptureTasks;
         private readonly bool[] isRunning;
         private readonly bool[] recording;
-        private readonly CheckBox _rotateImages, _twoImages, _selectTvCamera, _selectIrCamera, _selectSecCamera;
+        private readonly CheckBox _rotateImages, _twoImages;
         private readonly Action<string> _exceptionCallback;
 
         public string RecordingDirectory { get; set; }
-        string recordingDir;
 
-        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, CheckBox rotate, CheckBox twoOrone,
-                                 CheckBox tvCameraCheckBox, CheckBox irCameraCheckBox, CheckBox secCameraCheckBox, Action<string> exceptionCallback)
+        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, CheckBox rotate, CheckBox twoOrone, Action<string> exceptionCallback)
         {
             _mainPictureBox = main;
             _minorPictureBox = minor;
@@ -32,54 +28,18 @@ namespace AppForJoystickCameraAndSerial.Controllers
             recording = new bool[2];
             _rotateImages = rotate;
             _twoImages = twoOrone;
-            _selectTvCamera = tvCameraCheckBox;
-            _selectIrCamera = irCameraCheckBox;
-            _selectSecCamera = secCameraCheckBox;
             _exceptionCallback = exceptionCallback;
         }
 
         public void Start(int cameraIndex)
         {
-            // VideoCapture[] cameras = new VideoCapture[100];
-
-            // for (int i = 0; i < 100; i++)
-            // {
-            //     cameras[i] = new VideoCapture(i);
-            //     if (!cameras[i].IsOpened())
-            //     {
-            //         break;
-            //     }
-            //     Console.WriteLine($"Camera {i + 1}: {cameras[i].Get(VideoCaptureProperties.Fps)} fps");
-            //     cameras[i].Release();
-            // }
-
-            // int numCameras = 0;
-            // while (true)
-            // {
-            //     cameras[numCameras] = new VideoCapture(numCameras);
-            //     if (!cameras[numCameras].IsOpened())
-            //     {
-            //         break;
-            //     }
-            //     numCameras++;
-            //     cameras[numCameras - 1].Release();
-            // }
-
-            // if (numCameras > 0)
-            // {
-            //     Console.WriteLine($"Total number of cameras: {numCameras}");
-            // }
-            // else
-            // {
-            //     Console.WriteLine("No cameras found");
-            // }
-            // if (0 <= cameraIndex || cameraIndex <= 2)
-            // {
-            //     isRunning[cameraIndex] = true;
-            //     cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex, cameraPartNumber0), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, cameraIndex == 0));
-            // }
-            // else
-            //     throw new ArgumentOutOfRangeException();
+            if (0 <= cameraIndex || cameraIndex <= 2)
+            {
+                isRunning[cameraIndex] = true;
+                cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex), _cancellationToken).ContinueWith((t) => CameraTaskDone(t, cameraIndex == 0));
+            }
+            else
+                throw new ArgumentOutOfRangeException();
         }
 
         public void Record(int cameraIndex)
@@ -102,68 +62,51 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning[cameraIndex] = false;
         }
 
-        private async void StartCamera(int index, string partNumber)
+        private void StartCamera(int index)
         {
             using VideoCapture capture = new(index);
             VideoWriter writer = null;
             var frame = new Mat();
             Bitmap image;
-            capture.Open(index);
-
+            capture.Open(index, VideoCaptureAPIs.DSHOW);
 
             if (!capture.IsOpened())
+                throw new Exception($"Cannot open camera {index}");
+            ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
+
+            while (isRunning[index])
             {
-                ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                if (index == 1)
-                    _selectSecCamera.BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        _selectSecCamera.Checked = false;
-                    });
-            }
-            else
-            {
-                ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
-                while (isRunning[index])
+                capture.Read(frame);
+                image = BitmapConverter.ToBitmap(frame);
+                DrawJoyStickPointer(image);
+                if (_rotateImages.Checked)
+                    ChangePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox, image);
+                else
+                    ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
+
+                if (recording[index])
                 {
-                    capture.Read(frame);
-
-                    await Task.Run(() =>
+                    if (writer == null)
                     {
-                        image = BitmapConverter.ToBitmap(frame);
-                        DrawJoyStickPointer(image);
-                        if (_rotateImages.Checked)
-                            ChangePictureBox(index == 0 ? _minorPictureBox : _mainPictureBox, image);
-                        else
-                            ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
-                    });
-
-
-                    if (recording[index])
-                    {
-                        if (writer == null)
-                        {
-                            if (RecordingDirectory == null)
-                                RecordingDirectory = @"..\..\..\..\..\..\Record\Camera\";
-                            recordingDir = RecordingDirectory + index.ToString() + '/';
-                            if (!Directory.Exists(recordingDir))
-                                Directory.CreateDirectory(recordingDir);
-                            string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
-                            writer = new VideoWriter(recordingPath, FourCC.MJPG, capture.Fps, new OpenCvSharp.Size(capture.Get(VideoCaptureProperties.FrameWidth), capture.Get(VideoCaptureProperties.FrameHeight)));
-                        }
-                        writer.Write(frame);
+                        string recordingDir = RecordingDirectory + index.ToString() + '/';
+                        if (!Directory.Exists(recordingDir))
+                            Directory.CreateDirectory(recordingDir);
+                        string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
+                        writer = new VideoWriter(recordingPath, FourCC.MJPG, capture.Fps, new OpenCvSharp.Size(capture.Get(VideoCaptureProperties.FrameWidth), capture.Get(VideoCaptureProperties.FrameHeight)));
                     }
-                    else if (writer != null && !writer.IsDisposed)
-                    {
-                        writer.Release();
-                        writer.Dispose();
-                        writer = null;
-                    }
-
-                    if (_twoImages.Checked)
-                        _minorPictureBox.BeginInvoke((MethodInvoker)delegate () { _minorPictureBox.Hide(); });
-                    else
-                        _minorPictureBox.BeginInvoke((MethodInvoker)delegate () { _minorPictureBox.Show(); });
+                    writer.Write(frame);
                 }
+                else if (writer != null && !writer.IsDisposed)
+                {
+                    writer.Release();
+                    writer.Dispose();
+                    writer = null;
+                }
+
+                if (_twoImages.Checked)
+                    _minorPictureBox.Hide();
+                else
+                    _minorPictureBox.Show();
             }
         }
 

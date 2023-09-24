@@ -163,7 +163,7 @@ namespace AppForJoystickCameraAndSerial
             InitializeComponent();
             cancellationTokenSource = new CancellationTokenSource();
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, RotateImage_CheckBox, TwoImage_CheckBox,
-                TvCameraCheckBox, IrCameraCheckBox, SecCameraCheckBox, CameraExceptionCallBack);
+                CameraExceptionCallBack);
             serialportController = new SerialController(cancellationTokenSource.Token, JoystickInfoTxtBox, Serial1Status_pictureBox, Serial2Status_pictureBox, OpenPort_Button, NdYagReady_Button, SelectSerial1_CheckBox,
                 SelectSerial2_CheckBox, RecordSerial_1CheckBox, RecordSerial_2CheckBox, Fov_TextBox, AzError_TextBox, EiError_TextBox, Ax_TextBox, Ay_TextBox, Az_TextBox, LrfRange_TextBox);
             joysticksController = new JoysticksController(cancellationTokenSource.Token, JoystickInfoTxtBox, ATK3_Joystick_CheckBox, UsbJoystick_CheckBox, Joystick_CheckBox, XboxJoystickStatus_pictureBox,
@@ -1054,14 +1054,14 @@ namespace AppForJoystickCameraAndSerial
                 CustomInit((byte)Initial.Fire);
                 CustomInit((byte)Initial.Joystick);
 
-                Console.WriteLine("Disconnected");
+                //Console.WriteLine("Disconnected");
                 itemController.CheckBox_Checked(true, SelectSerial1_CheckBox);
                 itemController.CheckBox_Checked(false, SelectSerial2_CheckBox);
                 serialportController.Start(0);
             }
             else
             {
-                Console.WriteLine("Connected");
+                //Console.WriteLine("Connected");
                 CustomInit((byte)Initial.SerialClick);
                 joysticksController.second = 1;
 

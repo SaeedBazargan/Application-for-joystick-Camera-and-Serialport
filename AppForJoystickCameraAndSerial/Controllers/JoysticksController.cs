@@ -125,14 +125,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             try
             {
-                //    foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
-                //        joystickGuid = deviceInstance.InstanceGuid;
-
-                //    if (joystickGuid == Guid.Empty)
-                //        foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
-                //            joystickGuid = deviceInstance.InstanceGuid;
                 _joystick = new Joystick(directInput, joystickGuid);
-                //    Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
                 _joystick.Acquire();
                 isRunning[index] = true;
 
