@@ -376,7 +376,7 @@
             // 
             // groupBox22
             // 
-            groupBox22.Anchor = AnchorStyles.None;
+            groupBox22.Anchor = AnchorStyles.Bottom;
             groupBox22.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             groupBox22.Controls.Add(FollowRadar_CheckBox);
             groupBox22.Controls.Add(EmergencyStop_Button);
@@ -480,7 +480,7 @@
             // 
             // groupBox20
             // 
-            groupBox20.Anchor = AnchorStyles.None;
+            groupBox20.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox20.Controls.Add(Co2Freq_Numeric);
             groupBox20.Controls.Add(SingleShootCo2_Button);
             groupBox20.Controls.Add(label13);
@@ -665,7 +665,7 @@
             // 
             // groupBox19
             // 
-            groupBox19.Anchor = AnchorStyles.None;
+            groupBox19.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox19.Controls.Add(TimeLrf_Numeric);
             groupBox19.Controls.Add(FreqLrf_Numeric);
             groupBox19.Controls.Add(UpRangeLrf_Numeric);
@@ -815,7 +815,7 @@
             // 
             // groupBox18
             // 
-            groupBox18.Anchor = AnchorStyles.None;
+            groupBox18.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox18.Controls.Add(NdYagFreq_Numeric);
             groupBox18.Controls.Add(EnableNdYagScaner_CheckBox);
             groupBox18.Controls.Add(NdYagReady_Button);
@@ -959,7 +959,7 @@
             // 
             // groupBox16
             // 
-            groupBox16.Anchor = AnchorStyles.None;
+            groupBox16.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox16.Controls.Add(TwoImage_CheckBox);
             groupBox16.Controls.Add(RotateImage_CheckBox);
             groupBox16.Controls.Add(groupBox15);
@@ -1039,7 +1039,6 @@
             // 
             // MinorPictureBox
             // 
-            MinorPictureBox.Anchor = AnchorStyles.None;
             MinorPictureBox.Image = (Image)resources.GetObject("MinorPictureBox.Image");
             MinorPictureBox.Location = new Point(570, 15);
             MinorPictureBox.Margin = new Padding(3, 4, 3, 4);
@@ -1242,7 +1241,7 @@
             // 
             // groupBox14
             // 
-            groupBox14.Anchor = AnchorStyles.None;
+            groupBox14.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox14.Controls.Add(ATK3_Joystick_CheckBox);
             groupBox14.Controls.Add(UsbJoystick_CheckBox);
             groupBox14.Controls.Add(Mouse_CheckBox);
@@ -1411,7 +1410,6 @@
             // 
             // groupBox11
             // 
-            groupBox11.Anchor = AnchorStyles.None;
             groupBox11.Controls.Add(Axis3D_CheckBox);
             groupBox11.Controls.Add(ResetAlarm_CheckBox);
             groupBox11.Controls.Add(EnableMotors_CheckBox);
@@ -1608,7 +1606,7 @@
             // 
             // groupBox10
             // 
-            groupBox10.Anchor = AnchorStyles.None;
+            groupBox10.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox10.Controls.Add(RecordSecCamera_CheckBox);
             groupBox10.Controls.Add(SecCameraCheckBox);
             groupBox10.Controls.Add(TurnSecCamera_CheckBox);
@@ -1729,7 +1727,7 @@
             ConfigButton.Anchor = AnchorStyles.None;
             ConfigButton.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             ConfigButton.ForeColor = SystemColors.ControlText;
-            ConfigButton.Location = new Point(9, 29);
+            ConfigButton.Location = new Point(23, 38);
             ConfigButton.Margin = new Padding(3, 4, 3, 4);
             ConfigButton.Name = "ConfigButton";
             ConfigButton.Size = new Size(86, 31);
@@ -1740,16 +1738,16 @@
             // 
             // groupBox1
             // 
-            groupBox1.Anchor = AnchorStyles.None;
+            groupBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox1.Controls.Add(ConfigButton);
             groupBox1.Controls.Add(Exit_Btn);
             groupBox1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(1339, 725);
+            groupBox1.Location = new Point(1312, 730);
             groupBox1.Margin = new Padding(3, 4, 3, 4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 4, 3, 4);
-            groupBox1.Size = new Size(207, 93);
+            groupBox1.Size = new Size(234, 93);
             groupBox1.TabIndex = 36;
             groupBox1.TabStop = false;
             groupBox1.Text = "Config";
@@ -1759,7 +1757,7 @@
             Exit_Btn.Anchor = AnchorStyles.None;
             Exit_Btn.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Exit_Btn.ForeColor = SystemColors.ControlText;
-            Exit_Btn.Location = new Point(110, 29);
+            Exit_Btn.Location = new Point(124, 38);
             Exit_Btn.Margin = new Padding(3, 4, 3, 4);
             Exit_Btn.Name = "Exit_Btn";
             Exit_Btn.Size = new Size(86, 31);
@@ -1879,7 +1877,6 @@
             // 
             // groupBox9
             // 
-            groupBox9.Anchor = AnchorStyles.None;
             groupBox9.Controls.Add(SerialLogDirectory_TextBox);
             groupBox9.Controls.Add(SelectSerial2_CheckBox);
             groupBox9.Controls.Add(SerialLogBrowse_Button);
@@ -2218,7 +2215,7 @@
             // 
             // groupBox4
             // 
-            groupBox4.Anchor = AnchorStyles.None;
+            groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox4.Controls.Add(groupBox8);
             groupBox4.Controls.Add(groupBox6);
             groupBox4.Controls.Add(groupBox5);
@@ -2236,15 +2233,15 @@
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = AnchorStyles.None;
+            groupBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox2.Controls.Add(JoystickInfoTxtBox);
             groupBox2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             groupBox2.ForeColor = Color.White;
-            groupBox2.Location = new Point(1339, 826);
+            groupBox2.Location = new Point(1312, 831);
             groupBox2.Margin = new Padding(3, 4, 3, 4);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(3, 4, 3, 4);
-            groupBox2.Size = new Size(207, 93);
+            groupBox2.Size = new Size(234, 93);
             groupBox2.TabIndex = 26;
             groupBox2.TabStop = false;
             groupBox2.Text = "Joystick Result";
@@ -2253,7 +2250,7 @@
             // 
             JoystickInfoTxtBox.Anchor = AnchorStyles.None;
             JoystickInfoTxtBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            JoystickInfoTxtBox.Location = new Point(7, 29);
+            JoystickInfoTxtBox.Location = new Point(21, 29);
             JoystickInfoTxtBox.Margin = new Padding(3, 4, 3, 4);
             JoystickInfoTxtBox.Multiline = true;
             JoystickInfoTxtBox.Name = "JoystickInfoTxtBox";
@@ -2363,7 +2360,6 @@
             // 
             // groupBox3
             // 
-            groupBox3.Anchor = AnchorStyles.None;
             groupBox3.Controls.Add(ATK3JoystickStatus_pictureBox);
             groupBox3.Controls.Add(label4);
             groupBox3.Controls.Add(USBJoystickStatus_pictureBox);
@@ -2451,7 +2447,7 @@
             // 
             // MainCameraPictureBox
             // 
-            MainCameraPictureBox.Anchor = AnchorStyles.None;
+            MainCameraPictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             MainCameraPictureBox.Image = (Image)resources.GetObject("MainCameraPictureBox.Image");
             MainCameraPictureBox.Location = new Point(565, 9);
             MainCameraPictureBox.Margin = new Padding(3, 4, 3, 4);
