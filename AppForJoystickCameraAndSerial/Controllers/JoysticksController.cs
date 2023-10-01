@@ -41,6 +41,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         bool CancleButton = false;
         bool SearchButton = false;
         public byte second = 0;
+        public bool searchBtnClicked_Flag = false;
 
         public JoysticksController(CancellationToken cancellationToken, TextBox infoTxtBox, CheckBox SelectATK3, CheckBox SelectUSBJoy, CheckBox SelectXBox, PictureBox XboxJoystickStatus, PictureBox USBJoystickStatus, PictureBox ATK3JoystickStatus, PictureBox mainCameraPicture, RadioButton trackRadio, RadioButton searchRadio, RadioButton positionRadio, RadioButton cancleRadio, SerialController serialController, Action<string> exceptionCallback)
         {
@@ -201,10 +202,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _positionUSB.Y = y / bufferPointer;
                 Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
                 bufferPointer = 0;
-                if(CancleButton)
+                if (CancleButton)
                     _serialController.Write((byte)Form1.WriteTableCodes.Cancle, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                else if(SearchButton)
+                else if (SearchButton || searchBtnClicked_Flag)
+                {
                     _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
+                    //Console.WriteLine(Pointer.JoyPointer.Cursor[0].ToString());
+                    searchBtnClicked_Flag = false;
+                }
             }
         }
 

@@ -126,6 +126,8 @@ namespace AppForJoystickCameraAndSerial
         int[] ON = new int[1] { 1 };
         int[] OFF = new int[1] { 0 };
 
+        public bool searchBtnClicked_Flag = false;
+
         bool EnableMotors_Flag = false;
 
         int[] GateSize_Decrease = new int[1] { 0 };
@@ -149,7 +151,6 @@ namespace AppForJoystickCameraAndSerial
 
         int recordEstimateTime = 0;
 
-        byte Timer_5min_Counter = 0;
 
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly JoysticksController joysticksController;
@@ -168,8 +169,15 @@ namespace AppForJoystickCameraAndSerial
                 SelectSerial2_CheckBox, RecordSerial_1CheckBox, RecordSerial_2CheckBox, Fov_TextBox, AzError_TextBox, EiError_TextBox, Ax_TextBox, Ay_TextBox, Az_TextBox, LrfRange_TextBox);
             joysticksController = new JoysticksController(cancellationTokenSource.Token, JoystickInfoTxtBox, ATK3_Joystick_CheckBox, UsbJoystick_CheckBox, Joystick_CheckBox, XboxJoystickStatus_pictureBox,
                 USBJoystickStatus_pictureBox, ATK3JoystickStatus_pictureBox, MainCameraPictureBox, TrackRadio, SearchRadio, PositionRadio, CancleRadio, serialportController, CameraExceptionCallBack);
-            mouseController = new MouseController(cancellationTokenSource, JoystickInfoTxtBox, Mouse_CheckBox, MainCameraPictureBox, SearchRadio, serialportController);
+            mouseController = new MouseController(cancellationTokenSource, JoystickInfoTxtBox, MainCameraPictureBox, TrackRadio, serialportController);
             itemController = new ItemController();
+
+            this.WindowState = FormWindowState.Maximized;
+            Screen Srn = Screen.PrimaryScreen;
+            int tempWidth = Srn.Bounds.Width;
+            int tempHeight = Srn.Bounds.Height;
+
+            //test(tempWidth, tempHeight);
 
             CustomInit((byte)Initial.Motors);
             CustomInit((byte)Initial.Camera);
@@ -182,6 +190,23 @@ namespace AppForJoystickCameraAndSerial
             CustomInit((byte)Initial.Joystick);
 
             Timer_100ms_Routine.Enabled = true;
+        }
+
+        public void test(int Width, int Height)
+        {
+            Console.WriteLine(Width + " x " + Height);
+            Point gLocation = groupBox3.Location;
+            Console.WriteLine($"Label location: X = {gLocation.X}");
+
+            // Calculate the new location for the groupBox3
+            int newX = (Width - groupBox3.Width) / 2;
+            int newY = (Height - groupBox3.Height) / 2;
+
+            // Set the new location for the groupBox3
+            groupBox3.Location = new Point(newX, newY);
+
+            // Print the new location of the groupBox3
+            Console.WriteLine($"New Label location: X = {groupBox3.Location.X}, Y = {groupBox3.Location.Y}");
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -712,7 +737,10 @@ namespace AppForJoystickCameraAndSerial
         { }
 
         private void SearchRadio_CheckedChanged(object sender, EventArgs e)
-        { }
+        {
+            if (!joysticksController.searchBtnClicked_Flag)
+                joysticksController.searchBtnClicked_Flag = true;
+        }
 
         private void PositionRadio_CheckedChanged(object sender, EventArgs e)
         {
@@ -726,7 +754,9 @@ namespace AppForJoystickCameraAndSerial
         }
 
         private void CancleRadio_CheckedChanged(object sender, EventArgs e)
-        { }
+        {
+            serialportController.Write((byte)WriteTableCodes.Cancle, (byte)WriteAddresses.TableControl, ON, 1);
+        }
 
         private void PositionX_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1015,7 +1045,6 @@ namespace AppForJoystickCameraAndSerial
                     itemController.CheckBox_Enable(false, UsbJoystick_CheckBox, Joystick_CheckBox, ATK3_Joystick_CheckBox, Mouse_CheckBox);
                     itemController.CheckBox_Checked(false, ATK3_Joystick_CheckBox, Mouse_CheckBox, Mouse_CheckBox);
                     itemController.RadioButton_Enable(false, TrackRadio, SearchRadio, PositionRadio, HomingRadio, CancleRadio);
-                    itemController.RadioButton_Checked(true, CancleRadio);
 
                     PositionX_TextBox.Enabled = false;
                     PositionY_TextBox.Enabled = false;
@@ -1084,7 +1113,7 @@ namespace AppForJoystickCameraAndSerial
                 // else if (FireCo2Button_WasClicked)
                 //     serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
             }
-            if(recordEstimateTime == 1000)
+            if (recordEstimateTime == 1000)
             {
                 foreach (string portName in SerialPort.GetPortNames())
                 {
@@ -1109,7 +1138,7 @@ namespace AppForJoystickCameraAndSerial
                 else if (dialogResult == DialogResult.Yes)
                     recordEstimateTime = 0;
             }
-            else if(recordEstimateTime == 30010)
+            else if (recordEstimateTime == 30010)
                 recordEstimateTime = 0;
         }
     }
