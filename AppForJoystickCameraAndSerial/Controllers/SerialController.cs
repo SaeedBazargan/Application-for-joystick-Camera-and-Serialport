@@ -43,7 +43,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Settings = new SerialPortSetting[2]
             {
                 new SerialPortSetting{PortNumber = staticPortNumber[0],Baudrate = 115200, DataBit = 8},
-                new SerialPortSetting{PortNumber = staticPortNumber[1],Baudrate = 115200, DataBit = 8}
+                new SerialPortSetting{PortNumber = staticPortNumber[1],Baudrate = 9600, DataBit = 8}
             };
 
             _Serial1Status = serial1Status; _Serial2Status = serial2Status;
@@ -180,27 +180,55 @@ namespace AppForJoystickCameraAndSerial.Controllers
             ChangePictureBox(index == 0 ? _Serial1Status : _Serial2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
             while (isRunning[index])
             {
-                try
+                if (index == 0)
                 {
-                    Data_Rx[Data_Counter] = (byte)_SerialPort[index].ReadByte();
-                    Data_Counter = (Data_Counter + 1) % DataInBuffer_Size;
-                    if (Data_Rx[0] == 85 && Data_Counter == 55)
+                    try
                     {
-                        Handler.Master_CheckPacket(Data_Rx, RecordingDirectory, recording[index], index, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox, _LrfRange_TextBox);
-                        Data_Counter = 0;
+                        Data_Rx[Data_Counter] = (byte)_SerialPort[index].ReadByte();
+                        Data_Counter = (Data_Counter + 1) % DataInBuffer_Size;
+                        if (Data_Rx[0] == 85 && Data_Counter == 55)
+                        {
+                            Handler.Master_CheckPacket(Data_Rx, RecordingDirectory, recording[index], index, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox, _LrfRange_TextBox);
+                            Data_Counter = 0;
+                        }
+                        else if (Data_Rx[0] != 85)
+                        {
+                            Array.Clear(Data_Rx, 0, 55);
+                            Data_Counter = 0;
+                        }
                     }
-                    else if (Data_Rx[0] != 85)
+                    catch (Exception e)
                     {
+                        ChangeTextBox(_infoTxtBox, $"Port {index + 1} has problem!");
                         Array.Clear(Data_Rx, 0, 55);
                         Data_Counter = 0;
+                        Stop(index);
                     }
                 }
-                catch (Exception e)
+                else
                 {
-                    ChangeTextBox(_infoTxtBox, $"Port {index + 1} has problem!");
-                    Array.Clear(Data_Rx, 0, 55);
-                    Data_Counter = 0;
-                    Stop(index);
+                    try
+                    {
+                        Data_Rx[Data_Counter] = (byte)_SerialPort[index].ReadByte();
+                        Data_Counter = (Data_Counter + 1) % DataInBuffer_Size;
+                        if (Data_Rx[0] == 85 && Data_Counter == 55)
+                        {
+                            Handler.Master_CheckPacket(Data_Rx, RecordingDirectory, recording[index], index, _Fov_TextBox, _AzError_TextBox, _EiError_TextBox, _Ax_TextBox, _Ay_TextBox, _Az_TextBox, _LrfRange_TextBox);
+                            Data_Counter = 0;
+                        }
+                        else if (Data_Rx[0] != 85)
+                        {
+                            Array.Clear(Data_Rx, 0, 55);
+                            Data_Counter = 0;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ChangeTextBox(_infoTxtBox, $"Port {index + 1} has problem!");
+                        Array.Clear(Data_Rx, 0, 55);
+                        Data_Counter = 0;
+                        Stop(index);
+                    }
                 }
             }
         }

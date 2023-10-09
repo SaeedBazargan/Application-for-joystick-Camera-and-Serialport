@@ -1085,8 +1085,9 @@ namespace AppForJoystickCameraAndSerial
 
                 //Console.WriteLine("Disconnected");
                 itemController.CheckBox_Checked(true, SelectSerial1_CheckBox);
-                itemController.CheckBox_Checked(false, SelectSerial2_CheckBox);
                 serialportController.Start(0);
+                itemController.CheckBox_Checked(true, SelectSerial2_CheckBox);
+                serialportController.Start(1);
             }
             else
             {
@@ -1113,18 +1114,18 @@ namespace AppForJoystickCameraAndSerial
                 // else if (FireCo2Button_WasClicked)
                 //     serialportController.Write((byte)WriteCo2Codes.Fire, (byte)WriteAddresses.Co2, OFF, 1);
             }
-            if (recordEstimateTime == 1000)
-            {
-                foreach (string portName in SerialPort.GetPortNames())
-                {
-                    if (portName == serialportController.staticPortNumber[1])
-                    {
-                        itemController.CheckBox_Checked(false, SelectSerial1_CheckBox);
-                        itemController.CheckBox_Checked(true, SelectSerial2_CheckBox);
-                        serialportController.Start(1);
-                    }
-                }
-            }
+            //if (recordEstimateTime == 1000)
+            //{
+            //    foreach (string portName in SerialPort.GetPortNames())
+            //    {
+            //        if (portName == serialportController.staticPortNumber[1])
+            //        {
+            //            itemController.CheckBox_Checked(false, SelectSerial1_CheckBox);
+            //            itemController.CheckBox_Checked(true, SelectSerial2_CheckBox);
+            //            serialportController.Start(1);
+            //        }
+            //    }
+            //}
 
             if (recordEstimateTime == 30000 && (RecordSerial_1CheckBox.Checked || RecordSerial_2CheckBox.Checked || RecordIrCamera_CheckBox.Checked || RecordTvCamera_CheckBox.Checked || RecordSecCamera_CheckBox.Checked))
             {
