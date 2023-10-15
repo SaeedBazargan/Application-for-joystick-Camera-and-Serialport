@@ -43,7 +43,9 @@
         }
         public void MoveUSBJoystick(System.Numerics.Vector2 v)
         {
-            Center = new PointF(v.X, v.Y);
+            float normX = v.X / ContainerSize.Width;
+            float normY = v.Y / ContainerSize.Height;
+            Center = new PointF(normX * 640, normY * 480);
         }
     }
 }
