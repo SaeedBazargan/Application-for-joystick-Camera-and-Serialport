@@ -164,7 +164,7 @@ namespace AppForJoystickCameraAndSerial
             InitializeComponent();
             cancellationTokenSource = new CancellationTokenSource();
             camerasController = new CamerasController(cancellationTokenSource.Token, MainCameraPictureBox, MinorPictureBox, Camera1Status_pictureBox, Camera2Status_pictureBox, RotateImage_CheckBox, TwoImage_CheckBox,
-                CameraExceptionCallBack);
+                CameraExceptionCallBack, TvCameraCheckBox, IrCameraCheckBox, SecCameraCheckBox);
             serialportController = new SerialController(cancellationTokenSource.Token, JoystickInfoTxtBox, Serial1Status_pictureBox, Serial2Status_pictureBox, OpenPort_Button, NdYagReady_Button, SelectSerial1_CheckBox,
                 SelectSerial2_CheckBox, RecordSerial_1CheckBox, RecordSerial_2CheckBox, Fov_TextBox, AzError_TextBox, EiError_TextBox, Ax_TextBox, Ay_TextBox, Az_TextBox, LrfRange_TextBox);
             joysticksController = new JoysticksController(cancellationTokenSource.Token, JoystickInfoTxtBox, ATK3_Joystick_CheckBox, UsbJoystick_CheckBox, Joystick_CheckBox, XboxJoystickStatus_pictureBox,
@@ -190,23 +190,6 @@ namespace AppForJoystickCameraAndSerial
             CustomInit((byte)Initial.Joystick);
 
             Timer_100ms_Routine.Enabled = true;
-        }
-
-        public void test(int Width, int Height)
-        {
-            Console.WriteLine(Width + " x " + Height);
-            Point gLocation = groupBox3.Location;
-            Console.WriteLine($"Label location: X = {gLocation.X}");
-
-            // Calculate the new location for the groupBox3
-            int newX = (Width - groupBox3.Width) / 2;
-            int newY = (Height - groupBox3.Height) / 2;
-
-            // Set the new location for the groupBox3
-            groupBox3.Location = new Point(newX, newY);
-
-            // Print the new location of the groupBox3
-            Console.WriteLine($"New Label location: X = {groupBox3.Location.X}, Y = {groupBox3.Location.Y}");
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)

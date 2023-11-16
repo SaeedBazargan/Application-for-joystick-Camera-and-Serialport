@@ -25,7 +25,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly PictureBox _Serial1Status, _Serial2Status;
         private readonly CheckBox _selectSerial1, _selectSerial2, _recordSerial1, _recordSerial2;
         
-        private readonly CancellationToken _cancellationToken;
         private readonly Task[] serialPortTasks;
         public readonly bool[] isRunning;
         private readonly bool[] recording;
@@ -51,7 +50,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _selectSerial1 = SelectSerial1; _recordSerial1 = recordSerial1;
             _selectSerial2 = SelectSerial2; _recordSerial2 = recordSerial2;
 
-            _cancellationToken = cancellationToken;
             _infoTxtBox = infoTxtBox;
             serialPortTasks = new Task[2];
             isRunning = new bool[2];
@@ -74,6 +72,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         public void Start(int SerialIndex)
         {
+            Console.WriteLine("SerialStart");
             foreach (string portName in SerialPort.GetPortNames())
             {
                 Console.WriteLine("Port = {0}", portName);
@@ -82,9 +81,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     serialFoundFlag = true;
                     if (0 <= SerialIndex || SerialIndex <= 2)
                     {
+                        var cancellationTokenSource = new CancellationTokenSource();
+                        var token = cancellationTokenSource.Token;
+
                         var setting = Settings[SerialIndex];
                         _SerialPort[SerialIndex] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
-                        serialPortTasks[SerialIndex] = Task.Factory.StartNew(() => StartSerial(SerialIndex), _cancellationToken).ContinueWith((t) => SerialTaskDone(t, SerialIndex == 0));
+                        serialPortTasks[SerialIndex] = Task.Factory.StartNew(() => StartSerial(SerialIndex), token);
                     }
                     else
                         throw new ArgumentOutOfRangeException();
@@ -93,6 +95,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         public void Stop(int SerialIndex)
         {
+            Console.WriteLine("SerialStart");
             isRunning[SerialIndex] = false;
             serialFoundFlag = false;
             Open = false;

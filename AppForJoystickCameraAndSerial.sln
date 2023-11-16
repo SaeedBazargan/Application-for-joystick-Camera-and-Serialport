@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForJoystickCameraAndSeri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.Okmer.GameController", "Com.Okmer.GameController\Com.Okmer.GameController.csproj", "{F79FD710-754E-481C-8B84-A6F29F27B37B}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ApplicationForJoyCamAndSerial", "..\Setup\ApplicationForJoyCamAndSerial\ApplicationForJoyCamAndSerial.vdproj", "{FDE5EC27-B322-4227-A461-B4D8069C480D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{F79FD710-754E-481C-8B84-A6F29F27B37B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F79FD710-754E-481C-8B84-A6F29F27B37B}.Release|x64.ActiveCfg = Release|Any CPU
 		{F79FD710-754E-481C-8B84-A6F29F27B37B}.Release|x64.Build.0 = Release|Any CPU
+		{FDE5EC27-B322-4227-A461-B4D8069C480D}.Debug|Any CPU.ActiveCfg = Debug
+		{FDE5EC27-B322-4227-A461-B4D8069C480D}.Debug|x64.ActiveCfg = Debug
+		{FDE5EC27-B322-4227-A461-B4D8069C480D}.Release|Any CPU.ActiveCfg = Release
+		{FDE5EC27-B322-4227-A461-B4D8069C480D}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

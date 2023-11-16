@@ -109,21 +109,24 @@ namespace AppForJoystickCameraAndSerial.Controllers
             LRF_Range = (Int16)Data_11;
 
 
-            ChangeTextBox(ax_TextBox, Ax.ToString("0.0"));
-            ChangeTextBox(ay_TextBox, Ay.ToString("0.0"));
-            ChangeTextBox(az_TextBox, Az.ToString("0.0"));
-            ChangeTextBox(fov_TextBox, FOV.ToString("0.0"));
-            ChangeTextBox(azError_TextBox, Az_Error.ToString("0.0"));
-            ChangeTextBox(eiError_TextBox, Ei_Error.ToString("0.0"));
-            ChangeTextBox(lrfRange_TextBox, LRF_Range.ToString());
+            ChangeTxtBox(ax_TextBox, Ax.ToString("0.0"));
+            ChangeTxtBox(ay_TextBox, Ay.ToString("0.0"));
+            ChangeTxtBox(az_TextBox, Az.ToString("0.0"));
+            ChangeTxtBox(fov_TextBox, FOV.ToString("0.0"));
+            ChangeTxtBox(azError_TextBox, Az_Error.ToString("0.0"));
+            ChangeTxtBox(eiError_TextBox, Ei_Error.ToString("0.0"));
+            ChangeTxtBox(lrfRange_TextBox, LRF_Range.ToString());
         }
 
-        void ChangeTextBox(TextBox textBox, string txt)
+        void ChangeTxtBox(TextBox textBox, string txt)
         {
-            textBox.BeginInvoke((MethodInvoker)delegate ()
+            if (textBox.IsHandleCreated)  // Check if the control's handle has been created
             {
-                textBox.Text = txt;
-            });
+                textBox.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    textBox.Text = txt;
+                });
+            }
         }
 
         public bool CheckCRC(byte[] LutData, byte[] rxData)
