@@ -178,7 +178,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
              999 * x = 320 => x = 0.3203
              999 * x = 240 => x = 0.2402
              */
-
         }
 
         private void ATK3Joystick_State(JoystickState state)
