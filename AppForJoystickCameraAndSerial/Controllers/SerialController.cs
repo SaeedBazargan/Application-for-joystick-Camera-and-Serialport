@@ -72,7 +72,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         public void Start(int SerialIndex)
         {
-            Console.WriteLine("SerialStart");
             foreach (string portName in SerialPort.GetPortNames())
             {
                 Console.WriteLine("Port = {0}", portName);
@@ -95,7 +94,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         public void Stop(int SerialIndex)
         {
-            Console.WriteLine("SerialStart");
             isRunning[SerialIndex] = false;
             serialFoundFlag = false;
             Open = false;
@@ -168,6 +166,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         }
         private void StartSerial(int index)
         {
+            Console.WriteLine("Serial");
             Open = true;
             _SerialPort[index].Open();
             _openPortBtn.BeginInvoke((MethodInvoker)delegate ()

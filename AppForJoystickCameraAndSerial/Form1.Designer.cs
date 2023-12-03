@@ -329,10 +329,10 @@
             SingleShootRangeFinder_Button.AutoSize = true;
             SingleShootRangeFinder_Button.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             SingleShootRangeFinder_Button.ForeColor = SystemColors.ControlText;
-            SingleShootRangeFinder_Button.Location = new Point(9, 43);
+            SingleShootRangeFinder_Button.Location = new Point(9, 38);
             SingleShootRangeFinder_Button.Margin = new Padding(3, 4, 3, 4);
             SingleShootRangeFinder_Button.Name = "SingleShootRangeFinder_Button";
-            SingleShootRangeFinder_Button.Size = new Size(118, 40);
+            SingleShootRangeFinder_Button.Size = new Size(103, 40);
             SingleShootRangeFinder_Button.TabIndex = 58;
             SingleShootRangeFinder_Button.Text = "&Single Shoot";
             SingleShootRangeFinder_Button.UseVisualStyleBackColor = true;
@@ -343,7 +343,7 @@
             BurstRangeFinder_Button.AutoSize = true;
             BurstRangeFinder_Button.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             BurstRangeFinder_Button.ForeColor = SystemColors.ControlText;
-            BurstRangeFinder_Button.Location = new Point(9, 83);
+            BurstRangeFinder_Button.Location = new Point(9, 80);
             BurstRangeFinder_Button.Margin = new Padding(3, 4, 3, 4);
             BurstRangeFinder_Button.Name = "BurstRangeFinder_Button";
             BurstRangeFinder_Button.Size = new Size(103, 40);
@@ -357,10 +357,10 @@
             EmergencyStop_Button.AutoSize = true;
             EmergencyStop_Button.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             EmergencyStop_Button.ForeColor = SystemColors.ControlText;
-            EmergencyStop_Button.Location = new Point(5, 101);
+            EmergencyStop_Button.Location = new Point(5, 114);
             EmergencyStop_Button.Margin = new Padding(3, 4, 3, 4);
             EmergencyStop_Button.Name = "EmergencyStop_Button";
-            EmergencyStop_Button.Size = new Size(145, 40);
+            EmergencyStop_Button.Size = new Size(127, 40);
             EmergencyStop_Button.TabIndex = 59;
             EmergencyStop_Button.Text = "&Emergency Stop";
             EmergencyStop_Button.UseVisualStyleBackColor = true;

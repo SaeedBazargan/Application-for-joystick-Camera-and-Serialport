@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
@@ -15,7 +17,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 checkBox.Enabled = Status;
             }
         }
-
         public void CheckBox_Checked(bool Status, params CheckBox[] _checkBox)
         {
             foreach (CheckBox checkBox in _checkBox)

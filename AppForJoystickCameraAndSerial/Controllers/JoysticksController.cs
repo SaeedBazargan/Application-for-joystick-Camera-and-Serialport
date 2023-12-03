@@ -1,6 +1,7 @@
 ﻿using Com.Okmer.GameController;
 using SharpDX.DirectInput;
 using System.Numerics;
+using static AppForJoystickCameraAndSerial.Form1;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
@@ -67,7 +68,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _exceptionCallback = exceptionCallback;
             Pointer.JoyPointer.SetContainerSize(_mainCameraPicture.Size);
             _positionUSB = new Vector2(320, 240);
-            _positionBuffer = new Point[50000];
+            _positionBuffer = new Point[50];
             bufferPointer = 0;
         }
 
@@ -129,6 +130,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _joystick = new Joystick(directInput, joystickGuid);
                 _joystick.Acquire();
                 isRunning[index] = true;
+                //_cancleRadioButton.Checked = true;
 
                 if (index == 1)
                     ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
@@ -201,14 +203,23 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _positionUSB.Y = y / bufferPointer;
                 Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
                 bufferPointer = 0;
-                if (CancleButton)
-                    _serialController.Write((byte)Form1.WriteTableCodes.Cancle, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                else if (SearchButton || searchBtnClicked_Flag)
+                if (SearchButton || searchBtnClicked_Flag)
                 {
                     _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                    //Console.WriteLine(Pointer.JoyPointer.Cursor[0].ToString());
+                    Console.WriteLine(Pointer.JoyPointer.Cursor[0].ToString());
                     searchBtnClicked_Flag = false;
                 }
+
+                //if (CancleButton)
+                //{
+                //    _serialController.Write((byte)WriteTableCodes.Cancle, (byte)WriteAddresses.TableControl, ON, 1);
+                //}
+                //else if (SearchButton || searchBtnClicked_Flag)
+                //{
+                //    _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
+                //    Console.WriteLine(Pointer.JoyPointer.Cursor[0].ToString());
+                //    searchBtnClicked_Flag = false;
+                //}
             }
         }
 
@@ -243,6 +254,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     CancleButton = true;
                     SearchButton = false;
                     _cancleRadioButton.Checked = true;
+                    _serialController.Write((byte)WriteTableCodes.Cancle, (byte)WriteAddresses.TableControl, ON, 1);
                     second = 0;
                 }
                 else if (buttonsIn[4])

@@ -80,7 +80,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         public void Stop(int cameraIndex)
         {
-            Console.WriteLine("CameraStop");
             isRunning[cameraIndex] = false;
             ChangePictureBox(cameraIndex == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
             if (cameraIndex == 0)
@@ -117,7 +116,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     {
                         capture[index].Read(frame);
                         image = BitmapConverter.ToBitmap(frame);
-                        //DrawJoyStickPointer(image);
+                        DrawJoyStickPointer(image);
                         _mainPictureBox.BeginInvoke((MethodInvoker)delegate ()
                         {
                             _mainPictureBox.Image = image;
@@ -149,7 +148,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     }
                     catch (Exception e) 
                     {
-                        Console.WriteLine("SSSSSSSSSSSSSSSSS");
                         Stop(index);
                     }
                 }
@@ -159,7 +157,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     {
                         capture[index].Read(frame);
                         image = BitmapConverter.ToBitmap(frame);
-                        //DrawJoyStickPointer(image);
+                        DrawJoyStickPointer(image);
                         _minorPictureBox.BeginInvoke((MethodInvoker)delegate ()
                         {
                             _minorPictureBox.Image = image;
@@ -186,14 +184,13 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("SSSSSSSSSSSSSSSSS");
                         Stop(index);
                     }
                 }
                 if (_twoImages.Checked)
-                    _minorPictureBox.Hide();
+                    _minorPictureBox.BeginInvoke((MethodInvoker)(() => _minorPictureBox.Hide()));
                 else
-                    _minorPictureBox.Show();
+                    _minorPictureBox.BeginInvoke((MethodInvoker)(() => _minorPictureBox.Show()));
             }
         }
 
