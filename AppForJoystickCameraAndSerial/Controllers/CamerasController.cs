@@ -16,24 +16,27 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly bool[] recording;
         private readonly CheckBox _rotateImages, _twoImages;
         private readonly CheckBox _tvCameraCheckBox, _irCameraCheckBox, _secCameraCheckBox;
-        private readonly Action<string> _exceptionCallback;
 
         VideoCapture[] capture;
 
         public string RecordingDirectory { get; set; }
 
-        public CamerasController(CancellationToken cancellationToken, PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, CheckBox rotate, CheckBox twoOrone, Action<string> exceptionCallback, CheckBox TvCameraCheckBox, CheckBox IrCameraCheckBox, CheckBox SecCameraCheckBox)
+        public CamerasController(PictureBox main, PictureBox minor, PictureBox camera1Status, PictureBox camera2Status, CheckBox rotate, CheckBox twoOrone, CheckBox TvCameraCheckBox, CheckBox IrCameraCheckBox, CheckBox SecCameraCheckBox)
         {
             _mainPictureBox = main;
             _minorPictureBox = minor;
+
             _Camera1Status = camera1Status;
             _Camera2Status = camera2Status;
+
             cameraCaptureTasks = new Task[2];
+
             isRunning = new bool[2];
             recording = new bool[2];
+
             _rotateImages = rotate;
             _twoImages = twoOrone;
-            _exceptionCallback = exceptionCallback;
+
             _tvCameraCheckBox = TvCameraCheckBox;
             _irCameraCheckBox = IrCameraCheckBox;
             _secCameraCheckBox = SecCameraCheckBox;
@@ -54,6 +57,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 var token = cancellationTokenSource.Token;
 
                 capture[cameraIndex].Open(cameraIndex, VideoCaptureAPIs.DSHOW);
+
                 if (!capture[cameraIndex].IsOpened())
                     Console.WriteLine($"Cannot open camera {cameraIndex}");
 
@@ -81,7 +85,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public void Stop(int cameraIndex)
         {
             isRunning[cameraIndex] = false;
+
             ChangePictureBox(cameraIndex == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
+
             if (cameraIndex == 0)
             {
                 _tvCameraCheckBox.BeginInvoke((MethodInvoker)delegate () { _tvCameraCheckBox.Checked = false; });
@@ -91,10 +97,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 _secCameraCheckBox.BeginInvoke((MethodInvoker)delegate () { _secCameraCheckBox.Checked = false; });
             }
+
             capture[cameraIndex].Release();
         }
 
-        private void StartCamera(int index)
+        private async Task StartCamera(int index)
         {
             VideoWriter writer = null;
             var frame = new Mat();
@@ -103,9 +110,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
             capture[index].Open(index, VideoCaptureAPIs.DSHOW);
 
             if (!capture[index].IsOpened())
-                Console.WriteLine($"Cannot open camera {index}");
-                //throw new Exception($"Cannot open camera {index}");
-            isRunning[index] = true;
+                Stop(index);
+            else
+                isRunning[index] = true;
+
             ChangePictureBox(index == 0 ? _Camera1Status : _Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Green_Circle);
 
             while (isRunning[index])
@@ -115,6 +123,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     try
                     {
                         capture[index].Read(frame);
+
                         image = BitmapConverter.ToBitmap(frame);
                         DrawJoyStickPointer(image);
                         _mainPictureBox.BeginInvoke((MethodInvoker)delegate ()
@@ -200,28 +209,6 @@ namespace AppForJoystickCameraAndSerial.Controllers
             var points = Pointer.JoyPointer.LinePoints;
             g.DrawLine(new Pen(Pointer.JoyPointer.Color, 3f), points[0], points[1]);
             g.DrawLine(new Pen(Pointer.JoyPointer.Color, 3f), points[2], points[3]);
-        }
-
-        private void CameraTaskDone(Task task, bool isMain)
-        {
-            if (task.IsCompletedSuccessfully)
-            {
-                if (isMain)
-                {
-                    ChangePictureBox(_Camera1Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                    ChangePictureBox(_mainPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.Premium_Photo___Macro_falling_coffee_bean_on_gray_background);
-                }
-                else
-                {
-                    ChangePictureBox(_Camera2Status, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                    ChangePictureBox(_minorPictureBox, AppForJoystickCameraAndSerial.Properties.Resources.Premium_Photo___Macro_falling_coffee_bean_on_gray_background);
-                }
-            }
-            else
-            {
-                isRunning[Convert.ToInt32(isMain)] = false;
-                _exceptionCallback.Invoke(task.Exception.Message);
-            }
         }
     }
 }

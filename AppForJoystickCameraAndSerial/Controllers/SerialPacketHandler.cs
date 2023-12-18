@@ -30,7 +30,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 if (writer == null)
                 {
                     if (RecordDir == null)
-                        RecordDir = @"..\..\..\..\..\..\Record\Data\";
+                        RecordDir = @"..\..\..\Record\Data\";
                     recordingDir = RecordDir + index.ToString() + '/';
                     if (!Directory.Exists(recordingDir))
                         Directory.CreateDirectory(recordingDir);
@@ -40,7 +40,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     writer.Write("\n" + "-----------------------------------------------------------------------------------------------------" + "\n");
                 }
                 else
-                {                    
+                {
                     if (TestLog == false)
                         writer.Write("\n" + Ax.ToString("0.000") + "      " + Ay.ToString("0.000") + "     " + Az.ToString("0.000") + "       " + FOV.ToString("0.000") + "      " + Az_Error.ToString("0.000") + "     "
                                           + Ei_Error.ToString("0.000") + "      " + Error_X.ToString("0.000") + "     " + Error_Y.ToString("0.000") + "      " + Error_Z.ToString("0.000") + "     ");
@@ -112,7 +112,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             ChangeTxtBox(ax_TextBox, Ax.ToString("0.0"));
             ChangeTxtBox(ay_TextBox, Ay.ToString("0.0"));
             ChangeTxtBox(az_TextBox, Az.ToString("0.0"));
-            ChangeTxtBox(fov_TextBox, Counter.ToString("0.0"));
+            ChangeTxtBox(fov_TextBox, FOV.ToString("0.0"));
             ChangeTxtBox(azError_TextBox, Az_Error.ToString("0.0"));
             ChangeTxtBox(eiError_TextBox, Ei_Error.ToString("0.0"));
             ChangeTxtBox(lrfRange_TextBox, LRF_Range.ToString());

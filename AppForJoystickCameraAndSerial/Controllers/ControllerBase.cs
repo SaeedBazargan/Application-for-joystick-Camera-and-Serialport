@@ -12,14 +12,11 @@
             });
         }
 
-        protected static void ChangePictureBox(PictureBox pictureBox, Bitmap image)
+        public void ChangePictureBox(PictureBox pictureBox, Bitmap image)
         {
-            pictureBox.BeginInvoke((MethodInvoker)delegate ()
-            {
-                if (pictureBox.Image != null)
-                    pictureBox.Image.Dispose();
-                pictureBox.Image = image;
-            });
+            if (pictureBox.Image != null)
+                pictureBox.Image.Dispose();
+            pictureBox.Image = image;
         }
 
         protected static void ChangeLabel(Label label, Color color)

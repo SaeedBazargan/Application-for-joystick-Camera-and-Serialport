@@ -12,6 +12,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         public Vector2 _savePosition;
         Vector2 _position;
 
+
         public MouseController(CancellationTokenSource cancellationToken, TextBox infoTxtBox, PictureBox mainCameraPicture, RadioButton trackRadioButton, SerialController serialController)
         {
             _infoTxtBox = infoTxtBox;
@@ -26,6 +27,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         public void Start()
         {
+            var cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+
+            Task mouseTasks = Task.Factory.StartNew(() => StartMouse(), token);
+
+        }
+        private async Task StartMouse()
+        {
+
             isReady = true;
 
             _mainCameraPicture.MouseMove += (s, e) =>
