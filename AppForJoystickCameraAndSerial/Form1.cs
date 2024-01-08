@@ -136,7 +136,6 @@ namespace AppForJoystickCameraAndSerial
 
         UInt16 recordEstimateTime = 0;
 
-
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly JoysticksController joysticksController;
         private readonly CamerasController camerasController;
