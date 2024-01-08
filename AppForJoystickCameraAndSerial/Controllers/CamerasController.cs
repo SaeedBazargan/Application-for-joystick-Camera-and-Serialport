@@ -11,7 +11,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
     {
         private readonly PictureBox _mainPictureBox, _minorPictureBox;
         private readonly PictureBox _Camera1Status, _Camera2Status;
-        private readonly Task[] cameraCaptureTasks;
+        private readonly Thread[] cameraCaptureThread;
         private readonly bool[] isRunning;
         private readonly bool[] recording;
         private readonly CheckBox _rotateImages, _twoImages;
@@ -29,7 +29,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _Camera1Status = camera1Status;
             _Camera2Status = camera2Status;
 
-            cameraCaptureTasks = new Task[2];
+            cameraCaptureThread = new Thread[2];
 
             isRunning = new bool[2];
             recording = new bool[2];
@@ -53,15 +53,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             if (0 <= cameraIndex || cameraIndex <= 2)
             {
-                var cancellationTokenSource = new CancellationTokenSource();
-                var token = cancellationTokenSource.Token;
-
                 capture[cameraIndex].Open(cameraIndex, VideoCaptureAPIs.DSHOW);
 
                 if (!capture[cameraIndex].IsOpened())
                     Console.WriteLine($"Cannot open camera {cameraIndex}");
 
-                cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex), token);
+                cameraCaptureThread[cameraIndex] = new Thread(new ThreadStart(StartCamera(cameraIndex)));
+                cameraCaptureThread[cameraIndex].Priority = ThreadPriority.Highest;
+                cameraCaptureThread[cameraIndex].Start();
             }
             else
                 throw new ArgumentOutOfRangeException();
@@ -101,7 +100,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             capture[cameraIndex].Release();
         }
 
-        private async Task StartCamera(int index)
+        private void StartCamera(int index)
         {
             VideoWriter writer = null;
             var frame = new Mat();

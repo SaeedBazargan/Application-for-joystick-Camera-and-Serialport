@@ -27,11 +27,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         public void Start()
         {
-            var cancellationTokenSource = new CancellationTokenSource();
-            var token = cancellationTokenSource.Token;
-
-            Task mouseTasks = Task.Factory.StartNew(() => StartMouse(), token);
-
+            // Thread mouseTasks = Task.Factory.StartNew(() => StartMouse(), token);
         }
         private async Task StartMouse()
         {

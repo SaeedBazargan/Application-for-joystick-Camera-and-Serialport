@@ -25,7 +25,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly PictureBox _Serial1Status, _Serial2Status;
         private readonly CheckBox _selectSerial1, _selectSerial2, _recordSerial1, _recordSerial2;
         
-        private readonly Task[] serialPortTasks;
+        private readonly Thread[] serialPortThreads;
         public readonly bool[] isRunning;
         private readonly bool[] recording;
         public string RecordingDirectory { get; set; }
@@ -52,7 +52,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _openPortBtn = openPortBtn;
 
             
-            serialPortTasks = new Task[2];
+            serialPortThreads = new Thread[2];
             
             isRunning = new bool[2];
             recording = new bool[2];
@@ -83,12 +83,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     serialFoundFlag = true;
                     if (0 <= SerialIndex || SerialIndex <= 2)
                     {
-                        var cancellationTokenSource = new CancellationTokenSource();
-                        var token = cancellationTokenSource.Token;
-
                         var setting = Settings[SerialIndex];
                         _SerialPort[SerialIndex] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
-                        serialPortTasks[SerialIndex] = Task.Factory.StartNew(() => StartSerial(SerialIndex), token);
+                        serialPortThreads[SerialIndex] = new Thread(new ThreadStart(StartSerial(SerialIndex)));
+                        serialPortThreads[SerialIndex].Priority = ThreadPriority.Highest;
+                        serialPortThreads[SerialIndex].Start();
                     }
                     else
                         throw new ArgumentOutOfRangeException();

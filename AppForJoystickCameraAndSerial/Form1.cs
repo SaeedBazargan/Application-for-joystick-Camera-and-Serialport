@@ -169,7 +169,8 @@ namespace AppForJoystickCameraAndSerial
 
             init();
 
-            Task.Factory.StartNew(() => app_start());
+            Thread applicatioThread = new Thread(new ThreadStart(app_start));
+            applicatioThread.Start();
         }
 
         private void Exit_Btn_Click(object sender, EventArgs e)
@@ -1025,10 +1026,10 @@ namespace AppForJoystickCameraAndSerial
             //PositionZ_TextBox.Enabled = true;
         }
 
-        public async Task app_start()
+        private void app_start()
         {
             byte tmp = 0;
-            Timer_100ms_Routine.Enabled = true;
+            // Timer_100ms_Routine.Enabled = true;
 
             while (true)
             {
@@ -1051,7 +1052,6 @@ namespace AppForJoystickCameraAndSerial
                         Console.WriteLine("Connected");
                     }
                     
-
                     joysticksController.second = 1;
 
                     if (PP_GateSize_NegButton_WasClicked)

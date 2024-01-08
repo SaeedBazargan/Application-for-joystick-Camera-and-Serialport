@@ -23,7 +23,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly RadioButton _cancleRadioButton;
         private readonly SerialController _serialController;
         private Guid joystickGuid;
-        private readonly Task[] USB_JoystickTasks;
+        private readonly Thread[] USB_JoystickThreads;
         private readonly bool[] isRunning;
         private readonly Action<string> _exceptionCallback;
         private readonly Point[] _positionBuffer;
@@ -64,7 +64,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _serialController = serialController;
             joystickGuid = Guid.Empty;
             isRunning = new bool[3];
-            USB_JoystickTasks = new Task[3];
+            USB_JoystickThreads = new Thread[3];
             _exceptionCallback = exceptionCallback;
             Pointer.JoyPointer.SetContainerSize(_mainCameraPicture.Size);
             _positionUSB = new Vector2(320, 240);
@@ -95,10 +95,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 }
                 else if (1 == joystickIndex || joystickIndex == 2)
                 {
-                    var cancellationTokenSource = new CancellationTokenSource();
-                    var token = cancellationTokenSource.Token;
-
-                    USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), token);
+                    USB_JoystickThreads[joystickIndex] = new Thread(new ThreadStart(StartJoystick(joystickIndex)));
+                    USB_JoystickThreads[joystickIndex].Priority = ThreadPriority.Highest;
+                    USB_JoystickThreads[joystickIndex].Start();
                 }
                 else
                     throw new ArgumentOutOfRangeException();
