@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
+    <PackageReference Include="NuGet.Resolver" Version="6.8.0" />
     <PackageReference Include="OpenCV" Version="2.4.11" />
     <PackageReference Include="OpenCvSharp4" Version="4.8.0.20230708" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.8.0.20230708" />

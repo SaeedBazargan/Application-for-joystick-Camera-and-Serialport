@@ -25,7 +25,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly PictureBox _Serial1Status, _Serial2Status;
         private readonly CheckBox _selectSerial1, _selectSerial2, _recordSerial1, _recordSerial2;
         
-        private readonly Thread[] serialPortThreads;
+        private readonly Task[] serialPortTasks;
         public readonly bool[] isRunning;
         private readonly bool[] recording;
         public string RecordingDirectory { get; set; }
@@ -52,7 +52,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _openPortBtn = openPortBtn;
 
             
-            serialPortThreads = new Thread[2];
+            serialPortTasks = new Task[2];
             
             isRunning = new bool[2];
             recording = new bool[2];
@@ -83,11 +83,12 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     serialFoundFlag = true;
                     if (0 <= SerialIndex || SerialIndex <= 2)
                     {
+                        var cancellationTokenSource = new CancellationTokenSource();
+                        var token = cancellationTokenSource.Token;
+
                         var setting = Settings[SerialIndex];
                         _SerialPort[SerialIndex] = new SerialPort(setting.PortNumber, setting.Baudrate, ParityBit, setting.DataBit, StopBit);
-                        serialPortThreads[SerialIndex] = new Thread(new ThreadStart(StartSerial(SerialIndex)));
-                        serialPortThreads[SerialIndex].Priority = ThreadPriority.Highest;
-                        serialPortThreads[SerialIndex].Start();
+                        serialPortTasks[SerialIndex] = Task.Factory.StartNew(() => StartSerial(SerialIndex), token);
                     }
                     else
                         throw new ArgumentOutOfRangeException();
@@ -99,8 +100,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             isRunning[SerialIndex] = false;
             serialFoundFlag = false;
             Open = false;
-
-            _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
+            _openPortBtn.Invoke((MethodInvoker)delegate ()
             {
                 _openPortBtn.Enabled = true;
             });
@@ -109,13 +109,13 @@ namespace AppForJoystickCameraAndSerial.Controllers
             
             if (SerialIndex == 0)
             {
-                _selectSerial1.BeginInvoke((MethodInvoker)delegate () { _selectSerial1.Checked = false; });
-                _recordSerial1.BeginInvoke((MethodInvoker)delegate () { _recordSerial1.Checked = false; });
+                _selectSerial1.Invoke((MethodInvoker)delegate () { _selectSerial1.Checked = false; });
+                _recordSerial1.Invoke((MethodInvoker)delegate () { _recordSerial1.Checked = false; });
             }
             else if (SerialIndex == 1)
             {
-                _selectSerial2.BeginInvoke((MethodInvoker)delegate () { _selectSerial2.Checked = false; });
-                _recordSerial2.BeginInvoke((MethodInvoker)delegate () { _recordSerial2.Checked = false; });
+                _selectSerial2.Invoke((MethodInvoker)delegate () { _selectSerial2.Checked = false; });
+                _recordSerial2.Invoke((MethodInvoker)delegate () { _recordSerial2.Checked = false; });
             }
 
             _SerialPort[SerialIndex].Close();
@@ -175,8 +175,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             Open = true;
 
             _SerialPort[index].Open();
-
-            _openPortBtn.BeginInvoke((MethodInvoker)delegate ()
+            _openPortBtn.Invoke((MethodInvoker)delegate ()
             {
                 _openPortBtn.Enabled = false;
             });

@@ -1,13 +1,16 @@
-﻿namespace AppForJoystickCameraAndSerial
+﻿using System.Windows.Forms;
+
+namespace AppForJoystickCameraAndSerial
 {
     public class Pointer
     {
         public static Pointer JoyPointer = new Pointer();
 
         public PointF Center { get; set; }
+        public PointF CenterNorm { get; set; }
         public Size ContainerSize { get; set; }
         public int Radius { get; set; }
-        public int[] Cursor => new int[] { (int)Center.X, (int)Center.Y };
+        public int[] Cursor => new int[] { (int)(CenterNorm.X * 640 + 640 / 2), (int)(CenterNorm.Y * 480 + 480 / 2) };
         public Color Color { get; set; } = Color.Blue;
         public PointF[] LinePoints => new PointF[]
         {
@@ -43,9 +46,14 @@
         }
         public void MoveUSBJoystick(System.Numerics.Vector2 v)
         {
-            float normX = v.X / ContainerSize.Width;
-            float normY = v.Y / ContainerSize.Height;
-            Center = new PointF(normX * 640, normY * 480);
+            const int joystick_zero_value_x = 32758;
+            const int joystick_zero_value_y = 32758;
+            float normX = (v.X - joystick_zero_value_x) / 65535;
+            float normY = (v.Y - joystick_zero_value_y) / 65535;
+            CenterNorm = new PointF(normX, normY);
+
+            //Console.WriteLine("({0} , {1})", v.X, v.Y);
+            Center = new PointF(normX * ContainerSize.Width + ContainerSize.Width / 2, normY * ContainerSize.Height + ContainerSize.Height / 2);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
     {
         private readonly PictureBox _mainPictureBox, _minorPictureBox;
         private readonly PictureBox _Camera1Status, _Camera2Status;
-        private readonly Thread[] cameraCaptureThread;
+        private readonly Task[] cameraCaptureTasks;
         private readonly bool[] isRunning;
         private readonly bool[] recording;
         private readonly CheckBox _rotateImages, _twoImages;
@@ -29,7 +29,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _Camera1Status = camera1Status;
             _Camera2Status = camera2Status;
 
-            cameraCaptureThread = new Thread[2];
+            cameraCaptureTasks = new Task[2];
 
             isRunning = new bool[2];
             recording = new bool[2];
@@ -53,14 +53,15 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             if (0 <= cameraIndex || cameraIndex <= 2)
             {
+                var cancellationTokenSource = new CancellationTokenSource();
+                var token = cancellationTokenSource.Token;
+
                 capture[cameraIndex].Open(cameraIndex, VideoCaptureAPIs.DSHOW);
 
                 if (!capture[cameraIndex].IsOpened())
                     Console.WriteLine($"Cannot open camera {cameraIndex}");
 
-                cameraCaptureThread[cameraIndex] = new Thread(new ThreadStart(StartCamera(cameraIndex)));
-                cameraCaptureThread[cameraIndex].Priority = ThreadPriority.Highest;
-                cameraCaptureThread[cameraIndex].Start();
+                cameraCaptureTasks[cameraIndex] = Task.Factory.StartNew(() => StartCamera(cameraIndex), token);
             }
             else
                 throw new ArgumentOutOfRangeException();
@@ -89,18 +90,18 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
             if (cameraIndex == 0)
             {
-                _tvCameraCheckBox.BeginInvoke((MethodInvoker)delegate () { _tvCameraCheckBox.Checked = false; });
-                _irCameraCheckBox.BeginInvoke((MethodInvoker)delegate () { _irCameraCheckBox.Checked = false; });
+                _tvCameraCheckBox.Invoke((MethodInvoker)delegate () { _tvCameraCheckBox.Checked = false; });
+                _irCameraCheckBox.Invoke((MethodInvoker)delegate () { _irCameraCheckBox.Checked = false; });
             }
             else if (cameraIndex == 1)
             {
-                _secCameraCheckBox.BeginInvoke((MethodInvoker)delegate () { _secCameraCheckBox.Checked = false; });
+                _secCameraCheckBox.Invoke((MethodInvoker)delegate () { _secCameraCheckBox.Checked = false; });
             }
 
             capture[cameraIndex].Release();
         }
 
-        private void StartCamera(int index)
+        private async Task StartCamera(int index)
         {
             VideoWriter writer = null;
             var frame = new Mat();
@@ -139,10 +140,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
                         {
                             if (writer == null)
                             {
-                                string recordingDir = RecordingDirectory + index.ToString() + '/';
+                                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                                string recordingDir = Path.Combine(desktopPath, "Recordings");
+
                                 if (!Directory.Exists(recordingDir))
                                     Directory.CreateDirectory(recordingDir);
-                                string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
+
+                                string recordingPath = Path.Combine(recordingDir, $"{index}_{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.mp4");
+
                                 writer = new VideoWriter(recordingPath, FourCC.MJPG, capture[index].Fps, new OpenCvSharp.Size(capture[index].Get(VideoCaptureProperties.FrameWidth), capture[index].Get(VideoCaptureProperties.FrameHeight)));
                             }
                             writer.Write(frame);
@@ -150,8 +155,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                         else if (writer != null && !writer.IsDisposed)
                         {
                             writer.Release();
-                            writer.Dispose();
-                            writer = null;
+                            //writer = null;
                         }
                     }
                     catch (Exception e) 
@@ -175,19 +179,32 @@ namespace AppForJoystickCameraAndSerial.Controllers
                         {
                             if (writer == null)
                             {
-                                string recordingDir = RecordingDirectory + index.ToString() + '/';
+                                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                                string recordingDir = Path.Combine(desktopPath, "Recordings");
+
                                 if (!Directory.Exists(recordingDir))
                                     Directory.CreateDirectory(recordingDir);
-                                string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
+
+                                string recordingPath = Path.Combine(recordingDir, $"{index}_{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.mp4");
+
                                 writer = new VideoWriter(recordingPath, FourCC.MJPG, capture[index].Fps, new OpenCvSharp.Size(capture[index].Get(VideoCaptureProperties.FrameWidth), capture[index].Get(VideoCaptureProperties.FrameHeight)));
                             }
                             writer.Write(frame);
+
+                            //if (writer == null)
+                            //{
+                            //    string recordingDir = RecordingDirectory + index.ToString() + '/';
+                            //    if (!Directory.Exists(recordingDir))
+                            //        Directory.CreateDirectory(recordingDir);
+                            //    string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
+                            //    writer = new VideoWriter(recordingPath, FourCC.MJPG, capture[index].Fps, new OpenCvSharp.Size(capture[index].Get(VideoCaptureProperties.FrameWidth), capture[index].Get(VideoCaptureProperties.FrameHeight)));
+                            //}
+                            //writer.Write(frame);
                         }
                         else if (writer != null && !writer.IsDisposed)
                         {
                             writer.Release();
-                            writer.Dispose();
-                            writer = null;
+                            //writer.Dispose();
                         }
                     }
                     catch (Exception e)
@@ -196,18 +213,19 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     }
                 }
                 if (_twoImages.Checked)
-                    _minorPictureBox.BeginInvoke((MethodInvoker)(() => _minorPictureBox.Hide()));
+                    _minorPictureBox.Invoke((MethodInvoker)(() => _minorPictureBox.Hide()));
                 else
-                    _minorPictureBox.BeginInvoke((MethodInvoker)(() => _minorPictureBox.Show()));
+                    _minorPictureBox.Invoke((MethodInvoker)(() => _minorPictureBox.Show()));
             }
         }
 
         private void DrawJoyStickPointer(Bitmap image)
         {
-            Graphics g = Graphics.FromImage(image);
+            Graphics g = _mainPictureBox.CreateGraphics();
+            _mainPictureBox.Image = image;
             var points = Pointer.JoyPointer.LinePoints;
-            g.DrawLine(new Pen(Pointer.JoyPointer.Color, 3f), points[0], points[1]);
-            g.DrawLine(new Pen(Pointer.JoyPointer.Color, 3f), points[2], points[3]);
+            g.DrawLine(new Pen(Pointer.JoyPointer.Color, 5f), points[0], points[1]);
+            g.DrawLine(new Pen(Pointer.JoyPointer.Color, 5f), points[2], points[3]);
         }
     }
 }

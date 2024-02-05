@@ -1,8 +1,10 @@
 ﻿using Com.Okmer.GameController;
+using SharpDX;
 using SharpDX.DirectInput;
 using System.IO.Ports;
 using System.Numerics;
 using static AppForJoystickCameraAndSerial.Form1;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AppForJoystickCameraAndSerial.Controllers
 {
@@ -23,7 +25,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         private readonly RadioButton _cancleRadioButton;
         private readonly SerialController _serialController;
         private Guid joystickGuid;
-        private readonly Thread[] USB_JoystickThreads;
+        private readonly Task[] USB_JoystickTasks;
         private readonly bool[] isRunning;
         private readonly Action<string> _exceptionCallback;
         private readonly Point[] _positionBuffer;
@@ -31,7 +33,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         private static int _currentThrottle;
         private static int _currentYawTrim;
-        private const double Ratio = 2000.0 / ushort.MaxValue;
+        private const double Ratio = 1 / 65535;
         private const short Speed = 20;
         private int bufferPointer;
         int[] ON = new int[1] { 1 };
@@ -40,7 +42,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
         int[] GateSize_Increase = new int[1] { 2 };
         int[] GateSize_Stop = new int[1] { 1 };
         bool CancleButton = false;
-        bool SearchButton = false;
+        public bool SearchButton = false;
         public byte second = 0;
         public byte btnPressed = 0;
         public bool searchBtnClicked_Flag = false;
@@ -64,12 +66,17 @@ namespace AppForJoystickCameraAndSerial.Controllers
             _serialController = serialController;
             joystickGuid = Guid.Empty;
             isRunning = new bool[3];
-            USB_JoystickThreads = new Thread[3];
+            USB_JoystickTasks = new Task[3];
             _exceptionCallback = exceptionCallback;
             Pointer.JoyPointer.SetContainerSize(_mainCameraPicture.Size);
             _positionUSB = new Vector2(320, 240);
             _positionBuffer = new Point[50];
             bufferPointer = 0;
+        }
+
+        public void SizeChanged()
+        {
+            Pointer.JoyPointer.SetContainerSize(_mainCameraPicture.Size);
         }
 
         public void Start(byte joystickIndex)
@@ -95,9 +102,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 }
                 else if (1 == joystickIndex || joystickIndex == 2)
                 {
-                    USB_JoystickThreads[joystickIndex] = new Thread(new ThreadStart(StartJoystick(joystickIndex)));
-                    USB_JoystickThreads[joystickIndex].Priority = ThreadPriority.Highest;
-                    USB_JoystickThreads[joystickIndex].Start();
+                    var cancellationTokenSource = new CancellationTokenSource();
+                    var token = cancellationTokenSource.Token;
+
+                    USB_JoystickTasks[joystickIndex] = Task.Factory.StartNew(() => StartJoystick(joystickIndex), token);
                 }
                 else
                     throw new ArgumentOutOfRangeException();
@@ -110,17 +118,17 @@ namespace AppForJoystickCameraAndSerial.Controllers
             if (joystickIndex == 0)
             {
                 ChangePictureBox(_xboxJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                _selectXBox.BeginInvoke((MethodInvoker)delegate () { _selectXBox.Checked = false; });
+                _selectXBox.Invoke((MethodInvoker)delegate () { _selectXBox.Checked = false; });
             }
             else if (joystickIndex == 1)
             {
                 ChangePictureBox(_usbJoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                _selectUSBJoy.BeginInvoke((MethodInvoker)delegate () { _selectUSBJoy.Checked = false; });
+                _selectUSBJoy.Invoke((MethodInvoker)delegate () { _selectUSBJoy.Checked = false; });
             }
             else if (joystickIndex == 2)
             {
                 ChangePictureBox(_atk3JoystickStatus, AppForJoystickCameraAndSerial.Properties.Resources.Red_Circle);
-                _selectATK3.BeginInvoke((MethodInvoker)delegate () { _selectATK3.Checked = false; });
+                _selectATK3.Invoke((MethodInvoker)delegate () { _selectATK3.Checked = false; });
             }
         }
 
@@ -188,8 +196,20 @@ namespace AppForJoystickCameraAndSerial.Controllers
             /*
              999 * x = 320 => x = 0.3203
              999 * x = 240 => x = 0.2402
+             998x648
+             1000 * x = 320 => x = 0.32
+             1000 * x = 240 => x = 0.24
              */
-            _positionBuffer[bufferPointer++] = new Point((int)(((state.X) * Ratio) * 0.3203), (int)(((state.Y) * Ratio) * 0.2402));
+
+            const int joystick_zero_value_x = 32758;
+            const int joystick_zero_value_y = 32758;
+
+
+            _positionBuffer[bufferPointer++] = new Point(state.X, state.Y);
+
+
+            //Console.WriteLine("XXXXXXX" + state.X);
+            //Console.WriteLine("YYYYYYY" + state.Y);
 
             if (bufferPointer == _positionBuffer.Length)
             {
@@ -204,8 +224,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 _positionUSB.Y = y / bufferPointer;
                 Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
                 bufferPointer = 0;
+                
                 if (SearchButton || searchBtnClicked_Flag)
                 {
+
                     _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
                     Console.WriteLine(Pointer.JoyPointer.Cursor[0].ToString());
                     searchBtnClicked_Flag = false;
@@ -234,7 +256,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     SearchButton = false;
                     Pointer.JoyPointer.MoveUSBJoystick(_positionUSB);
                     _serialController.Write((byte)Form1.WriteTableCodes.Track, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                    _trackRadioButton.Checked = true;
+                    _trackRadioButton.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        _trackRadioButton.Checked = true;
+                    });
                     second = 0;
                     btnPressed = 1;
                 }
@@ -243,7 +268,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     CancleButton = false;
                     SearchButton = true;
                     _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                    _searchRadioButton.Checked = true;
+                    _searchRadioButton.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        _searchRadioButton.Checked = true;
+                    });
                     second = 0;
                     btnPressed = 1;
                 }
@@ -257,7 +285,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 {
                     CancleButton = true;
                     SearchButton = false;
-                    _cancleRadioButton.Checked = true;
+                    _cancleRadioButton.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        _cancleRadioButton.Checked = true;
+                    });
                     _serialController.Write((byte)WriteTableCodes.Cancle, (byte)WriteAddresses.TableControl, ON, 1);
                     second = 0;
                     btnPressed = 1;
@@ -306,11 +337,13 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 }
                 else if (btnPressed == 1)
                 {
-                    _serialController.Write((byte)Form1.WriteLensDriverCodes.Stop, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
-                    _serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Stop, 1);
-                    btnPressed = 0;
+                    //_serialController.Write((byte)Form1.WriteLensDriverCodes.Stop, (byte)Form1.WriteAddresses.LensDriver, OFF, 1);
+                    //_serialController.Write((byte)Form1.WriteProPlatformCodes.GateSize, (byte)Form1.WriteAddresses.ProcessingPlatform, GateSize_Stop, 1);
+                    second = 0;
                 }
             }
+            else
+                second = 1;
         }
 
         private static int GetAnalogStickValue(int state)

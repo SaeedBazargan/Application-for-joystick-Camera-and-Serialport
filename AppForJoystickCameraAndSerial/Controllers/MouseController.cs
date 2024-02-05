@@ -6,18 +6,18 @@ namespace AppForJoystickCameraAndSerial.Controllers
     {
         private readonly TextBox _infoTxtBox;
         private readonly PictureBox _mainCameraPicture;
-        private readonly RadioButton _trackRadioButton;
+        private readonly RadioButton _trackRadioButton, _searchRadioButton;
         private readonly SerialController _serialController;
         private bool isReady;
         public Vector2 _savePosition;
         Vector2 _position;
 
-
-        public MouseController(CancellationTokenSource cancellationToken, TextBox infoTxtBox, PictureBox mainCameraPicture, RadioButton trackRadioButton, SerialController serialController)
+        public MouseController(CancellationTokenSource cancellationToken, TextBox infoTxtBox, PictureBox mainCameraPicture, RadioButton trackRadioButton, SerialController serialController, RadioButton searchRadioButton)
         {
             _infoTxtBox = infoTxtBox;
             _mainCameraPicture = mainCameraPicture;
             _trackRadioButton = trackRadioButton;
+            _searchRadioButton = searchRadioButton;
             _serialController = serialController;
             Pointer.JoyPointer.SetContainerSize(_mainCameraPicture.Size);
             _position = new Vector2(320, 240);
@@ -27,7 +27,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
 
         public void Start()
         {
-            // Thread mouseTasks = Task.Factory.StartNew(() => StartMouse(), token);
+            var cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+
+            Task mouseTasks = Task.Factory.StartNew(() => StartMouse(), token);
+
         }
         private async Task StartMouse()
         {
@@ -38,7 +42,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 _position.X = e.X;
                 _position.Y = e.Y;
-                if (isReady)
+                if (isReady && _searchRadioButton.Checked)
                 {
                     _serialController.Write((byte)Form1.WriteTableCodes.Position, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
                     ChangeTextBox(_infoTxtBox, $"X: {e.X}" + $", Y: {e.Y}");

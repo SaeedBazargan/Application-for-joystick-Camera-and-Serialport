@@ -29,12 +29,14 @@ namespace AppForJoystickCameraAndSerial.Controllers
             {
                 if (writer == null)
                 {
-                    if (RecordDir == null)
-                        RecordDir = @"..\..\..\Record\Data\";
-                    recordingDir = RecordDir + index.ToString() + '/';
+                    string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    string recordingDir = Path.Combine(desktopPath, "Recordings");
+
                     if (!Directory.Exists(recordingDir))
                         Directory.CreateDirectory(recordingDir);
-                    string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".txt";
+
+                    string recordingPath = Path.Combine(recordingDir, $"{index}_{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.txt");
+
                     writer = new StreamWriter(recordingPath);
                     writer.Write("Ax        " + " Ay         " + " Az         " + " FOV       " + " Az_Error " + " Ei_Error   " + " ErrorX    " + " ErrorY   " + " ErrorZ   ");
                     writer.Write("\n" + "-----------------------------------------------------------------------------------------------------" + "\n");
@@ -122,9 +124,10 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             if (textBox.IsHandleCreated)  // Check if the control's handle has been created
             {
-                textBox.BeginInvoke((MethodInvoker)delegate ()
+                textBox.Invoke((MethodInvoker)delegate ()
                 {
                     textBox.Text = txt;
+                    textBox.Update();
                 });
             }
         }
