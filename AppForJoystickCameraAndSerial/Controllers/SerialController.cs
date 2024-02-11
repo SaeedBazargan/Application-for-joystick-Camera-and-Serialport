@@ -247,11 +247,11 @@ namespace AppForJoystickCameraAndSerial.Controllers
         {
             byte[] Data = new byte[55];
             Handler.WriteMessage_Generator(Code, Address, Value, Length, Data);
-            for (byte i = 0; i < 55; i++)
-            {
-                Console.Write(i + ":      ");
-                Console.WriteLine(Data[i]);
-            }
+            //for (byte i = 0; i < 55; i++)
+            //{
+            //    Console.Write(i + ":      ");
+            //    Console.WriteLine(Data[i]);
+            //}
 
             if (Open)
             {

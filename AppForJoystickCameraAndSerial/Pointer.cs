@@ -21,7 +21,7 @@ namespace AppForJoystickCameraAndSerial
             new PointF(Center.X - Radius, Center.Y)
         };
 
-        public Pointer(PointF center = default, int radius = 10)
+        public Pointer(PointF center = default, int radius = 20)
         {
             Center = center;
             Radius = radius;

@@ -1265,7 +1265,8 @@ namespace AppForJoystickCameraAndSerial
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            joysticksController.SizeChanged();
+            if (joysticksController != null)
+                joysticksController.SizeChanged();
         }
     }
 }

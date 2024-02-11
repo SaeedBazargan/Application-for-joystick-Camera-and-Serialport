@@ -229,7 +229,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 {
 
                     _serialController.Write((byte)Form1.WriteTableCodes.Search, (byte)Form1.WriteAddresses.TableControl, Pointer.JoyPointer.Cursor, 2);
-                    Console.WriteLine(Pointer.JoyPointer.Cursor[0].ToString());
+                    //Console.WriteLine(Pointer.JoyPointer.Cursor[0].ToString());
                     searchBtnClicked_Flag = false;
                 }
 
