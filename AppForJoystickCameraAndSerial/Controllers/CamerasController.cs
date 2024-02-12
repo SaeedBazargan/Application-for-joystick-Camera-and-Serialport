@@ -169,7 +169,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                     {
                         capture[index].Read(frame);
                         image = BitmapConverter.ToBitmap(frame);
-                        DrawJoyStickPointer(image);
+                        //DrawJoyStickPointer(image);
                         _minorPictureBox.BeginInvoke((MethodInvoker)delegate ()
                         {
                             _minorPictureBox.Image = image;

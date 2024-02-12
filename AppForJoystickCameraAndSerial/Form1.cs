@@ -872,14 +872,40 @@ namespace AppForJoystickCameraAndSerial
         {
             serialportController.Write((byte)WriteLRFCodes.LRF_Active, (byte)WriteAddresses.LRF, ON, 1);
             itemController.Button_Enable(false, true, ActiveLrf_Button);
+            itemController.Button_Enable(true, true, DeactiveLrf_Button);
         }
 
         private void DeactiveLrf_Button_Click(object sender, EventArgs e)
         {
             serialportController.Write((byte)WriteLRFCodes.LRF_Deactive, (byte)WriteAddresses.LRF, ON, 1);
-            itemController.Button_Enable(true, true, ActiveLrf_Button);
             itemController.Button_Enable(false, true, DeactiveLrf_Button);
+            itemController.Button_Enable(true, true, ActiveLrf_Button);
         }
+
+        private void DownRangeLrf_Numeric_ValueChanged(object sender, EventArgs e)
+        {
+            int[] LRF_Down = new int[1] { (int)DownRangeLrf_Numeric.Value };
+            serialportController.Write((byte)WriteLRFCodes.LRF_DownRange, (byte)WriteAddresses.LRF, LRF_Down, 1);
+        }
+
+        private void UpRangeLrf_Numeric_ValueChanged(object sender, EventArgs e)
+        {
+            int[] LRF_Up = new int[1] { (int)UpRangeLrf_Numeric.Value };
+            serialportController.Write((byte)WriteLRFCodes.LRF_UpRange, (byte)WriteAddresses.LRF, LRF_Up, 1);
+        }
+
+        private void FreqLrf_Numeric_ValueChanged(object sender, EventArgs e)
+        {
+            int[] LRF_Freq = new int[1] { (int)FreqLrf_Numeric.Value };
+            serialportController.Write((byte)WriteLRFCodes.LRF_Frequency, (byte)WriteAddresses.LRF, LRF_Freq, 1);
+        }
+
+        private void TimeLrf_Numeric_ValueChanged(object sender, EventArgs e)
+        {
+            int[] LRF_Time = new int[1] { (int)TimeLrf_Numeric.Value };
+            serialportController.Write((byte)WriteLRFCodes.LRF_Time, (byte)WriteAddresses.LRF, LRF_Time, 1);
+        }
+
         /// <summary>
         /// Co2 Functions
         /// </summary>

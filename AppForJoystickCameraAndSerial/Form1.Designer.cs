@@ -573,6 +573,7 @@
             TimeLrf_Numeric.TabIndex = 63;
             TimeLrf_Numeric.TextAlign = HorizontalAlignment.Center;
             TimeLrf_Numeric.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            TimeLrf_Numeric.ValueChanged += TimeLrf_Numeric_ValueChanged;
             // 
             // FreqLrf_Numeric
             // 
@@ -585,6 +586,7 @@
             FreqLrf_Numeric.TabIndex = 62;
             FreqLrf_Numeric.TextAlign = HorizontalAlignment.Center;
             FreqLrf_Numeric.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            FreqLrf_Numeric.ValueChanged += FreqLrf_Numeric_ValueChanged;
             // 
             // UpRangeLrf_Numeric
             // 
@@ -597,6 +599,7 @@
             UpRangeLrf_Numeric.TabIndex = 61;
             UpRangeLrf_Numeric.TextAlign = HorizontalAlignment.Center;
             UpRangeLrf_Numeric.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            UpRangeLrf_Numeric.ValueChanged += UpRangeLrf_Numeric_ValueChanged;
             // 
             // DownRangeLrf_Numeric
             // 
@@ -609,6 +612,7 @@
             DownRangeLrf_Numeric.TabIndex = 57;
             DownRangeLrf_Numeric.TextAlign = HorizontalAlignment.Center;
             DownRangeLrf_Numeric.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            DownRangeLrf_Numeric.ValueChanged += DownRangeLrf_Numeric_ValueChanged;
             // 
             // RelayOnScan_NdYagCheckBox
             // 
