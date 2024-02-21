@@ -107,7 +107,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
             var frame = new Mat();
             Bitmap image;
 
-            capture[index].Open(index, VideoCaptureAPIs.DSHOW);
+            capture[index].Open(index);
 
             if (!capture[index].IsOpened())
                 Stop(index);
@@ -136,27 +136,27 @@ namespace AppForJoystickCameraAndSerial.Controllers
                         //else
                         //    ChangePictureBox(index == 0 ? _mainPictureBox : _minorPictureBox, image);
 
-                        //if (recording[index])
-                        //{
-                        //    if (writer == null)
-                        //    {
-                        //        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                        //        string recordingDir = Path.Combine(desktopPath, "Recordings");
+                        if (recording[index])
+                        {
+                            if (writer == null)
+                            {
+                                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                                string recordingDir = Path.Combine(desktopPath, "Recordings\\video\\Camera1");
 
-                        //        if (!Directory.Exists(recordingDir))
-                        //            Directory.CreateDirectory(recordingDir);
+                                if (!Directory.Exists(recordingDir))
+                                    Directory.CreateDirectory(recordingDir);
 
-                        //        string recordingPath = Path.Combine(recordingDir, $"{index}_{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.mp4");
+                                string recordingPath = Path.Combine(recordingDir, $"{index}_{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.mp4");
 
-                        //        writer = new VideoWriter(recordingPath, FourCC.MJPG, capture[index].Fps, new OpenCvSharp.Size(capture[index].Get(VideoCaptureProperties.FrameWidth), capture[index].Get(VideoCaptureProperties.FrameHeight)));
-                        //    }
-                        //    writer.Write(frame);
-                        //}
-                        //else if (writer != null && !writer.IsDisposed)
-                        //{
-                        //    writer.Release();
-                        //    //writer = null;
-                        //}
+                                writer = new VideoWriter(recordingPath, FourCC.MJPG, capture[index].Fps, new OpenCvSharp.Size(capture[index].Get(VideoCaptureProperties.FrameWidth), capture[index].Get(VideoCaptureProperties.FrameHeight)));
+                            }
+                            writer.Write(frame);
+                        }
+                        else if (writer != null && !writer.IsDisposed)
+                        {
+                            writer.Release();
+                            //writer = null;
+                        }
                     }
                     catch (Exception e) 
                     {
@@ -175,37 +175,27 @@ namespace AppForJoystickCameraAndSerial.Controllers
                             _minorPictureBox.Image = image;
                         });
 
-                        //if (recording[index])
-                        //{
-                        //    if (writer == null)
-                        //    {
-                        //        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                        //        string recordingDir = Path.Combine(desktopPath, "Recordings");
+                        if (recording[index])
+                        {
+                            if (writer == null)
+                            {
+                                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                                string recordingDir = Path.Combine(desktopPath, "Recordings\\video\\Camera2");
 
-                        //        if (!Directory.Exists(recordingDir))
-                        //            Directory.CreateDirectory(recordingDir);
+                                if (!Directory.Exists(recordingDir))
+                                    Directory.CreateDirectory(recordingDir);
 
-                        //        string recordingPath = Path.Combine(recordingDir, $"{index}_{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.mp4");
+                                string recordingPath = Path.Combine(recordingDir, $"{index}_{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.mp4");
 
-                        //        writer = new VideoWriter(recordingPath, FourCC.MJPG, capture[index].Fps, new OpenCvSharp.Size(capture[index].Get(VideoCaptureProperties.FrameWidth), capture[index].Get(VideoCaptureProperties.FrameHeight)));
-                        //    }
-                        //    writer.Write(frame);
-
-                        //    //if (writer == null)
-                        //    //{
-                        //    //    string recordingDir = RecordingDirectory + index.ToString() + '/';
-                        //    //    if (!Directory.Exists(recordingDir))
-                        //    //        Directory.CreateDirectory(recordingDir);
-                        //    //    string recordingPath = recordingDir + DateTime.Now.ToString("MM-dd-yyyy-HH-mm-ss") + ".mp4";
-                        //    //    writer = new VideoWriter(recordingPath, FourCC.MJPG, capture[index].Fps, new OpenCvSharp.Size(capture[index].Get(VideoCaptureProperties.FrameWidth), capture[index].Get(VideoCaptureProperties.FrameHeight)));
-                        //    //}
-                        //    //writer.Write(frame);
-                        //}
-                        //else if (writer != null && !writer.IsDisposed)
-                        //{
-                        //    writer.Release();
-                        //    //writer.Dispose();
-                        //}
+                                writer = new VideoWriter(recordingPath, FourCC.MJPG, capture[index].Fps, new OpenCvSharp.Size(capture[index].Get(VideoCaptureProperties.FrameWidth), capture[index].Get(VideoCaptureProperties.FrameHeight)));
+                            }
+                            writer.Write(frame);
+                        }
+                        else if (writer != null && !writer.IsDisposed)
+                        {
+                            writer.Release();
+                            //writer = null;
+                        }
                     }
                     catch (Exception e)
                     {

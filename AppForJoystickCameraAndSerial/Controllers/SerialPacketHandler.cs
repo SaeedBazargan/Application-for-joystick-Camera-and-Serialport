@@ -30,7 +30,7 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 if (writer == null)
                 {
                     string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    string recordingDir = Path.Combine(desktopPath, "Recordings");
+                    string recordingDir = Path.Combine(desktopPath, "Recordings\\Serial");
 
                     if (!Directory.Exists(recordingDir))
                         Directory.CreateDirectory(recordingDir);
@@ -44,8 +44,9 @@ namespace AppForJoystickCameraAndSerial.Controllers
                 else
                 {
                     if (TestLog == false)
-                        writer.Write("\n" + Ax.ToString("0.000") + "      " + Ay.ToString("0.000") + "     " + Az.ToString("0.000") + "       " + FOV.ToString("0.000") + "      " + Az_Error.ToString("0.000") + "     "
-                                          + Ei_Error.ToString("0.000") + "      " + Error_X.ToString("0.000") + "     " + Error_Y.ToString("0.000") + "      " + Error_Z.ToString("0.000") + "     ");
+                        writer.Write("\n" + Ax.ToString("0.000") + "      " + Ay.ToString("0.000") + "     " + Az.ToString("0.000") + "       " + 
+                            FOV.ToString("0.000") + "      " + Az_Error.ToString("0.000") + "     " + Ei_Error.ToString("0.000") + "      " + 
+                            Error_X.ToString("0.000") + "     " + Error_Y.ToString("0.000") + "      " + Error_Z.ToString("0.000") + "     ");
                     else if (TestLog == true)
                     {
                         writer.Write("\n");
